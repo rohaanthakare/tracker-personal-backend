@@ -1,6 +1,7 @@
 require('dotenv').config({ override: true })
 import express, { Express } from "express";
 import {json, urlencoded} from "body-parser";
+import cors from "cors";
 
 import { Logger } from "./logger";
 import { routes } from "./routes";
@@ -8,6 +9,7 @@ import dbconnection from "./app-db";
 
 const app: Express = express();
 app.use(json());
+app.use(cors());
 app.use(urlencoded({
     extended: true
 }));
