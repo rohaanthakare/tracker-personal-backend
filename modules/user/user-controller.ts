@@ -39,7 +39,8 @@ export default class UserController {
             let result = await UserService.authenticateUser(userBody);
             res.status(201).json({
                 message: "User authenticated successfully",
-                token: result.token
+                token: result.token,
+                is_superadmin: result.is_superadmin
             });
         } catch (err: any){
             Logger.ERROR(loggerName, err);
