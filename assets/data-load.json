@@ -1,0 +1,15 @@
+[{
+    "module": "role",
+    "moduleName": "Role",
+    "moduleDescription": "Application wide roles",
+    "moduleService":"RoleService",
+    "dataLoadAPI": "importRole",
+    "dataFilePath": "data/roles.json"
+}, {
+    "module": "user",
+    "moduleName": "User",
+    "moduleDescription": "Application users",
+    "moduleService":"UserService",
+    "dataLoadAPI": "createUser",
+    "dataFilePath": "data/users.json"
+}]

@@ -1,0 +1,13 @@
+[{
+    "username": "admin",
+    "password": "admin123",
+    "email": "admin@tracker.com",
+    "mobile_no": 1111,
+    "current_role": "tracker_admin"
+}, {
+    "username": "demo",
+    "password": "demo123",
+    "email": "demo@tracker.com",
+    "mobile_no": 7777,
+    "current_role": "tracker_user"
+}]

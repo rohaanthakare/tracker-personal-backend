@@ -1,0 +1,9 @@
+[{
+    "feature_code": "dashboard",
+    "feature_name": "Dashboard",
+    "description": "Dashboard for the User",
+    "status": 1,
+    "feature_type": "SIDE_NAV",
+    "feature_icon": "home",
+    "feature_url": ""
+}]

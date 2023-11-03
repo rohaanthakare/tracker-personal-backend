@@ -6,7 +6,7 @@ export default class FeatureModel extends Model {
     feature_code!: string;
     feature_name!: string;
     description!: string;
-    status!: number;
+    is_active!: boolean;
     parent_feature_id!: number;
     feature_type!: string;
     feature_icon!: string;
@@ -31,14 +31,14 @@ export const Feature = (sequelize: Sequelize) => {
         description: {
             type: DataTypes.STRING(760)
         },
-        status: {
-            type: DataTypes.INTEGER
+        is_active: {
+            type: DataTypes.BOOLEAN
         },
         parent_feature_id: {
             type: DataTypes.INTEGER
         },
         feature_type: {
-            type: DataTypes.ENUM("SIDE_NAV", "TOOLBAR", "ROW_LEVEL")
+            type: DataTypes.ENUM("SIDE_NAV", "TOOLBAR", "ROW_LEVEL", "BULK")
         },
         feature_icon: {
             type: DataTypes.STRING

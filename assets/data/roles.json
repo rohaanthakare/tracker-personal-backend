@@ -1,0 +1,9 @@
+[{
+    "role_code": "tracker_admin",
+    "role_name": "Tracker Admin",
+    "description": "Tracker Application Admin User"
+}, {
+    "role_code": "tracker_user",
+    "role_name": "Tracker User",
+    "description": "Tracker Application User"
+}]

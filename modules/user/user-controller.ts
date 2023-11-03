@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
+import * as bcrypt from "bcrypt";
 import { Logger } from "../../logger";
 import UserAccountModel from "./models/user-account.model";
 import UserService from "./user-service";
+import RoleDataAccessor from "./role-data-accessor";
 
 const loggerName = "UserController";
 export default class UserController {
@@ -21,6 +23,9 @@ export default class UserController {
     static async createUser(req: Request, res: Response) {
         try {
             let userBody = req.body;
+            let roleObj = await RoleDataAccessor.getRoleByRoleCode(userBody.current_role);   
+            userBody.current_role = roleObj?.id;
+            userBody.password = bcrypt.hashSync(userBody.password, 10);
             let result = await UserAccountModel.create(userBody);
             let newUser = result.dataValues;
             Logger.INFO(loggerName, `User created successfully - ${userBody.username}`);
@@ -39,8 +44,7 @@ export default class UserController {
             let result = await UserService.authenticateUser(userBody);
             res.status(201).json({
                 message: "User authenticated successfully",
-                token: result.token,
-                is_superadmin: result.is_superadmin
+                token: result.token
             });
         } catch (err: any){
             Logger.ERROR(loggerName, err);

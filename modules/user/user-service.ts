@@ -5,9 +5,9 @@ import { Logger } from "../../logger";
 import RoleModel from "./models/role.model";
 export default class UserService {
     static LOGGER_NAME = "UserService";
-    static async createUserAccount(userDetails: any) {
+    static async createUserAccount(userDetails: UserAccountModel) {
         try {
-            let result = await UserAccountModel.create(userDetails);
+            let result = await UserAccountModel.create(userDetails.dataValues);
             return result.dataValues;
         } catch (error: any) {
             Logger.ERROR(this.LOGGER_NAME, error);
@@ -26,24 +26,18 @@ export default class UserService {
                 const res = bcrypt.compareSync(userCred.password, result?.password);
                 if (res) {
                     // Generate JWT Token
-                    const roleDetails = await RoleModel.findOne({
-                        where: {
-                            id: result.current_role
-                        }
-                    });
-                    const isSuperAdmin = roleDetails && roleDetails.role_code === "superadmin" ? true : false;
                     const user_data = {
                         username: result.username,
-                        role_id: result.current_role,
-                        role_code: roleDetails?.role_code,
-                        is_superadmin: isSuperAdmin
+                        current_role: result.current_role,
+                        email: result.email,
+                        mobile_no: result.mobile_no
                     };
                     const user_token = jwt.sign(user_data, process.env.TOKEN_KEY as string, {
                         algorithm : "HS256",
                         expiresIn: "7d"
                         
                     });
-                    return {token: user_token, is_superadmin: isSuperAdmin};
+                    return {token: user_token};
                 } else {
                     throw `Incorrect password, forgot password ?`;    
                 }
