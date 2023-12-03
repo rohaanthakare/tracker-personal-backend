@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import * as bcrypt from "bcrypt";
-import { Logger } from "../../logger";
-import UserAccountModel from "./models/user-account.model";
-import UserService from "./user-service";
-import RoleDataAccessor from "./role-data-accessor";
+import { Logger } from "../../../logger";
+import UserAccountModel from "../models/user-account.model";
+import UserService from "../services/user-service";
+import RoleDataAccessor from "../data-accessors/role-data-accessor";
 
 const loggerName = "UserController";
 export default class UserController {

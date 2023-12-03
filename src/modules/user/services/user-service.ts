@@ -1,8 +1,8 @@
 import * as bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import UserAccountModel from "./models/user-account.model";
-import { Logger } from "../../logger";
-import RoleModel from "./models/role.model";
+import UserAccountModel from "../models/user-account.model";
+import { Logger } from "../../../logger";
+import RoleModel from "../models/role.model";
 export default class UserService {
     static LOGGER_NAME = "UserService";
     static async createUserAccount(userDetails: UserAccountModel) {

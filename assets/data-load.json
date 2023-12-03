@@ -1,15 +1,8 @@
 [{
-    "module": "role",
-    "moduleName": "Role",
-    "moduleDescription": "Application wide roles",
-    "moduleService":"RoleService",
-    "dataLoadAPI": "importRole",
-    "dataFilePath": "data/roles.json"
-}, {
-    "module": "user",
-    "moduleName": "User",
-    "moduleDescription": "Application users",
+    "module": "userAccount",
+    "moduleName": "Users",
+    "moduleDescription": "Users for tracker application",
     "moduleService":"UserService",
-    "dataLoadAPI": "createUser",
+    "dataLoadAPI": "importUsers",
     "dataFilePath": "data/users.json"
 }]

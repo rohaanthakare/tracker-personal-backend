@@ -4,9 +4,9 @@ import jwt from "jsonwebtoken";
 import { json, urlencoded } from "body-parser";
 import cors from "cors";
 
-import { Logger } from "./logger";
-import { ROUTES_WIHTOUT_AUTH, routes } from "./routes";
-import dbconnection from "./app-db";
+import { Logger } from "./src/logger";
+import { ROUTES_WIHTOUT_AUTH, routes } from "./src/routes";
+import dbconnection from "./src/app-db";
 import { TokenData } from "./types/express";
 
 const app: Express = express();
@@ -28,6 +28,7 @@ app.use(function (req: Request, res: Response, next) {
     console.log("----Auth not required----");
     next();
   } else {
+    console.log("----Auth required----");
     let token = req.headers["authorization"];
     if (token && token.startsWith("Bearer ")) {
       token = token.slice(7, token.length);

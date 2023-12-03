@@ -1,9 +1,25 @@
 [{
-    "feature_code": "dashboard",
+    "feature_code": "DASHBOARD",
     "feature_name": "Dashboard",
-    "description": "Dashboard for the User",
-    "status": 1,
+    "description": "Dashboard for User",
+    "is_active": true,
     "feature_type": "SIDE_NAV",
-    "feature_icon": "home",
-    "feature_url": ""
+    "feature_icon": "fa-solid fa-house",
+    "feature_url": "/user"
+}, {
+    "feature_code": "PASSWORD",
+    "feature_name": "Password",
+    "description": "User passwords",
+    "is_active": true,
+    "feature_type": "SIDE_NAV",
+    "feature_icon": "fa-solid fa-key",
+    "feature_url": "/user/password"
+}, {
+    "feature_code": "TASK",
+    "feature_name": "Tasks",
+    "description": "User tasks",
+    "is_active": true,
+    "feature_type": "SIDE_NAV",
+    "feature_icon": "fa-solid fa-list-check",
+    "feature_url": "/user/task"
 }]

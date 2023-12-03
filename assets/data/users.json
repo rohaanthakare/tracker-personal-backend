@@ -3,11 +3,11 @@
     "password": "admin123",
     "email": "admin@tracker.com",
     "mobile_no": 1111,
-    "current_role": "tracker_admin"
+    "current_role": "TRACKER_ADMIN"
 }, {
     "username": "demo",
     "password": "demo123",
     "email": "demo@tracker.com",
     "mobile_no": 7777,
-    "current_role": "tracker_user"
+    "current_role": "TRACKER_USER"
 }]

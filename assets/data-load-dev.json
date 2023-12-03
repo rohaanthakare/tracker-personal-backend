@@ -1,0 +1,29 @@
+[{
+    "module": "feature",
+    "moduleName": "Features",
+    "moduleDescription": "Tracker application features",
+    "moduleService":"FeatureService",
+    "dataLoadAPI": "importFeatures",
+    "dataFilePath": "data/features.json"
+}, {
+    "module": "role",
+    "moduleName": "Roles",
+    "moduleDescription": "Tracker application roles",
+    "moduleService":"RoleService",
+    "dataLoadAPI": "importRole",
+    "dataFilePath": "data/roles.json"
+}, {
+    "module": "roleFeatureMapping",
+    "moduleName": "Role Feature Mapping",
+    "moduleDescription": "Role and Feature mapping",
+    "moduleService":"FeatureService",
+    "dataLoadAPI": "importRoleFeatureMapping",
+    "dataFilePath": "data/roleFeatureMapping.json"
+}, {
+    "module": "userAccount",
+    "moduleName": "Users",
+    "moduleDescription": "Users for tracker application",
+    "moduleService":"UserService",
+    "dataLoadAPI": "importUsers",
+    "dataFilePath": "data/users.json"
+}]

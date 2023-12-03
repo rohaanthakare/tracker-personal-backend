@@ -4,12 +4,12 @@ import appRootPath from "app-root-path";
 import { dirname } from "path";
 import { Logger } from "../../logger";
 import RoleModel from "../user/models/role.model";
-import RoleService from "../user/role-service";
+import RoleService from "../user/services/role-service";
 import * as bcrypt from "bcrypt";
-import UserService from "../user/user-service";
+import UserService from "../user/services/user-service";
 import UserAccountModel from "../user/models/user-account.model";
 import FeatureModel from "../user/models/feature.model";
-import FeatureService from "../user/feature-service";
+import FeatureService from "../user/services/feature-service";
 import RoleFeatureModel from "../user/models/role-feature.model";
 
 export default class CoreController {
@@ -23,16 +23,19 @@ export default class CoreController {
             featureObj.description = "Import application data";
             featureObj.is_active = true;
             featureObj.feature_type = "SIDE_NAV";
-            featureObj.feature_icon = "mdi-upload";
+            featureObj.feature_icon = "fa-solid fa-file-import";
             featureObj.feature_url = "/user/import-data";
-            let newFeature = await FeatureService.createFeature(featureObj);
+            let newFeature = await FeatureService.createOrUpdateFeature(featureObj);
             // Create Role
             let roleObj: RoleModel = new RoleModel();
             roleObj.role_code = "superadmin";
             roleObj.role_name = "Superadmin";
             roleObj.description = "Superadmin for Tracker application";
-            let newRole = await RoleService.createRole(roleObj);
+            let newRole = await RoleService.createOrUpdateRole(roleObj);
             // Create Role Feature Mapping
+            if (!newRole) {
+                throw `Role ${roleObj.role_code} does not exist`;
+            }
             let roleFeatureObj: RoleFeatureModel = new RoleFeatureModel();
             roleFeatureObj.role_id = newRole.id;
             roleFeatureObj.feature_id = newFeature?.id as number;
