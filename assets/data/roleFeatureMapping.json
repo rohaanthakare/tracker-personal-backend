@@ -1,4 +1,10 @@
 [{
     "role_code": "TRACKER_USER",
     "feature_code": "DASHBOARD"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "PASSWORD"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "TASK"
 }]
