@@ -20,6 +20,11 @@ export default class FeatureController {
             feature.feature_type = reqBody.feature_type;
             feature.feature_url = reqBody.feature_url;
             feature.is_active = reqBody.is_active;
+            let parentFeature;
+            if (reqBody.parent_feature) {
+                parentFeature = await FeatureDataAccessor.getFeatureByFeatureCode(reqBody.parent_feature);
+                feature.parent_feature_id = parentFeature?.id as number;
+            }
             let newFeature = await FeatureService.createOrUpdateFeature(feature);
             if (newFeature?.isNewRecord) {
                 res.status(201).json({

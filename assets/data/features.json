@@ -15,6 +15,15 @@
     "feature_icon": "fa-solid fa-key",
     "feature_url": "/user/password"
 }, {
+    "feature_code": "PASSWORD_CREATE",
+    "feature_name": "Add Password",
+    "description": "Add new password to tracker",
+    "is_active": true,
+    "feature_type": "TOOLBAR",
+    "feature_icon": "fa-solid fa-plus",
+    "feature_url": "/user/password/new",
+    "parent_feature": "PASSWORD"
+}, {
     "feature_code": "TASK",
     "feature_name": "Tasks",
     "description": "User tasks",

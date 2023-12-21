@@ -6,5 +6,8 @@
     "feature_code": "PASSWORD"
 }, {
     "role_code": "TRACKER_USER",
+    "feature_code": "PASSWORD_CREATE"
+}, {
+    "role_code": "TRACKER_USER",
     "feature_code": "TASK"
 }]
