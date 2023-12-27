@@ -1,6 +1,7 @@
 import { Express } from "express-serve-static-core";
 
 export interface TokenData {
+  user_id: number,
     username: string,
     current_role: number,
     email: string,

@@ -27,6 +27,7 @@ export default class UserService {
                 if (res) {
                     // Generate JWT Token
                     const user_data = {
+                        user_id: result.id,
                         username: result.username,
                         current_role: result.current_role,
                         email: result.email,
