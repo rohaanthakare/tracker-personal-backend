@@ -9,5 +9,14 @@
     "feature_code": "PASSWORD_CREATE"
 }, {
     "role_code": "TRACKER_USER",
+    "feature_code": "PASSWORD_VIEW"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "PASSWORD_EDIT"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "PASSWORD_DELETE"
+}, {
+    "role_code": "TRACKER_USER",
     "feature_code": "TASK"
 }]

@@ -24,6 +24,33 @@
     "feature_url": "/user/password/new",
     "parent_feature": "PASSWORD"
 }, {
+    "feature_code": "PASSWORD_VIEW",
+    "feature_name": "View Password",
+    "description": "View decrypted plain password",
+    "is_active": true,
+    "feature_type": "ROW_LEVEL",
+    "feature_icon": "fa-regular fa-eye",
+    "feature_url": "/user/password/view",
+    "parent_feature": "PASSWORD"
+}, {
+    "feature_code": "PASSWORD_EDIT",
+    "feature_name": "Edit Password",
+    "description": "Edit user password",
+    "is_active": true,
+    "feature_type": "ROW_LEVEL",
+    "feature_icon": "fa-solid fa-pen-to-square",
+    "feature_url": "/user/password/view",
+    "parent_feature": "PASSWORD"
+}, {
+    "feature_code": "PASSWORD_DELETE",
+    "feature_name": "Delete Password",
+    "description": "Delete user password",
+    "is_active": true,
+    "feature_type": "ROW_LEVEL",
+    "feature_icon": "fa-solid fa-trash-can",
+    "feature_url": "/user/password/view",
+    "parent_feature": "PASSWORD"
+}, {
     "feature_code": "TASK",
     "feature_name": "Tasks",
     "description": "User tasks",
