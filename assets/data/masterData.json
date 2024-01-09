@@ -1,0 +1,62 @@
+[{
+    "code": "USER_TITLE",
+    "name": "Title",
+    "description": "Mr. / Mrs. / Miss.",
+    "data_icon": "",
+    "is_active": true
+}, {
+    "code": "MR",
+    "name": "Mr.",
+    "description": "Mr.",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "USER_TITLE"
+}, {
+    "code": "MRS",
+    "name": "Mrs.",
+    "description": "Mrs.",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "USER_TITLE"
+}, {
+    "code": "MISS",
+    "name": "Miss.",
+    "description": "Miss.",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "USER_TITLE"
+}, {
+    "code": "FINANCE_ACCOUNT_TYPE",
+    "name": "Finance Account Type",
+    "description": "Savings Account / Current Account / Wallet / Online Wallet",
+    "data_icon": "",
+    "is_active": true
+}, {
+    "code": "SAVINGS_ACCOUNT",
+    "name": "Savings Account",
+    "description": "Savings Account",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "FINANCE_ACCOUNT_TYPE"
+}, {
+    "code": "CURRENT_ACCOUNT",
+    "name": "Current Account",
+    "description": "Current Account",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "FINANCE_ACCOUNT_TYPE"
+}, {
+    "code": "WALLET_ACCOUNT",
+    "name": "Wallet",
+    "description": "Wallet",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "FINANCE_ACCOUNT_TYPE"
+}, {
+    "code": "ONLINE_WALLET_ACCOUNT",
+    "name": "Online Wallet",
+    "description": "Online Wallet",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "FINANCE_ACCOUNT_TYPE"
+}]

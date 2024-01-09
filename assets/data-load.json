@@ -1,4 +1,11 @@
 [{
+    "module": "masterData",
+    "moduleName": "MasterData",
+    "moduleDescription": "Tracker application master data",
+    "moduleService":"MasterDataService",
+    "dataLoadAPI": "importMasterData",
+    "dataFilePath": "data/masterData.json"
+}, {
     "module": "feature",
     "moduleName": "Features",
     "moduleDescription": "Tracker application features",

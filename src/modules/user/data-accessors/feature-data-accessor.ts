@@ -12,6 +12,7 @@ export default class FeatureDataAccessor {
             return result;
         } catch (err: any){
             Logger.ERROR(FeatureDataAccessor.name, err);
+            throw err;
         }
     }
 
@@ -25,7 +26,6 @@ export default class FeatureDataAccessor {
             });
             return result;
         } catch (err: any){
-            console.log("----here---");
             Logger.ERROR(FeatureDataAccessor.name, err);
             throw err;
         }
