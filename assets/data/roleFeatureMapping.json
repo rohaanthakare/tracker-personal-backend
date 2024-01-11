@@ -18,5 +18,17 @@
     "feature_code": "PASSWORD_DELETE"
 }, {
     "role_code": "TRACKER_USER",
+    "feature_code": "FINANCE"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "FINANCE_DASHBOARD"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "FINANCE_ACCOUNTS"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "FINANCE_PASSBOOK"
+}, {
+    "role_code": "TRACKER_USER",
     "feature_code": "TASK"
 }]

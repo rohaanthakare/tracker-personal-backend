@@ -51,6 +51,40 @@
     "feature_url": "/user/password/view",
     "parent_feature": "PASSWORD"
 }, {
+    "feature_code": "FINANCE",
+    "feature_name": "Finance",
+    "description": "Finance Tracker",
+    "is_active": true,
+    "feature_type": "SIDE_NAV",
+    "feature_icon": "fa-solid fa-indian-rupee-sign"
+}, {
+    "feature_code": "FINANCE_DASHBOARD",
+    "feature_name": "Dashboard",
+    "description": "Finance Dashboard",
+    "is_active": true,
+    "feature_type": "SIDE_NAV",
+    "feature_icon": "fa-solid fa-chart-column",
+    "feature_url": "/user/finance",
+    "parent_feature": "FINANCE"
+}, {
+    "feature_code": "FINANCE_ACCOUNTS",
+    "feature_name": "Accounts",
+    "description": "All financial accounts",
+    "is_active": true,
+    "feature_type": "SIDE_NAV",
+    "feature_icon": "fa-solid fa-list",
+    "feature_url": "/user/finance/accounts",
+    "parent_feature": "FINANCE"
+}, {
+    "feature_code": "FINANCE_PASSBOOK",
+    "feature_name": "Passbook",
+    "description": "All financial transaction",
+    "is_active": true,
+    "feature_type": "SIDE_NAV",
+    "feature_icon": "fa-solid fa-receipt",
+    "feature_url": "/user/finance/passbook",
+    "parent_feature": "FINANCE"
+}, {
     "feature_code": "TASK",
     "feature_name": "Tasks",
     "description": "User tasks",
