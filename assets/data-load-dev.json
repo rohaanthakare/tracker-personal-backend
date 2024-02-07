@@ -1,4 +1,11 @@
 [{
+    "module": "bank",
+    "moduleName": "Bank",
+    "moduleDescription": "Load all Bank details",
+    "moduleService":"FinanceService",
+    "dataLoadAPI": "createBank",
+    "dataFilePath": "data/banks.json"
+}, {
     "module": "masterData",
     "moduleName": "MasterData",
     "moduleDescription": "Tracker application master data",

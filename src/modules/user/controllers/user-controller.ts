@@ -9,14 +9,14 @@ const loggerName = "UserController";
 export default class UserController {
     static async getUsers(req: Request, res: Response) {
         try {
-            Logger.INFO(loggerName, "Inside get users list");
+            Logger.INFO(UserController.name, UserController.getUsers.name, "Inside get users list");
             let result = await UserAccountModel.findAll();
             res.status(200).json({
                 data: result,
                 message: "User list fetched successfully"
             });
         } catch (err: any){
-            Logger.ERROR(loggerName, err);
+            Logger.ERROR(UserController.name, UserController.getUsers.name, err);
         }
     }
     
@@ -28,13 +28,16 @@ export default class UserController {
             userBody.password = bcrypt.hashSync(userBody.password, 10);
             let result = await UserAccountModel.create(userBody);
             let newUser = result.dataValues;
-            Logger.INFO(loggerName, `User created successfully - ${userBody.username}`);
+            Logger.INFO(UserController.name, UserController.createUser.name, `User created successfully - ${userBody.username}`);
             res.status(201).json({
                 data: newUser,
                 message: "User created successfully"
             });
         } catch (err: any){
-            Logger.ERROR(loggerName, err);
+            Logger.ERROR(UserController.name, UserController.createUser.name, err);
+            res.status(500).json({
+                message: "Error while creating user, please try again"
+            });
         }
     }
 
@@ -47,7 +50,7 @@ export default class UserController {
                 token: result.token
             });
         } catch (err: any){
-            Logger.ERROR(loggerName, err);
+            Logger.ERROR(UserController.name, UserController.authenticateUser.name, err);
             res.status(500).json({
                 message: err
             });

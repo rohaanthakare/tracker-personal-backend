@@ -3,18 +3,18 @@ import PasswordModel from "../models/password.model";
 export default class PasswordService {
     static async createPassword(passwordDetails: PasswordModel) {
         try {
-            Logger.INFO(PasswordService.name, "Inside create password");
+            Logger.INFO(PasswordService.name, PasswordService.createPassword.name, "Inside create password");
             const dataValues = passwordDetails.dataValues;
             let password = await PasswordModel.create(dataValues);
             return password;
         } catch (err: any){
-            Logger.ERROR(PasswordService.name, err);
+            Logger.ERROR(PasswordService.name, PasswordService.createPassword.name, err);
         }    
     }
 
     static async updatePassword(passwordId: number, passwordDetails: PasswordModel) {
         try {
-            Logger.INFO(PasswordService.name, "Inside update password");
+            Logger.INFO(PasswordService.name, PasswordService.updatePassword.name, "Inside update password");
             const dataValues = passwordDetails.dataValues;
             dataValues.id = passwordId;
             let password = await PasswordModel.update(dataValues, {
@@ -24,7 +24,7 @@ export default class PasswordService {
             });
             return password;
         } catch (err: any){
-            Logger.ERROR(PasswordService.name, err);
+            Logger.ERROR(PasswordService.name, PasswordService.updatePassword.name, err);
         }    
     }
 }

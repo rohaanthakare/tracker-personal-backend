@@ -10,7 +10,7 @@ import FeatureDataAccessor from "../data-accessors/feature-data-accessor";
 export default class FeatureController {
     static async createOrUpdateFeature(req: Request, res: Response) {
         try {
-            Logger.INFO(FeatureController.name, "Inside create feature");
+            Logger.INFO(FeatureController.name, FeatureController.createOrUpdateFeature.name,"Inside create feature");
             let feature: FeatureModel = new FeatureModel();
             let reqBody = req.body;
             feature.description = reqBody.description;
@@ -39,22 +39,19 @@ export default class FeatureController {
             }
             
         } catch (err: any){
-            Logger.ERROR(FeatureController.name, err);
+            Logger.ERROR(FeatureController.name, FeatureController.createOrUpdateFeature.name, err);
         }    
     }
 
     static async createOrUpdateRoleFeatureMapping(req: Request, res: Response) {
         try {
-            Logger.INFO(FeatureController.name, "Inside create role feature mapping");
+            Logger.INFO(FeatureController.name, FeatureController.createOrUpdateRoleFeatureMapping.name, "Inside create role feature mapping");
             let roleFeatureDetails: RoleFeatureModel = new RoleFeatureModel();
             let reqBody = req.body;
             let roleDetails = await RoleDataAccessor.getRoleByRoleCode(reqBody.role_code);
             let featureDetails = await FeatureDataAccessor.getFeatureByFeatureCode(reqBody.feature_code);
             roleFeatureDetails.role_id = roleDetails?.id as number;
             roleFeatureDetails.feature_id = featureDetails?.id as number;
-            console.log("------>");
-            console.log(roleFeatureDetails);
-            console.log("------>");
             let roleFeatureMapping = await FeatureService.createRoleFeatureMapping(roleFeatureDetails);
             if (roleFeatureMapping?.isNewRecord) {
                 res.status(201).json({
@@ -68,7 +65,7 @@ export default class FeatureController {
                 });
             }
         } catch (err: any){
-            Logger.ERROR(FeatureController.name, err);
+            Logger.ERROR(FeatureController.name, FeatureController.createOrUpdateRoleFeatureMapping.name, err);
             res.status(500).json({
                 message: "Error while creating role feature mapping"
             });
@@ -77,7 +74,7 @@ export default class FeatureController {
 
     static async getUserRoleFeatures(req: Request, res: Response) {
         try {
-            Logger.INFO(FeatureController.name, "Inside get role feature mapping");
+            Logger.INFO(FeatureController.name, FeatureController.getUserRoleFeatures.name, "Inside get role feature mapping");
             let tokenData = req.tokenData as TokenData;
             let features = await RoleDataAccessor.getRoleFeaturesByRoleId(tokenData.current_role);
             res.status(200).json({
@@ -85,7 +82,7 @@ export default class FeatureController {
                 features
             })
         } catch (err: any){
-            Logger.ERROR(FeatureController.name, err);
+            Logger.ERROR(FeatureController.name, FeatureController.getUserRoleFeatures.name, err);
         }    
     }
 }

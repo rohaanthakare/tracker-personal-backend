@@ -6,7 +6,7 @@ import MasterDataModel from "../models/master-data.model";
 export default class MasterDataController {
     static async createOrUpdateMasterData(req: Request, res: Response) {
         try {
-            Logger.INFO(MasterDataController.name, "Inside get user passwords");
+            Logger.INFO(MasterDataController.name, MasterDataController.createOrUpdateMasterData.name, "Inside get user passwords");
             let reqBody = req.body;
             let masterDataObj: MasterDataModel = new MasterDataModel();
             masterDataObj.code = reqBody.code;
@@ -40,7 +40,20 @@ export default class MasterDataController {
                 message: "Master data created successfully"
             });
         } catch (err: any){
-            Logger.ERROR(MasterDataController.name, err);
+            Logger.ERROR(MasterDataController.name, MasterDataController.createOrUpdateMasterData.name, err);
+        }
+    }
+
+    static async getMasterDataByParent(req: Request, res: Response) {
+        try {
+            Logger.INFO(MasterDataController.name, MasterDataController.getMasterDataByParent.name, "Inside get master data by parent");
+            let result = await MasterDataDataAccessor.getMasterDataByParent("FINANCE_ACCOUNT_TYPE");
+            res.status(200).json({
+                data: result,
+                message: "Master data created successfully"
+            });
+        } catch (err: any){
+            Logger.ERROR(MasterDataController.name, MasterDataController.getMasterDataByParent.name, err);
         }
     }
 }

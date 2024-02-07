@@ -61,11 +61,11 @@ app.use("/api", routes);
 dbconnection
   .sync()
   .then(() => {
-    Logger.INFO("App", "Tracker Personal database connected successfully");
+    Logger.INFO("App", "DBCONNECTION","Tracker Personal database connected successfully");
   })
   .catch((err) => {
-    Logger.ERROR("App", err);
+    Logger.ERROR("App", "DBCONNECTION", err);
   });
 app.listen(port, () => {
-  Logger.INFO("App", "Tracker Personal Backend stated at port - " + port);
+  Logger.INFO("App", "APP-LISTEN", "Tracker Personal Backend stated at port - " + port);
 });

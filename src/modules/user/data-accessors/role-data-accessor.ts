@@ -14,7 +14,7 @@ export default class RoleDataAccessor {
             });
             return result;
         } catch (err: any){
-            Logger.ERROR(RoleDataAccessor.name, err);
+            Logger.ERROR(RoleDataAccessor.name, RoleDataAccessor.getRoleByRoleCode.name, err);
         }
     }
 
@@ -39,7 +39,7 @@ export default class RoleDataAccessor {
             })
             return features;
         } catch (err: any){
-            Logger.ERROR(RoleDataAccessor.name, err);
+            Logger.ERROR(RoleDataAccessor.name, RoleDataAccessor.getRoleFeaturesByRoleId.name, err);
         }
     }
 }

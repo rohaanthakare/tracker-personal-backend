@@ -6,7 +6,7 @@ import RoleFeatureModel from "../models/role-feature.model";
 export default class FeatureService {
     static async createOrUpdateFeature(featureDetails: FeatureModel) {
         try {
-            Logger.INFO(FeatureService.name, "Inside create feature");
+            Logger.INFO(FeatureService.name, FeatureService.createOrUpdateFeature.name, "Inside create feature");
             const dataValues = featureDetails.dataValues;
             let existingFeatureDetails = await FeatureDataAccessor.getFeatureByFeatureCode(dataValues.feature_code);
             let feature;
@@ -26,13 +26,13 @@ export default class FeatureService {
             }
             return feature;
         } catch (err: any){
-            Logger.ERROR(FeatureService.name, err);
+            Logger.ERROR(FeatureService.name, FeatureService.createOrUpdateFeature.name, err);
         }    
     }
 
     static async createRoleFeatureMapping(roleFeatureDetails: RoleFeatureModel) {
         try {
-            Logger.INFO(FeatureService.name, "Inside create role feature mapping");
+            Logger.INFO(FeatureService.name, FeatureService.createRoleFeatureMapping.name, "Inside create role feature mapping");
             const dataValues = roleFeatureDetails.dataValues;
             let existingRoleFeatureDetails = await FeatureDataAccessor.getRoleFeatureByRoleAndFeature(roleFeatureDetails);
             let roleFeature;
@@ -52,7 +52,7 @@ export default class FeatureService {
             }
             return roleFeature;
         } catch (err: any){
-            Logger.ERROR(FeatureService.name, err);
+            Logger.ERROR(FeatureService.name, FeatureService.createRoleFeatureMapping.name, err);
             throw err;
         }    
     }

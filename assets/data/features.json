@@ -72,9 +72,36 @@
     "description": "All financial accounts",
     "is_active": true,
     "feature_type": "SIDE_NAV",
-    "feature_icon": "fa-solid fa-list",
+    "feature_icon": "fa-solid fa-landmark",
     "feature_url": "/user/finance/accounts",
     "parent_feature": "FINANCE"
+}, {
+    "feature_code": "ADD_FINANCIAL_ACCOUNT",
+    "feature_name": "Create Account",
+    "description": "Create new financial account",
+    "is_active": true,
+    "feature_type": "TOOLBAR",
+    "feature_icon": "fa-solid fa-plus",
+    "feature_url": "/user/finance/account/new",
+    "parent_feature": "FINANCE_ACCOUNTS"
+}, {
+    "feature_code": "ADD_EXPENSE",
+    "feature_name": "Add Expense",
+    "description": "Create new expense",
+    "is_active": true,
+    "feature_type": "TOOLBAR",
+    "feature_icon": "fa-solid fa-money-bill-trend-up",
+    "feature_url": "/user/finance/add_expense",
+    "parent_feature": "FINANCE_ACCOUNTS"
+}, {
+    "feature_code": "FUND_TRANSFER",
+    "feature_name": "Fund Transfer",
+    "description": "Fund transfer between financial account",
+    "is_active": true,
+    "feature_type": "TOOLBAR",
+    "feature_icon": "fa-solid fa-money-bill-transfer",
+    "feature_url": "/user/finance/account/new",
+    "parent_feature": "FINANCE_ACCOUNTS"
 }, {
     "feature_code": "FINANCE_PASSBOOK",
     "feature_name": "Passbook",
@@ -83,6 +110,15 @@
     "feature_type": "SIDE_NAV",
     "feature_icon": "fa-solid fa-receipt",
     "feature_url": "/user/finance/passbook",
+    "parent_feature": "FINANCE"
+}, {
+    "feature_code": "FINANCE_PROFILE",
+    "feature_name": "Finance Profile",
+    "description": "Financial profile used for setting budget, account threshold balance",
+    "is_active": true,
+    "feature_type": "SIDE_NAV",
+    "feature_icon": "fa-solid fa-receipt",
+    "feature_url": "/user/finance/profile",
     "parent_feature": "FINANCE"
 }, {
     "feature_code": "TASK",

@@ -5,8 +5,7 @@ import RoleDataAccessor from "../data-accessors/role-data-accessor";
 export default class RoleService {
     static async createOrUpdateRole(roleDetails: RoleModel) {
         try {
-            Logger.INFO(RoleService.name, "Inside createOrUpdateRole");
-            console.log(roleDetails.dataValues);
+            Logger.INFO(RoleService.name, RoleService.createOrUpdateRole.name, "Inside createOrUpdateRole");
             let inputRoleDetail = roleDetails.dataValues as RoleModel;
             let role = await RoleDataAccessor.getRoleByRoleCode(inputRoleDetail.role_code);
             let resultRoleObj;
@@ -26,7 +25,7 @@ export default class RoleService {
             
             return resultRoleObj;
         } catch (error: any) {
-            Logger.ERROR(RoleService.name, error);
+            Logger.ERROR(RoleService.name, RoleService.createOrUpdateRole.name,error);
             throw error;
         }
     }

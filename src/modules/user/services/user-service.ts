@@ -10,7 +10,7 @@ export default class UserService {
             let result = await UserAccountModel.create(userDetails.dataValues);
             return result.dataValues;
         } catch (error: any) {
-            Logger.ERROR(this.LOGGER_NAME, error);
+            Logger.ERROR(UserService.name, UserService.createUserAccount.name, error);
             throw error;
         }
     }
@@ -46,7 +46,7 @@ export default class UserService {
                 throw `User ${userCred.username} does not exist`;
             }
         } catch (error: any) {
-            Logger.ERROR(UserService.name, error);
+            Logger.ERROR(UserService.name, UserService.authenticateUser.name, error);
             throw error;
         }
     }

@@ -15,7 +15,7 @@ import RoleFeatureModel from "../user/models/role-feature.model";
 export default class CoreController {
     static async setupApplication(req: Request, res: Response) {
         try {
-            Logger.INFO(CoreController.name, "Inside setup Application");
+            Logger.INFO(CoreController.name, CoreController.setupApplication.name,"Inside setup Application");
             // Create Features
             let featureObj: FeatureModel = new FeatureModel();
             featureObj.feature_code = "import_app_data";
@@ -52,7 +52,7 @@ export default class CoreController {
                 message: "Application setup done successfully"
             });
         } catch (error: any) {
-            Logger.ERROR(CoreController.name, error);
+            Logger.ERROR(CoreController.name, CoreController.setupApplication.name,error);
             res.status(500).json({
                 message: "Internal server error, please try again"
             });
@@ -61,7 +61,7 @@ export default class CoreController {
 
     static async getApplicationDataModulesToLoad(req: Request, res: Response) {
         try {
-            Logger.INFO(CoreController.name, "Inside get Application data load");
+            Logger.INFO(CoreController.name, CoreController.getApplicationDataModulesToLoad.name,"Inside get Application data load");
             let rootPath = appRootPath.path;
             let dataToLoad = JSON.parse(fs.readFileSync(`${rootPath}/assets/data-load.json`, "utf8"));
             res.status(200).send({
@@ -69,7 +69,7 @@ export default class CoreController {
                 data: dataToLoad
             });
         } catch (error: any) {
-            Logger.ERROR(CoreController.name, error);
+            Logger.ERROR(CoreController.name, CoreController.getApplicationDataModulesToLoad.name, error);
             res.status(500).json({
                 message: "Internal server error, please try again"
             });
@@ -78,17 +78,15 @@ export default class CoreController {
 
     static async getModuleDataToLoad(req: Request, res: Response) {
         try {
-            Logger.INFO(CoreController.name, "Inside get Application data load");
+            Logger.INFO(CoreController.name, CoreController.getModuleDataToLoad.name, "Inside get Application data load");
             let rootPath = appRootPath.path;
-            console.log(req.query.dataFile);
             let dataToLoad = JSON.parse(fs.readFileSync(`${rootPath}/assets/${req.query.dataFile}`, "utf8"));
-            console.log(dataToLoad);
             res.status(200).send({
                 message: "Application data to load fetched successfully",
                 data: dataToLoad
             });
         } catch (error: any) {
-            Logger.ERROR(CoreController.name, error);
+            Logger.ERROR(CoreController.name, CoreController.getModuleDataToLoad.name, error);
             res.status(500).json({
                 message: "Internal server error, please try again"
             });

@@ -17,7 +17,7 @@ export default class RoleController {
                 result
             });
         } catch (err: any){
-            Logger.ERROR(RoleController.name, err);
+            Logger.ERROR(RoleController.name, RoleController.createRole.name, err);
             res.status(500).json({
                 message: err
             });

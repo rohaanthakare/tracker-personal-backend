@@ -10,7 +10,26 @@ export default class MasterDataDataAccessor {
             });
             return result;
         } catch (err: any){
-            Logger.ERROR(MasterDataDataAccessor.name, err);
+            Logger.ERROR(MasterDataDataAccessor.name, MasterDataDataAccessor.getMasterDataByCode.name, err);
+            throw err;
+        }
+    }
+
+    static async getMasterDataByParent(parentCode: string) {
+        try {
+            let parentData = await MasterDataModel.findOne({
+                where: {
+                    code: parentCode
+                }
+            });
+            let result = await MasterDataModel.findAll({
+                where: {
+                    parent_data_id: parentData?.id
+                }
+            });
+            return result;
+        } catch (err: any){
+            Logger.ERROR(MasterDataDataAccessor.name, MasterDataDataAccessor.getMasterDataByParent.name, err);
             throw err;
         }
     }

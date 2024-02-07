@@ -30,5 +30,17 @@
     "feature_code": "FINANCE_PASSBOOK"
 }, {
     "role_code": "TRACKER_USER",
+    "feature_code": "ADD_FINANCIAL_ACCOUNT"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "ADD_EXPENSE"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "FUND_TRANSFER"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "FINANCE_PROFILE"
+}, {
+    "role_code": "TRACKER_USER",
     "feature_code": "TASK"
 }]

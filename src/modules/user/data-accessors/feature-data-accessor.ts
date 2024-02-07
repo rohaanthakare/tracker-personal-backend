@@ -11,7 +11,7 @@ export default class FeatureDataAccessor {
             });
             return result;
         } catch (err: any){
-            Logger.ERROR(FeatureDataAccessor.name, err);
+            Logger.ERROR(FeatureDataAccessor.name, FeatureDataAccessor.getFeatureByFeatureCode.name, err);
             throw err;
         }
     }
@@ -26,7 +26,7 @@ export default class FeatureDataAccessor {
             });
             return result;
         } catch (err: any){
-            Logger.ERROR(FeatureDataAccessor.name, err);
+            Logger.ERROR(FeatureDataAccessor.name, FeatureDataAccessor.getRoleFeatureByRoleAndFeature.name, err);
             throw err;
         }
     }

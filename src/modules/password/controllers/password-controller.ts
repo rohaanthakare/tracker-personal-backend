@@ -8,25 +8,20 @@ import PasswordService from "../services/password-service";
 export default class PasswordController {
     static async getUserPasswords(req: Request, res: Response) {
         try {
-            Logger.INFO(PasswordController.name, "Inside get user passwords");
+            Logger.INFO(PasswordController.name, PasswordController.getUserPasswords.name, "Inside get user passwords");
             let result = await PasswordModel.findAll();
-            /* let cryptrObj = new Cryptr(process.env.TOKEN_KEY as string);
-            await result.forEach((r: any) => {
-                r.dataValues.plain_password = cryptrObj.decrypt(r.dataValues.password);
-                console.log(r);
-            }); */
             res.status(200).json({
                 data: result,
                 message: "User passwords list fetched successfully"
             });
         } catch (err: any){
-            Logger.ERROR(PasswordController.name, err);
+            Logger.ERROR(PasswordController.name, PasswordController.getUserPasswords.name, err);
         }
     }
 
     static async getPasswordDetails(req: Request, res: Response) {
         try {
-            Logger.INFO(PasswordController.name, "Inside get user passwords");
+            Logger.INFO(PasswordController.name, PasswordController.getPasswordDetails.name, "Inside get user passwords");
             let passwordId = req.params.id;
             let result = await PasswordModel.findByPk(passwordId);
             if (result) {
@@ -38,13 +33,13 @@ export default class PasswordController {
                 message: "User passwords list fetched successfully"
             });
         } catch (err: any){
-            Logger.ERROR(PasswordController.name, err);
+            Logger.ERROR(PasswordController.name, PasswordController.getPasswordDetails.name, err);
         }
     }
 
     static async createUserPassword(req: Request, res: Response) {
         try {
-            Logger.INFO(PasswordController.name, "Inside create user password");
+            Logger.INFO(PasswordController.name, PasswordController.createUserPassword.name, "Inside create user password");
             let reqBody = req.body;
             let passwordObj: PasswordModel = new PasswordModel();
             passwordObj.name = reqBody.name;
@@ -60,13 +55,13 @@ export default class PasswordController {
                 message: "User passwords created successfully"
             });
         } catch (err: any){
-            Logger.ERROR(PasswordController.name, err);
+            Logger.ERROR(PasswordController.name, PasswordController.createUserPassword.name, err);
         }
     }
 
     static async updateUserPassword(req: Request, res: Response) {
         try {
-            Logger.INFO(PasswordController.name, "Inside update user password");
+            Logger.INFO(PasswordController.name, PasswordController.updateUserPassword.name, "Inside update user password");
             let passwordId = parseInt(req.params.id);
             let reqBody = req.body;
             let passwordObj: PasswordModel = new PasswordModel();
@@ -83,13 +78,13 @@ export default class PasswordController {
                 message: "User password updated successfully"
             });
         } catch (err: any){
-            Logger.ERROR(PasswordController.name, err);
+            Logger.ERROR(PasswordController.name, PasswordController.updateUserPassword.name, err);
         }
     }
 
     static async deleteUserPassword(req: Request, res: Response) {
         try {
-            Logger.INFO(PasswordController.name, "Inside update user password");
+            Logger.INFO(PasswordController.name, PasswordController.deleteUserPassword.name, "Inside update user password");
             let passwordId = parseInt(req.params.id);
             let result = await PasswordModel.destroy({
                 where: {
@@ -105,7 +100,7 @@ export default class PasswordController {
             }
             
         } catch (err: any){
-            Logger.ERROR(PasswordController.name, err);
+            Logger.ERROR(PasswordController.name, PasswordController.deleteUserPassword.name, err);
             res.status(500).json({
                 message: "Error while deleteing password"
             })

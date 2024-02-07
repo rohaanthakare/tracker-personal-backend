@@ -1,0 +1,81 @@
+[{
+    "bank_code": "HDFC",
+    "name": "HDFC Bank Ltd",
+    "bank_logo": "default-bank-logo.png"
+}, {
+    "bank_code": "ICICI",
+    "name": "ICICI Bank Ltd",
+    "bank_logo": "default-bank-logo.png"
+}, {
+    "bank_code": "SBI",
+    "name": "State Bank of India (SBI)",
+    "bank_logo": "default-bank-logo.png"
+}, {
+    "bank_code": "UBI",
+    "name": "Union Bank of India (UBI)",
+    "bank_logo": "default-bank-logo.png"
+}, {
+    "bank_code": "AXIS",
+    "name": "Axis Bank Ltd.",
+    "bank_logo": "default-bank-logo.png"
+}, {
+    "bank_code": "INDUSIND",
+    "name": "IndusInd Bank Ltd",
+    "bank_logo": "default-bank-logo.png"
+}, {
+    "bank_code": "IDFC",
+    "name": "IDFC FIRST Bank Limited",
+    "bank_logo": "default-bank-logo.png"
+}, {
+    "bank_code": "YES",
+    "name": "YES Bank Ltd.",
+    "bank_logo": "default-bank-logo.png"
+}, {
+    "bank_code": "IDBI",
+    "name": "IDBI Bank Limited",
+    "bank_logo": "default-bank-logo.png"
+}, {
+    "bank_code": "AIRTEL",
+    "name": "Airtel Payments Bank Ltd",
+    "bank_logo": "default-bank-logo.png"
+}, {
+    "bank_code": "PAYTM",
+    "name": "Paytm Payments Bank Ltd",
+    "bank_logo": "default-bank-logo.png"
+}, {
+    "bank_code": "JIO",
+    "name": "Jio Payments Bank Ltd",
+    "bank_logo": "default-bank-logo.png"
+}, {
+    "bank_code": "NSDL",
+    "name": "NSDL Payments Bank Limited",
+    "bank_logo": "default-bank-logo.png"
+}, {
+    "bank_code": "BOB",
+    "name": "Bank of Baroda",
+    "bank_logo": "default-bank-logo.png"
+}, {
+    "bank_code": "BOI",
+    "name": "Bank of India",
+    "bank_logo": "default-bank-logo.png"
+}, {
+    "bank_code": "BOM",
+    "name": "Bank of Maharashtra",
+    "bank_logo": "default-bank-logo.png"
+}, {
+    "bank_code": "CB",
+    "name": "Canara Bank",
+    "bank_logo": "default-bank-logo.png"
+}, {
+    "bank_code": "CBI",
+    "name": "Central Bank of India",
+    "bank_logo": "default-bank-logo.png"
+}, {
+    "bank_code": "IB",
+    "name": "Indian Bank",
+    "bank_logo": "default-bank-logo.png"
+}, {
+    "bank_code": "PNB",
+    "name": "Punjab National Bank",
+    "bank_logo": "default-bank-logo.png"
+}]
