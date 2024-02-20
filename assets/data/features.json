@@ -72,7 +72,7 @@
     "description": "All financial accounts",
     "is_active": true,
     "feature_type": "SIDE_NAV",
-    "feature_icon": "fa-solid fa-landmark",
+    "feature_icon": "fa-solid fa-building-columns",
     "feature_url": "/user/finance/accounts",
     "parent_feature": "FINANCE"
 }, {
@@ -83,6 +83,24 @@
     "feature_type": "TOOLBAR",
     "feature_icon": "fa-solid fa-plus",
     "feature_url": "/user/finance/account/new",
+    "parent_feature": "FINANCE_ACCOUNTS"
+}, {
+    "feature_code": "DEPOSIT_MONEY",
+    "feature_name": "Deposit Money",
+    "description": "Deposit money into financial account",
+    "is_active": true,
+    "feature_type": "TOOLBAR",
+    "feature_icon": "fa-solid fa-plus",
+    "feature_url": "/user/finance/deposit",
+    "parent_feature": "FINANCE_ACCOUNTS"
+}, {
+    "feature_code": "INVEST_MONEY",
+    "feature_name": "Invest Money",
+    "description": "Invest money",
+    "is_active": true,
+    "feature_type": "TOOLBAR",
+    "feature_icon": "fa-solid fa-plus",
+    "feature_url": "/user/finance/invest",
     "parent_feature": "FINANCE_ACCOUNTS"
 }, {
     "feature_code": "ADD_EXPENSE",
@@ -108,8 +126,17 @@
     "description": "All financial transaction",
     "is_active": true,
     "feature_type": "SIDE_NAV",
-    "feature_icon": "fa-solid fa-receipt",
+    "feature_icon": "fa-regular fa-rectangle-list",
     "feature_url": "/user/finance/passbook",
+    "parent_feature": "FINANCE"
+}, {
+    "feature_code": "FINANCE_INVESTMENTS",
+    "feature_name": "Investments",
+    "description": "All financial investments",
+    "is_active": true,
+    "feature_type": "SIDE_NAV",
+    "feature_icon": "fa-solid fa-circle-dollar-to-slot",
+    "feature_url": "/user/finance/investments",
     "parent_feature": "FINANCE"
 }, {
     "feature_code": "FINANCE_PROFILE",
@@ -117,7 +144,7 @@
     "description": "Financial profile used for setting budget, account threshold balance",
     "is_active": true,
     "feature_type": "SIDE_NAV",
-    "feature_icon": "fa-solid fa-receipt",
+    "feature_icon": "fa-solid fa-id-card",
     "feature_url": "/user/finance/profile",
     "parent_feature": "FINANCE"
 }, {

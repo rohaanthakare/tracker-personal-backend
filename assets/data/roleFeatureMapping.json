@@ -33,6 +33,15 @@
     "feature_code": "ADD_FINANCIAL_ACCOUNT"
 }, {
     "role_code": "TRACKER_USER",
+    "feature_code": "DEPOSIT_MONEY"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "INVEST_MONEY"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "FINANCE_INVESTMENTS"
+}, {
+    "role_code": "TRACKER_USER",
     "feature_code": "ADD_EXPENSE"
 }, {
     "role_code": "TRACKER_USER",

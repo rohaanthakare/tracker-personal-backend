@@ -6,3 +6,6 @@ financeRoutes.post("/finance/bank", FinanceController.createOrUpdateBank);
 financeRoutes.get("/finance/banks", FinanceController.getBanks);
 financeRoutes.post("/finance/financial-account", FinanceController.createFinancialAccount);
 financeRoutes.get("/finance/financial-accounts", FinanceController.getFinancialAccounts);
+financeRoutes.get("/finance/get-all-financial-account", FinanceController.getAllFinancialAccounts);
+financeRoutes.post("/finance/deposit-money", FinanceController.depositMoney);
+financeRoutes.get("/finance/get-financial-passbook", FinanceController.getFinancialPassbook);

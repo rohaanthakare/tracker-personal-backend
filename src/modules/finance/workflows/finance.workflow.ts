@@ -1,18 +1,36 @@
-import { Request, Response } from "express";
 import { Logger } from "../../../logger";
+import FinanceService from "../services/finance.service";
 
 export default class FinanceWorkflow {
-    static async createBank(req: Request, res: Response) {
-        try {
-            Logger.INFO(FinanceWorkflow.name, "Inside create Bank")
-            res.status(201).json({
-                message: "Bank created successfully",
-            });
-        } catch (err: any){
-            Logger.ERROR(FinanceWorkflow.name, err);
-            res.status(500).json({
-                message: err
-            });
-        }
+  static async depositMoneyWorkflow(depositTransactionDetails: any) {
+    try {
+      Logger.INFO(
+        FinanceWorkflow.name,
+        FinanceWorkflow.depositMoneyWorkflow.name,
+        "Inside depositMoneyWorkflow"
+      );
+      // Create User Transaction
+      depositTransactionDetails.user_trans_type = "DEPOSIT";
+      let userTransDetails = await FinanceService.createUserTransaction(
+        depositTransactionDetails
+      );
+      // Create Account Transaction
+      depositTransactionDetails.finance_trans_type = "CREDIT_MONEY";
+      depositTransactionDetails.user_trans_id = userTransDetails.id;
+      let accountTransDetails = await FinanceService.createFinancialTransaction(
+        depositTransactionDetails
+      );
+      // Update Account Balance
+      let accountDetails = await FinanceService.updateAccountBalance(
+        depositTransactionDetails
+      );
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceWorkflow.name,
+        FinanceWorkflow.depositMoneyWorkflow.name,
+        err
+      );
+      throw err;
     }
+  }
 }

@@ -59,4 +59,126 @@
     "data_icon": "",
     "is_active": true,
     "parent_data": "FINANCE_ACCOUNT_TYPE"
+}, {
+    "code": "USER_TRANSACTION_TYPE",
+    "name": "User Transaction Type",
+    "description": "User transaction type",
+    "data_icon": "",
+    "is_active": true
+}, {
+    "code": "DEPOSIT",
+    "name": "Deposit",
+    "description": "Transaction type Deposit",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "USER_TRANSACTION_TYPE"
+}, {
+    "code": "EXPENSE",
+    "name": "Expense",
+    "description": "Expense",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "USER_TRANSACTION_TYPE"
+}, {
+    "code": "INVEST",
+    "name": "Invest",
+    "description": "Invest",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "USER_TRANSACTION_TYPE"
+}, {
+    "code": "TRANSFER",
+    "name": "Transfer",
+    "description": "Transfer",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "USER_TRANSACTION_TYPE"
+}, {
+    "code": "FINANCE_TRANSACTION_TYPE",
+    "name": "Transaction Type",
+    "description": "Financial transaction type",
+    "data_icon": "",
+    "is_active": true
+}, {
+    "code": "CREDIT_MONEY",
+    "name": "Credit Money",
+    "description": "Transaction type credit",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "FINANCE_TRANSACTION_TYPE"
+}, {
+    "code": "DEBIT_MONEY",
+    "name": "Debit Money",
+    "description": "Transaction type debit",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "FINANCE_TRANSACTION_TYPE"
+}, {
+    "code": "DEPOSIT_TYPE",
+    "name": "Deposit Type",
+    "description": "Deposit type",
+    "data_icon": "",
+    "is_active": true
+}, {
+    "code": "OWN_DEPOSIT",
+    "name": "Own Deposit",
+    "description": "Own Deposit",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "DEPOSIT_TYPE"
+}, {
+    "code": "OTHER_USER_DEPOSIT",
+    "name": "Other User Deposit",
+    "description": "Other User Deposit",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "DEPOSIT_TYPE"
+}, {
+    "code": "DEPOSIT_CATEGORY",
+    "name": "Deposit Category",
+    "description": "Deposit Category",
+    "data_icon": "",
+    "is_active": true
+}, {
+    "code": "SALARY",
+    "name": "Salary",
+    "description": "Salary",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "DEPOSIT_CATEGORY"
+}, {
+    "code": "CASHBACK_AND_REWARDS",
+    "name": "Cashback & Rewards",
+    "description": "Cashback & Rewards",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "DEPOSIT_CATEGORY"
+}, {
+    "code": "INVESTMENT_RETURN",
+    "name": "Investment Return",
+    "description": "Investment Return",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "DEPOSIT_CATEGORY"
+}, {
+    "code": "CREDIT_INTEREST",
+    "name": "Credit Interest",
+    "description": "Credit Interest",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "DEPOSIT_CATEGORY"
+}, {
+    "code": "SETTLEMENT",
+    "name": "Settlement",
+    "description": "Settlement",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "DEPOSIT_CATEGORY"
+}, {
+    "code": "ADJUSTMENT",
+    "name": "Adjustment",
+    "description": "Adjustment",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "DEPOSIT_CATEGORY"
 }]

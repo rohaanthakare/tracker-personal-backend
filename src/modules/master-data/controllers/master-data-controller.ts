@@ -47,7 +47,7 @@ export default class MasterDataController {
     static async getMasterDataByParent(req: Request, res: Response) {
         try {
             Logger.INFO(MasterDataController.name, MasterDataController.getMasterDataByParent.name, "Inside get master data by parent");
-            let result = await MasterDataDataAccessor.getMasterDataByParent("FINANCE_ACCOUNT_TYPE");
+            let result = await MasterDataDataAccessor.getMasterDataByParent(req.query.parent_data_code as string);
             res.status(200).json({
                 data: result,
                 message: "Master data created successfully"
