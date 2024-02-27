@@ -221,4 +221,33 @@ export default class FinanceController {
       });
     }
   }
+
+  static async addExpense(req: Request, res: Response) {
+    try {
+      Logger.INFO(
+        FinanceController.name,
+        FinanceController.addExpense.name,
+        "Inside add expense"
+      );
+      let depositTransDetails = req.body;
+      let userToken = req.tokenData as TokenData;
+      depositTransDetails.user_id = userToken.user_id;
+      let result = await FinanceWorkflow.addExpenseWorkflow(
+        depositTransDetails
+      );
+      res.status(201).json({
+        message: "Expense added successfully",
+        data: {},
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceController.name,
+        FinanceController.addExpense.name,
+        err
+      );
+      res.status(500).json({
+        message: err,
+      });
+    }
+  }
 }

@@ -8,4 +8,5 @@ financeRoutes.post("/finance/financial-account", FinanceController.createFinanci
 financeRoutes.get("/finance/financial-accounts", FinanceController.getFinancialAccounts);
 financeRoutes.get("/finance/get-all-financial-account", FinanceController.getAllFinancialAccounts);
 financeRoutes.post("/finance/deposit-money", FinanceController.depositMoney);
+financeRoutes.post("/finance/add-expense", FinanceController.addExpense);
 financeRoutes.get("/finance/get-financial-passbook", FinanceController.getFinancialPassbook);

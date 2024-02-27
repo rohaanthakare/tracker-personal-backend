@@ -181,4 +181,129 @@
     "data_icon": "",
     "is_active": true,
     "parent_data": "DEPOSIT_CATEGORY"
+}, {
+    "code": "EXPENSE_CATEGORY",
+    "name": "Expense Category",
+    "description": "Expense Category",
+    "data_icon": "",
+    "is_active": true
+}, {
+    "code": "HOUSING",
+    "name": "Housing",
+    "description": "Property Tax, Household Repairs, Maintenance",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "EXPENSE_CATEGORY"
+}, {
+    "code": "GROCERY",
+    "name": "Grocery",
+    "description": "Vegetables, Fruits, Food Grains",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "EXPENSE_CATEGORY"
+}, {
+    "code": "UTILITIES",
+    "name": "Utilities",
+    "description": "Mobile Bill, Internet bills, Gas Bills, Electricity Bill",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "EXPENSE_CATEGORY"
+}, {
+    "code": "DEBTS",
+    "name": "Debts",
+    "description": "Loan Repayment, Credit Card Bill",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "EXPENSE_CATEGORY"
+}, {
+    "code": "RESTAURANT",
+    "name": "Restaurant",
+    "description": "Restaurant",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "EXPENSE_CATEGORY"
+}, {
+    "code": "TRANSPORTATION",
+    "name": "Transportation",
+    "description": "Petrol, Car Wash, Service",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "EXPENSE_CATEGORY"
+}, {
+    "code": "TRAVEL",
+    "name": "Travel",
+    "description": "Vacation, Outing",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "EXPENSE_CATEGORY"
+}, {
+    "code": "MEDICAL",
+    "name": "Medical",
+    "description": "Doctor, Hospital, Medicines",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "EXPENSE_CATEGORY"
+}, {
+    "code": "FITNESS",
+    "name": "Fitness",
+    "description": "Gym, Sports",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "EXPENSE_CATEGORY"
+}, {
+    "code": "EDUCATION",
+    "name": "Education",
+    "description": "Child education, certifications",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "EXPENSE_CATEGORY"
+}, {
+    "code": "GIFTS_AND_DONATIONS",
+    "name": "Gift and Donations",
+    "description": "Gift, Donations",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "EXPENSE_CATEGORY"
+}, {
+    "code": "ENTERTAINMENT",
+    "name": "Entertainment",
+    "description": "Movies, OTT Subscriptions, Games",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "EXPENSE_CATEGORY"
+}, {
+    "code": "SHOPPING",
+    "name": "Shopping",
+    "description": "Clothing, Phones, Digital devices",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "EXPENSE_CATEGORY"
+},{
+    "code": "INSURANCE",
+    "name": "Insurance",
+    "description": "Health insurance, medical insurance, Term Plan",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "EXPENSE_CATEGORY"
+}, {
+    "code": "PERSONAL",
+    "name": "Personal",
+    "description": "Hair cut, general expense",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "EXPENSE_CATEGORY"
+}, {
+    "code": "PERSONAL",
+    "name": "Personal",
+    "description": "Hair cut, general expense",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "EXPENSE_CATEGORY"
+}, {
+    "code": "MISSING",
+    "name": "Missing",
+    "description": "Missing",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "EXPENSE_CATEGORY"
 }]

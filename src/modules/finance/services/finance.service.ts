@@ -132,8 +132,10 @@ export default class FinanceService {
         // Add to balance
         newAccountBalance =
           accountDetails?.account_balance + transDetails.transaction_amount;
-      } else {
+      } else if(accountDetails) {
         // Remove from balance
+        newAccountBalance =
+          accountDetails?.account_balance - transDetails.transaction_amount;
       }
       if (accountDetails) {
         accountDetails.dataValues.account_balance = newAccountBalance;
