@@ -306,4 +306,24 @@
     "data_icon": "",
     "is_active": true,
     "parent_data": "EXPENSE_CATEGORY"
+}, {
+    "code": "FUND_TRANSFER_CATEGORY",
+    "name": "Fund Transfer Category",
+    "description": "Fund Transfer Category",
+    "data_icon": "",
+    "is_active": true
+}, {
+    "code": "SETTLEMENT",
+    "name": "Settlement",
+    "description": "Settlement",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "FUND_TRANSFER_CATEGORY"
+}, {
+    "code": "FUND_TRANSFER_ADJUSTMENT",
+    "name": "Adjustment",
+    "description": "Adjustment",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "FUND_TRANSFER_CATEGORY"
 }]
