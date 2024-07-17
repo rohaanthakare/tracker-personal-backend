@@ -96,7 +96,7 @@ export default class FinanceService {
       );
       userTransactionModel.transation_category = transType?.id as number;
       userTransactionModel.transation_sub_category =
-        userTransDetailsInput.deposit_type;
+        userTransDetailsInput.transation_sub_type;
       userTransactionModel.transaction_date = new Date(
         userTransDetailsInput.transaction_date
       );

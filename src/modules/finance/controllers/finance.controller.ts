@@ -8,6 +8,7 @@ import FinancialAccountModel, {
 import { TokenData } from "../../../../types/express";
 import QueryHelper from "../../query-helper";
 import FinanceWorkflow from "../workflows/finance.workflow";
+import MasterDataDataAccessor from "../../master-data/data-accessors/master-data-data-accessor";
 
 export default class FinanceController {
   static async createOrUpdateBank(req: Request, res: Response) {
@@ -196,14 +197,21 @@ export default class FinanceController {
         "Inside getFinancialPassbook"
       );
       let userToken = req.tokenData as TokenData;
+      let creditTransType = await MasterDataDataAccessor.getMasterDataByCode("CREDIT_MONEY");
+      let creditTransTypeId = creditTransType?.id as number;
+      let debitTransType = await MasterDataDataAccessor.getMasterDataByCode("DEBIT_MONEY");
+      let debitTransTypeId = debitTransType?.id as number;
       let query = `select ut.*,
             (select name from master_data tr_ct where tr_ct.id = ut.transation_category) as transaction_category_display,
             (select name from master_data tr_sub_ct where tr_sub_ct.id = ut.transation_sub_category) as transaction_sub_category_display,
-            (select name from financial_transactions ft_from, financial_accounts fa_from where fa_from.id = ft_from.account_id and ft_from.user_trans_id = ut.id) as from_account_display
+            (select name from financial_transactions ft_from, financial_accounts fa_from where fa_from.id = ft_from.account_id and ft_from.user_trans_id = ut.id and ft_from.transation_type = (:from_trans_type)) as from_account_display,
+            (select name from financial_transactions ft_to, financial_accounts fa_to where fa_to.id = ft_to.account_id and ft_to.user_trans_id = ut.id and ft_to.transation_type = (:to_trans_type)) as to_account_display
             from user_transactions ut
             where ut.user_id = (:userid)`;
       let queryParams = {
         userid: userToken.user_id,
+        from_trans_type: debitTransTypeId,
+        to_trans_type: creditTransTypeId,
       };
       let result = await QueryHelper.executeGetQuery(query, queryParams);
       res.status(200).json({
@@ -243,6 +251,35 @@ export default class FinanceController {
       Logger.ERROR(
         FinanceController.name,
         FinanceController.addExpense.name,
+        err
+      );
+      res.status(500).json({
+        message: err,
+      });
+    }
+  }
+
+  static async transferMoney(req: Request, res: Response) {
+    try {
+      Logger.INFO(
+        FinanceController.name,
+        FinanceController.transferMoney.name,
+        "Inside money transfer"
+      );
+      let transferTransDetails = req.body;
+      let userToken = req.tokenData as TokenData;
+      transferTransDetails.user_id = userToken.user_id;
+      let result = await FinanceWorkflow.moneyTransferWorkflow(
+        transferTransDetails
+      );
+      res.status(201).json({
+        message: "Money transfered successfully",
+        data: {},
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceController.name,
+        FinanceController.transferMoney.name,
         err
       );
       res.status(500).json({
