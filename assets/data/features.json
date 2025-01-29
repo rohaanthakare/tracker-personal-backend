@@ -139,6 +139,33 @@
     "feature_url": "/user/finance/investments",
     "parent_feature": "FINANCE"
 }, {
+    "feature_code": "START_INVESTMENT",
+    "feature_name": "Start New Investment",
+    "description": "Start New Investment",
+    "is_active": true,
+    "feature_type": "TOOLBAR",
+    "feature_icon": "fa-solid fa-money-bill-trend-up",
+    "feature_url": "/user/finance/new_investment",
+    "parent_feature": "FINANCE_INVESTMENTS"
+}, {
+    "feature_code": "INVEST_MONEY",
+    "feature_name": "Invest Money",
+    "description": "Invest Money",
+    "is_active": true,
+    "feature_type": "TOOLBAR",
+    "feature_icon": "fa-solid fa-money-bill-trend-up",
+    "feature_url": "/user/finance/invest_money",
+    "parent_feature": "FINANCE_INVESTMENTS"
+}, {
+    "feature_code": "CLOSE_INVESTMENT",
+    "feature_name": "Close Investment",
+    "description": "Close Investment",
+    "is_active": true,
+    "feature_type": "TOOLBAR",
+    "feature_icon": "fa-solid fa-money-bill-trend-up",
+    "feature_url": "/user/finance/close_investment",
+    "parent_feature": "FINANCE_INVESTMENTS"
+}, {
     "feature_code": "FINANCE_PROFILE",
     "feature_name": "Finance Profile",
     "description": "Financial profile used for setting budget, account threshold balance",

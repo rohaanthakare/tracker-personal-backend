@@ -42,6 +42,15 @@
     "feature_code": "FINANCE_INVESTMENTS"
 }, {
     "role_code": "TRACKER_USER",
+    "feature_code": "START_INVESTMENT"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "INVEST_MONEY"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "CLOSE_INVESTMENT"
+}, {
+    "role_code": "TRACKER_USER",
     "feature_code": "ADD_EXPENSE"
 }, {
     "role_code": "TRACKER_USER",
