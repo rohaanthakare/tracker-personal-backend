@@ -191,27 +191,29 @@ export default class FinanceController {
 
   static async getFinancialPassbook(req: Request, res: Response) {
     try {
-      Logger.INFO(
+      Logger.TRACE(
         FinanceController.name,
         FinanceController.getFinancialPassbook.name,
         "Inside getFinancialPassbook"
       );
       let userToken = req.tokenData as TokenData;
-      let creditTransType = await MasterDataDataAccessor.getMasterDataByCode("CREDIT_MONEY");
-      let creditTransTypeId = creditTransType?.id as number;
-      let debitTransType = await MasterDataDataAccessor.getMasterDataByCode("DEBIT_MONEY");
-      let debitTransTypeId = debitTransType?.id as number;
-      let query = `select ut.*,
-            (select name from master_data tr_ct where tr_ct.id = ut.transation_category) as transaction_category_display,
-            (select name from master_data tr_sub_ct where tr_sub_ct.id = ut.transation_sub_category) as transaction_sub_category_display,
-            (select name from financial_transactions ft_from, financial_accounts fa_from where fa_from.id = ft_from.account_id and ft_from.user_trans_id = ut.id and ft_from.transation_type = (:from_trans_type)) as from_account_display,
-            (select name from financial_transactions ft_to, financial_accounts fa_to where fa_to.id = ft_to.account_id and ft_to.user_trans_id = ut.id and ft_to.transation_type = (:to_trans_type)) as to_account_display
-            from user_transactions ut
-            where ut.user_id = (:userid)`;
+      let query = `select ft.*,
+            trans_cat.name as transaction_category_display,
+            trans_sub_cat.name as transaction_sub_category_display,
+            trans_type.code as transaction_type_code,
+            fa.name as transaction_account_display,
+            ut.transaction_description as transaction_description
+            from financial_transactions ft, user_transactions ut, financial_accounts fa, master_data trans_type, master_data trans_cat, master_data trans_sub_cat 
+            where ft.user_trans_id = ut.id 
+              and ft.account_id = fa.id 
+              and trans_type.id = ft.transation_type 
+              and trans_cat.id = ut.transation_category 
+              and trans_sub_cat.id = ut.transation_sub_category 
+              and ut.user_id = (:userid)
+            order by ft.transaction_date desc`;
+            
       let queryParams = {
-        userid: userToken.user_id,
-        from_trans_type: debitTransTypeId,
-        to_trans_type: creditTransTypeId,
+        userid: userToken.user_id
       };
       let result = await QueryHelper.executeGetQuery(query, queryParams);
       res.status(200).json({

@@ -25,10 +25,8 @@ app.get("/", (req, res) => {
 
 app.use(function (req: Request, res: Response, next) {
   if (ROUTES_WIHTOUT_AUTH.includes(req.originalUrl)) {
-    console.log("----Auth not required----");
     next();
   } else {
-    console.log("----Auth required----");
     let token = req.headers["authorization"];
     if (token && token.startsWith("Bearer ")) {
       token = token.slice(7, token.length);

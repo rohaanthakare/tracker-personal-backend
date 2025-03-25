@@ -7,6 +7,7 @@ export const userRoutes = express.Router();
 
 userRoutes.get("/users", UserController.getUsers);
 userRoutes.post("/user", UserController.createUser);
+userRoutes.post("/register_user", UserController.registerUser);
 userRoutes.post("/authenticate", UserController.authenticateUser);
 userRoutes.post("/create-role", RoleController.createRole);
 userRoutes.post("/feature/create-feature", FeatureController.createOrUpdateFeature);

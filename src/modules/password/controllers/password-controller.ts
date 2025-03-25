@@ -8,8 +8,14 @@ import PasswordService from "../services/password-service";
 export default class PasswordController {
     static async getUserPasswords(req: Request, res: Response) {
         try {
+            let userToken = req.tokenData as TokenData;
+            let user_id = userToken.user_id;
             Logger.INFO(PasswordController.name, PasswordController.getUserPasswords.name, "Inside get user passwords");
-            let result = await PasswordModel.findAll();
+            let result = await PasswordModel.findAll({
+                where: {
+                    user_id: user_id
+                }
+            });
             res.status(200).json({
                 data: result,
                 message: "User passwords list fetched successfully"
