@@ -23,7 +23,7 @@ export default class CoreController {
             featureObj.description = "Import application data";
             featureObj.is_active = true;
             featureObj.feature_type = "SIDE_NAV";
-            featureObj.feature_icon = "fa-solid fa-file-import";
+            featureObj.feature_icon = "mdi mdi-file-import";
             featureObj.feature_url = "/user/import-data";
             let newFeature = await FeatureService.createOrUpdateFeature(featureObj);
             // Create Role

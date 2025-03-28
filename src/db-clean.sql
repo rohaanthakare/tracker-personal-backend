@@ -1,8 +1,10 @@
 truncate banks;
 truncate features;
 truncate financial_accounts;
+truncate financial_transactions;
 truncate master_data;
 truncate passwords;
 truncate role_features;
 truncate roles;
 truncate user_accounts;
+truncate user_transactions;

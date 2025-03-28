@@ -4,7 +4,7 @@
     "description": "Dashboard for User",
     "is_active": true,
     "feature_type": "SIDE_NAV",
-    "feature_icon": "fa-solid fa-house",
+    "feature_icon": "mdi mdi-home",
     "feature_url": "/user"
 }, {
     "feature_code": "PASSWORD",
@@ -12,7 +12,7 @@
     "description": "User passwords",
     "is_active": true,
     "feature_type": "SIDE_NAV",
-    "feature_icon": "fa-solid fa-key",
+    "feature_icon": "mdi mdi-key-chain-variant",
     "feature_url": "/user/password"
 }, {
     "feature_code": "PASSWORD_CREATE",
@@ -20,7 +20,7 @@
     "description": "Add new password to tracker",
     "is_active": true,
     "feature_type": "TOOLBAR",
-    "feature_icon": "fa-solid fa-plus",
+    "feature_icon": "mdi mdi-key-plus",
     "feature_url": "/user/password/new",
     "parent_feature": "PASSWORD"
 }, {
@@ -29,7 +29,7 @@
     "description": "View decrypted plain password",
     "is_active": true,
     "feature_type": "ROW_LEVEL",
-    "feature_icon": "fa-regular fa-eye",
+    "feature_icon": "mdi mdi-eye-outline",
     "feature_url": "/user/password/view",
     "parent_feature": "PASSWORD"
 }, {
@@ -38,7 +38,7 @@
     "description": "Edit user password",
     "is_active": true,
     "feature_type": "ROW_LEVEL",
-    "feature_icon": "fa-solid fa-pen-to-square",
+    "feature_icon": "mdi mdi-pencil-circle",
     "feature_url": "/user/password/view",
     "parent_feature": "PASSWORD"
 }, {
@@ -47,7 +47,7 @@
     "description": "Delete user password",
     "is_active": true,
     "feature_type": "ROW_LEVEL",
-    "feature_icon": "fa-solid fa-trash-can",
+    "feature_icon": "mdi mdi-trash-can",
     "feature_url": "/user/password/view",
     "parent_feature": "PASSWORD"
 }, {
@@ -56,14 +56,14 @@
     "description": "Finance Tracker",
     "is_active": true,
     "feature_type": "SIDE_NAV",
-    "feature_icon": "fa-solid fa-indian-rupee-sign"
+    "feature_icon": "mdi mdi-currency-rupee"
 }, {
     "feature_code": "FINANCE_DASHBOARD",
     "feature_name": "Dashboard",
     "description": "Finance Dashboard",
     "is_active": true,
     "feature_type": "SIDE_NAV",
-    "feature_icon": "fa-solid fa-chart-column",
+    "feature_icon": "mdi mdi-finance",
     "feature_url": "/user/finance",
     "parent_feature": "FINANCE"
 }, {
@@ -72,7 +72,7 @@
     "description": "All financial accounts",
     "is_active": true,
     "feature_type": "SIDE_NAV",
-    "feature_icon": "fa-solid fa-building-columns",
+    "feature_icon": "mdi mdi-bank",
     "feature_url": "/user/finance/accounts",
     "parent_feature": "FINANCE"
 }, {
@@ -81,7 +81,7 @@
     "description": "Create new financial account",
     "is_active": true,
     "feature_type": "TOOLBAR",
-    "feature_icon": "fa-solid fa-plus",
+    "feature_icon": "mdi mdi-bank-plus",
     "feature_url": "/user/finance/account/new",
     "parent_feature": "FINANCE_ACCOUNTS"
 }, {
@@ -90,7 +90,7 @@
     "description": "Deposit money into financial account",
     "is_active": true,
     "feature_type": "TOOLBAR",
-    "feature_icon": "fa-solid fa-plus",
+    "feature_icon": "mdi mdi-bank-transfer-in",
     "feature_url": "/user/finance/deposit",
     "parent_feature": "FINANCE_ACCOUNTS"
 }, {
@@ -99,7 +99,7 @@
     "description": "Invest money",
     "is_active": true,
     "feature_type": "TOOLBAR",
-    "feature_icon": "fa-solid fa-plus",
+    "feature_icon": "mdi mdi-bank-transfer-in",
     "feature_url": "/user/finance/invest",
     "parent_feature": "FINANCE_ACCOUNTS"
 }, {
@@ -108,7 +108,7 @@
     "description": "Create new expense",
     "is_active": true,
     "feature_type": "TOOLBAR",
-    "feature_icon": "fa-solid fa-money-bill-trend-up",
+    "feature_icon": "mdi mdi-bank-transfer-out",
     "feature_url": "/user/finance/add_expense",
     "parent_feature": "FINANCE_ACCOUNTS"
 }, {
@@ -117,7 +117,7 @@
     "description": "Fund transfer between financial account",
     "is_active": true,
     "feature_type": "TOOLBAR",
-    "feature_icon": "fa-solid fa-money-bill-transfer",
+    "feature_icon": "mdi mdi-bank-transfer",
     "feature_url": "/user/finance/account/new",
     "parent_feature": "FINANCE_ACCOUNTS"
 }, {
@@ -126,7 +126,7 @@
     "description": "All financial transaction",
     "is_active": true,
     "feature_type": "SIDE_NAV",
-    "feature_icon": "fa-regular fa-rectangle-list",
+    "feature_icon": "mdi mdi-receipt-text",
     "feature_url": "/user/finance/passbook",
     "parent_feature": "FINANCE"
 }, {
@@ -135,7 +135,7 @@
     "description": "All financial investments",
     "is_active": true,
     "feature_type": "SIDE_NAV",
-    "feature_icon": "fa-solid fa-circle-dollar-to-slot",
+    "feature_icon": "mdi mdi-piggy-bank",
     "feature_url": "/user/finance/investments",
     "parent_feature": "FINANCE"
 }, {
@@ -144,7 +144,7 @@
     "description": "Start New Investment",
     "is_active": true,
     "feature_type": "TOOLBAR",
-    "feature_icon": "fa-solid fa-money-bill-trend-up",
+    "feature_icon": "mdi mdi-piggy-bank",
     "feature_url": "/user/finance/new_investment",
     "parent_feature": "FINANCE_INVESTMENTS"
 }, {
@@ -153,7 +153,7 @@
     "description": "Invest Money",
     "is_active": true,
     "feature_type": "TOOLBAR",
-    "feature_icon": "fa-solid fa-money-bill-trend-up",
+    "feature_icon": "mdi mdi-cash-plus",
     "feature_url": "/user/finance/invest_money",
     "parent_feature": "FINANCE_INVESTMENTS"
 }, {
@@ -162,7 +162,7 @@
     "description": "Close Investment",
     "is_active": true,
     "feature_type": "TOOLBAR",
-    "feature_icon": "fa-solid fa-money-bill-trend-up",
+    "feature_icon": "mdi mdi-cash-remove",
     "feature_url": "/user/finance/close_investment",
     "parent_feature": "FINANCE_INVESTMENTS"
 }, {
@@ -171,7 +171,7 @@
     "description": "Financial profile used for setting budget, account threshold balance",
     "is_active": true,
     "feature_type": "SIDE_NAV",
-    "feature_icon": "fa-solid fa-id-card",
+    "feature_icon": "mdi mdi-account-cash",
     "feature_url": "/user/finance/profile",
     "parent_feature": "FINANCE"
 }, {
@@ -180,6 +180,6 @@
     "description": "User tasks",
     "is_active": true,
     "feature_type": "SIDE_NAV",
-    "feature_icon": "fa-solid fa-list-check",
+    "feature_icon": "mdi mdi-clipboard-list",
     "feature_url": "/user/task"
 }]
