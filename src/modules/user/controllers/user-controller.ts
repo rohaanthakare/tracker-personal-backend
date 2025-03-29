@@ -17,6 +17,7 @@ export default class UserController {
         "Inside get users list"
       );
       let result = await UserAccountModel.findAll();
+      result = result.map((r) => r.toJSON());
       res.status(200).json({
         data: result,
         message: "User list fetched successfully",

@@ -20,6 +20,7 @@ export default class PasswordController {
           user_id: user_id,
         },
       });
+      result = result.map((r) => r.toJSON());
       res.status(200).json({
         data: result,
         message: "User passwords list fetched successfully",

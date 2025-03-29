@@ -29,6 +29,7 @@ export default class RoleDataAccessor {
           role_id: roleId,
         },
       });
+      roleFeatures = roleFeatures.map((rf) => rf.toJSON()); 
       let featureIds: number[] = [];
       roleFeatures.forEach((rf) => {
         featureIds.push(rf.feature_id);
@@ -41,6 +42,7 @@ export default class RoleDataAccessor {
           },
         },
       });
+      features = features.map((rf) => rf.toJSON()); 
       return features;
     } catch (err: any) {
       Logger.ERROR(

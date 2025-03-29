@@ -49,6 +49,7 @@ export default class FinanceController {
         "Inside create Bank"
       );
       let result = await BankModel.findAll();
+      result = result.map((r) => r.toJSON());
       res.status(200).json({
         message: "Banks list fetched successfully",
         data: result,
@@ -143,7 +144,7 @@ export default class FinanceController {
           user_id: userToken.user_id,
         },
       });
-
+      result = result.map((r) => r.toJSON());
       res.status(200).json({
         message: "Financial account created successfully",
         data: result,

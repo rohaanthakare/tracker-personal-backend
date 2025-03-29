@@ -26,11 +26,13 @@ export default class MasterDataDataAccessor {
           code: parentCode,
         },
       });
+      let parentDataObj = parentData?.toJSON();
       let result = await MasterDataModel.findAll({
         where: {
-          parent_data_id: parentData?.id,
+          parent_data_id: parentDataObj.id,
         },
       });
+      result = result.map((r) => r.toJSON());
       return result;
     } catch (err: any) {
       Logger.ERROR(
