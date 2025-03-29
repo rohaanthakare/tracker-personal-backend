@@ -1,14 +1,20 @@
 import { Request, Response } from "express";
 import { Logger } from "../../../logger";
-import BankModel from "../models/bank.model";
+import { BankModel, IBankModel } from "../models/bank.model";
 import FinanceDataAccessor from "../data-accessors/finance.data-accessor";
-import FinancialTransactionModel from "../models/financial-transaction.model";
-import UserTransactionModel from "../models/user-transaction.model";
+import {
+  FinancialTransactionModel,
+  IFinancialTransactionModel,
+} from "../models/financial-transaction.model";
+import {
+  IUserTransactionModel,
+  UserTransactionModel,
+} from "../models/user-transaction.model";
 import MasterDataDataAccessor from "../../master-data/data-accessors/master-data-data-accessor";
-import FinancialAccountModel from "../models/financial-account.model";
+import { FinancialAccountModel } from "../models/financial-account.model";
 
 export default class FinanceService {
-  static async createOrUpdateBank(bankInputModel: BankModel) {
+  static async createOrUpdateBank(bankInputModel: IBankModel) {
     try {
       Logger.INFO(
         FinanceService.name,
@@ -16,23 +22,23 @@ export default class FinanceService {
         "Inside create Bank"
       );
       let bank;
-      const bankDetails = bankInputModel.dataValues;
+      const bankDetails: IBankModel = bankInputModel;
       let bankDetailRecord = await FinanceDataAccessor.getBankByBankCode(
-        bankDetails.bank_code
+        bankDetails.bank_code as string
       );
-      if (bankDetailRecord?.dataValues) {
-        bankDetails.id = bankDetailRecord.dataValues.id;
+      if (bankDetailRecord) {
+        bankDetails.id = bankDetailRecord.id;
         let result = await BankModel.update(bankDetails, {
           where: {
-            id: bankDetailRecord.dataValues.id,
+            id: bankDetailRecord.id,
           },
         });
 
         if (result.length > 0 && result[0] > 0) {
-          bank = await BankModel.findByPk(bankDetailRecord.dataValues.id);
+          bank = await BankModel.findByPk(bankDetailRecord.id);
         }
       } else {
-        bank = await BankModel.create(bankDetails);
+        bank = await BankModel.create(bankInputModel as any);
       }
       return bank;
     } catch (err: any) {
@@ -52,8 +58,7 @@ export default class FinanceService {
         FinanceService.createFinancialTransaction.name,
         "Inside create financial transaction"
       );
-      let accountTransModel: FinancialTransactionModel =
-        new FinancialTransactionModel();
+      let accountTransModel: IFinancialTransactionModel = {};
       accountTransModel.account_id = accountTransDetailsInput.account;
       let accountTransType = await MasterDataDataAccessor.getMasterDataByCode(
         accountTransDetailsInput.finance_trans_type
@@ -67,7 +72,7 @@ export default class FinanceService {
       accountTransModel.user_id = accountTransDetailsInput.user_id;
       accountTransModel.user_trans_id = accountTransDetailsInput.user_trans_id;
       let accountTransDetails = await FinancialTransactionModel.create(
-        accountTransModel.dataValues
+        accountTransModel as any
       );
       return accountTransDetails;
     } catch (err: any) {
@@ -87,8 +92,7 @@ export default class FinanceService {
         FinanceService.createUserTransaction.name,
         "Inside create user transaction"
       );
-      let userTransactionModel: UserTransactionModel =
-        new UserTransactionModel();
+      let userTransactionModel: IUserTransactionModel = {};
       userTransactionModel.transaction_amount =
         userTransDetailsInput.transaction_amount;
       let transType = await MasterDataDataAccessor.getMasterDataByCode(
@@ -104,7 +108,7 @@ export default class FinanceService {
         userTransDetailsInput.transaction_description;
       userTransactionModel.user_id = userTransDetailsInput.user_id;
       let userTransDetails = await UserTransactionModel.create(
-        userTransactionModel.dataValues
+        userTransactionModel as any
       );
       return userTransDetails;
     } catch (err: any) {
@@ -127,23 +131,24 @@ export default class FinanceService {
       let accountDetails = await FinancialAccountModel.findByPk(
         transDetails.account
       );
+      let accountDetailsObj = accountDetails?.toJSON();
       let newAccountBalance = 0;
       if (transDetails.finance_trans_type === "CREDIT_MONEY") {
         // Add to balance
         newAccountBalance =
-          accountDetails?.account_balance + transDetails.transaction_amount;
-      } else if(accountDetails) {
+          accountDetailsObj?.account_balance + transDetails.transaction_amount;
+      } else if (accountDetailsObj) {
         // Remove from balance
         newAccountBalance =
-          accountDetails?.account_balance - transDetails.transaction_amount;
+          accountDetailsObj?.account_balance - transDetails.transaction_amount;
       }
-      if (accountDetails) {
-        accountDetails.dataValues.account_balance = newAccountBalance;
+      if (accountDetailsObj) {
+        accountDetailsObj.account_balance = newAccountBalance;
         let newAccountDetails = await FinancialAccountModel.update(
-          accountDetails.dataValues,
+          accountDetailsObj,
           {
             where: {
-              id: accountDetails.id,
+              id: accountDetailsObj.id,
             },
           }
         );

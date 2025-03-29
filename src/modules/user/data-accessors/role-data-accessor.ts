@@ -1,8 +1,8 @@
 import { Op } from "sequelize";
 import { Logger } from "../../../logger";
-import FeatureModel from "../models/feature.model";
-import RoleFeatureModel from "../models/role-feature.model";
-import RoleModel from "../models/role.model";
+import { FeatureModel } from "../models/feature.model";
+import { RoleFeatureModel } from "../models/role-feature.model";
+import { RoleModel } from "../models/role.model";
 
 export default class RoleDataAccessor {
   static async getRoleByRoleCode(roleCode: string) {
@@ -12,7 +12,7 @@ export default class RoleDataAccessor {
           role_code: roleCode,
         },
       });
-      return result?.dataValues;
+      return result?.toJSON();
     } catch (err: any) {
       Logger.ERROR(
         RoleDataAccessor.name,

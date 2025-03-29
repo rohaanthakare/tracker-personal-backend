@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import * as bcrypt from "bcrypt";
 import { Logger } from "../../../logger";
-import UserAccountModel from "../models/user-account.model";
+import { UserAccountModel } from "../models/user-account.model";
 import UserService from "../services/user-service";
 import RoleDataAccessor from "../data-accessors/role-data-accessor";
 import UserWorkflows from "../workflows/user-workflows";
@@ -35,7 +35,7 @@ export default class UserController {
       userBody.current_role = roleObj?.id;
       userBody.password = bcrypt.hashSync(userBody.password, 10);
       let result = await UserAccountModel.create(userBody);
-      let newUser = result.dataValues;
+      let newUser = result.toJSON();
       Logger.INFO(
         UserController.name,
         UserController.createUser.name,

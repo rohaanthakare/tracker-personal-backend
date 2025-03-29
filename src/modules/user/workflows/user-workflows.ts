@@ -1,42 +1,48 @@
 import * as bcrypt from "bcrypt";
 import { Logger } from "../../../logger";
 import UserDataAccessor from "../data-accessors/user-data-accessor";
-import UserAccountModel from "../models/user-account.model";
+import {
+  IUserAccountModel,
+  UserAccountModel,
+} from "../models/user-account.model";
 import RoleDataAccessor from "../data-accessors/role-data-accessor";
 
 export default class UserWorkflows {
-  static async registerUserWorkflow(userDetails: any) {
+  static async registerUserWorkflow(userDetails: IUserAccountModel) {
     try {
       // Check for duplicate username
       let userAccount = await UserDataAccessor.getUserAccountByUsername(
-        userDetails.username
+        userDetails.username as string
       );
       if (userAccount) {
         throw `Username already exists`;
       }
 
       userAccount = await UserDataAccessor.getUserAccountByEmail(
-        userDetails.email
+        userDetails.email as string
       );
       if (userAccount) {
         throw `Email already exists`;
       }
 
       userAccount = await UserDataAccessor.getUserAccountByMobileNo(
-        userDetails.mobile_no
+        userDetails.mobile_no as number
       );
       if (userAccount) {
         throw `Mobile No. already exists`;
       }
-      userDetails.password = bcrypt.hashSync(userDetails.password, 10);
+      userDetails.password = bcrypt.hashSync(
+        userDetails.password as string,
+        10
+      );
       let roleDetails = await RoleDataAccessor.getRoleByRoleCode(
         "TRACKER_USER"
       );
       userDetails.current_role = roleDetails.id;
-      let newUserAccount: any = await UserAccountModel.create(userDetails);
-      newUserAccount = newUserAccount?.dataValues;
-      delete newUserAccount.password;
-      return newUserAccount;
+      let newUserAccount = await UserAccountModel.create(userDetails as any);
+      let newUserAccountObj = newUserAccount?.toJSON();
+      delete newUserAccountObj.password;
+      return newUserAccountObj;
     } catch (err: any) {
       Logger.ERROR(
         UserWorkflows.name,

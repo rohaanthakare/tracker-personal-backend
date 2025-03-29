@@ -148,7 +148,7 @@
     "feature_url": "/user/finance/new_investment",
     "parent_feature": "FINANCE_INVESTMENTS"
 }, {
-    "feature_code": "INVEST_MONEY",
+    "feature_code": "INVEST_MONEY_1",
     "feature_name": "Invest Money",
     "description": "Invest Money",
     "is_active": true,

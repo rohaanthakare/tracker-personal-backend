@@ -45,7 +45,7 @@
     "feature_code": "START_INVESTMENT"
 }, {
     "role_code": "TRACKER_USER",
-    "feature_code": "INVEST_MONEY"
+    "feature_code": "INVEST_MONEY_1"
 }, {
     "role_code": "TRACKER_USER",
     "feature_code": "CLOSE_INVESTMENT"

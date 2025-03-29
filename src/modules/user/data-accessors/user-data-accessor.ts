@@ -1,5 +1,5 @@
 import { Logger } from "../../../logger";
-import UserAccountModel from "../models/user-account.model";
+import { UserAccountModel } from "../models/user-account.model";
 
 export default class UserDataAccessor {
   static async getUserAccountByEmail(email: string) {
@@ -10,7 +10,7 @@ export default class UserDataAccessor {
         },
       });
 
-      return userAccount?.dataValues;
+      return userAccount?.toJSON();
     } catch (err: any) {
       Logger.ERROR(
         UserDataAccessor.name,
@@ -29,7 +29,7 @@ export default class UserDataAccessor {
         },
       });
 
-      return userAccount?.dataValues;
+      return userAccount?.toJSON();
     } catch (err: any) {
       Logger.ERROR(
         UserDataAccessor.name,
@@ -40,15 +40,15 @@ export default class UserDataAccessor {
     }
   }
 
-  static getUserAccountByMobileNo(mobileNo: number) {
+  static async getUserAccountByMobileNo(mobileNo: number) {
     try {
-      let userAccount = UserAccountModel.findOne({
+      let userAccount = await UserAccountModel.findOne({
         where: {
           mobile_no: mobileNo,
         },
       });
 
-      return userAccount;
+      return userAccount?.toJSON();
     } catch (err: any) {
       Logger.ERROR(
         UserDataAccessor.name,

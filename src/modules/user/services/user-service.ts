@@ -1,14 +1,17 @@
 import * as bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import UserAccountModel from "../models/user-account.model";
+import {
+  IUserAccountModel,
+  UserAccountModel,
+} from "../models/user-account.model";
 import { Logger } from "../../../logger";
-import RoleModel from "../models/role.model";
+
 export default class UserService {
   static LOGGER_NAME = "UserService";
-  static async createUserAccount(userDetails: UserAccountModel) {
+  static async createUserAccount(userDetails: IUserAccountModel) {
     try {
-      let result = await UserAccountModel.create(userDetails.dataValues);
-      return result.dataValues;
+      let result = await UserAccountModel.create(userDetails as any);
+      return result.toJSON();
     } catch (error: any) {
       Logger.ERROR(UserService.name, UserService.createUserAccount.name, error);
       throw error;
@@ -22,16 +25,20 @@ export default class UserService {
           username: userCred.username,
         },
       });
-      if (result) {
-        const res = bcrypt.compareSync(userCred.password, result?.password);
+      let userAccount = result?.toJSON();
+      if (userAccount) {
+        const res = bcrypt.compareSync(
+          userCred.password,
+          userAccount?.password
+        );
         if (res) {
           // Generate JWT Token
           const user_data = {
-            user_id: result.id,
-            username: result.username,
-            current_role: result.current_role,
-            email: result.email,
-            mobile_no: result.mobile_no,
+            user_id: userAccount.id,
+            username: userAccount.username,
+            current_role: userAccount.current_role,
+            email: userAccount.email,
+            mobile_no: userAccount.mobile_no,
           };
           const user_token = jwt.sign(
             user_data,
@@ -41,7 +48,7 @@ export default class UserService {
               expiresIn: "7d",
             }
           );
-          return { token: user_token, username: result.username };
+          return { token: user_token, username: userAccount.username };
         } else {
           throw `Incorrect password, forgot password ?`;
         }

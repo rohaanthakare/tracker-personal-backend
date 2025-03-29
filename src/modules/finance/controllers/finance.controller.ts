@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import { Logger } from "../../../logger";
-import BankModel from "../models/bank.model";
+import { BankModel, IBankModel } from "../models/bank.model";
 import FinanceService from "../services/finance.service";
-import FinancialAccountModel, {
-  FinancialAccount,
+import {
+  FinancialAccountModel,
+  IFinancialAccountModel,
 } from "../models/financial-account.model";
 import { TokenData } from "../../../../types/express";
 import QueryHelper from "../../query-helper";
@@ -19,7 +20,7 @@ export default class FinanceController {
         "Inside create Bank"
       );
       let reqBody = req.body;
-      let bank: BankModel = new BankModel();
+      let bank: IBankModel = {};
       bank.bank_code = reqBody.bank_code;
       bank.name = reqBody.name;
       bank.bank_logo = reqBody.bank_logo;
@@ -73,15 +74,14 @@ export default class FinanceController {
       );
       let reqBody = req.body;
       let userToken = req.tokenData as TokenData;
-      let financeAccountModel: FinancialAccountModel =
-        new FinancialAccountModel();
+      let financeAccountModel: IFinancialAccountModel = {};
       financeAccountModel.name = reqBody.name;
       financeAccountModel.account_type = reqBody.account_type;
       financeAccountModel.bank_id = reqBody.bank;
       financeAccountModel.account_balance = 0;
       financeAccountModel.user_id = userToken.user_id;
       let result = await FinancialAccountModel.create(
-        financeAccountModel.dataValues
+        financeAccountModel as any
       );
 
       res.status(201).json({
@@ -211,9 +211,9 @@ export default class FinanceController {
               and trans_sub_cat.id = ut.transation_sub_category 
               and ut.user_id = (:userid)
             order by ft.transaction_date desc`;
-            
+
       let queryParams = {
-        userid: userToken.user_id
+        userid: userToken.user_id,
       };
       let result = await QueryHelper.executeGetQuery(query, queryParams);
       res.status(200).json({

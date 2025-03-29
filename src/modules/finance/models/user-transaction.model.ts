@@ -1,7 +1,17 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
 import dbconnection from "../../../app-db";
 
-export default class UserTransactionModel extends Model {
+export interface IUserTransactionModel {
+  id?: number;
+  transaction_amount?: number;
+  transation_category?: number;
+  transation_sub_category?: number;
+  transaction_date?: Date;
+  transaction_description?: string;
+  user_id?: number;
+}
+
+export class UserTransactionModel extends Model {
   id!: number;
   transaction_amount!: number;
   transation_category!: number;
