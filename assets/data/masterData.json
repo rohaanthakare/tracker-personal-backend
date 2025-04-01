@@ -326,4 +326,204 @@
     "data_icon": "",
     "is_active": true,
     "parent_data": "FUND_TRANSFER_CATEGORY"
+}, {
+    "code": "INVESTMENT_TYPE",
+    "name": "Investment Type",
+    "description": "Investment Type",
+    "data_icon": "",
+    "is_active": true
+}, {
+    "code": "MUTUAL_FUND",
+    "name": "Mutual fund",
+    "description": "Mutual fund",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TYPE"
+}, {
+    "code": "FIXED_DEPOSITS",
+    "name": "Fixed deposits (FD)",
+    "description": "Fixed deposits (FD)",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TYPE"
+}, {
+    "code": "PUBLIC_PROVIDENT_FUND",
+    "name": "Public Provident Fund (PPF)",
+    "description": "Public Provident Fund (PPF)",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TYPE"
+}, {
+    "code": "NATIONAL_PENSION_SCHEME",
+    "name": "National Pension scheme (NPS)",
+    "description": "National Pension scheme (NPS)",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TYPE"
+}, {
+    "code": "REAL_ESTATE",
+    "name": "Real Estate",
+    "description": "Real Estate",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TYPE"
+}, {
+    "code": "STOCK_MARKET",
+    "name": "Stock market",
+    "description": "Stock market",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TYPE"
+}, {
+    "code": "SENIOR_CITIZEN_SAVING_SCHEME",
+    "name": "Senior Citizen Saving Scheme",
+    "description": "Senior Citizen Saving Scheme",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TYPE"
+}, {
+    "code": "GOLD",
+    "name": "Gold",
+    "description": "Gold",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TYPE"
+}, {
+    "code": "EQUITY_FUNDS",
+    "name": "Equity funds",
+    "description": "Equity funds",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TYPE"
+}, {
+    "code": "NATIONAL_SAVINGS_CERTIFICATE",
+    "name": "National savings certificate (NSC)",
+    "description": "National savings certificate (NSC)",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TYPE"
+}, {
+    "code": "POST_OFFICE_SAVING_SCHEME",
+    "name": "Post office saving Scheme",
+    "description": "Post office saving Scheme",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TYPE"
+}, {
+    "code": "DIRECT_EQUITY",
+    "name": "Direct equity",
+    "description": "Direct equity",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TYPE"
+}, {
+    "code": "LIQUID_FUNDS",
+    "name": "Liquid funds",
+    "description": "Liquid funds",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TYPE"
+}, {
+    "code": "SUKANYA_SAMRIDDHI_ACCOUNT",
+    "name": "Sukanya Samriddhi account",
+    "description": "Sukanya Samriddhi account",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TYPE"
+}, {
+    "code": "GOLD_BONDS",
+    "name": "Gold Bonds",
+    "description": "Gold Bonds",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TYPE"
+}, {
+    "code": "INVESTMENT_INSURANCE",
+    "name": "Insurance",
+    "description": "Insurance",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TYPE"
+}, {
+    "code": "RETIREMENT",
+    "name": "Retirement",
+    "description": "Retirement",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TYPE"
+}, {
+    "code": "Cash_investment",
+    "name": "Cash investment",
+    "description": "Cash investment",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TYPE"
+}, {
+    "code": "CHILD_PLANS",
+    "name": "Child plans",
+    "description": "Child plans",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TYPE"
+}, {
+    "code": "RECURRING_DEPOSIT",
+    "name": "Recurring Deposit (RD)",
+    "description": "Recurring Deposit (RD)",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TYPE"
+}, {
+    "code": "SYSTEMATIC_INVESTMENT_PLAN",
+    "name": "Systematic Investment Plan (SIP)",
+    "description": "Systematic Investment Plan (SIP)",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TYPE"
+}, {
+    "code": "INVESTMENT_STATUS",
+    "name": "Investment Status",
+    "description": "Investment Status",
+    "data_icon": "",
+    "is_active": true
+}, {
+    "code": "INVESTMENT_ACTIVE",
+    "name": "Active",
+    "description": "Active",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_STATUS"
+}, {
+    "code": "INVESTMENT_CLOSED",
+    "name": "Closed",
+    "description": "Closed",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_STATUS"
+}, {
+    "code": "INVESTMENT_TRANS_TYPE",
+    "name": "Investment Transaction Type",
+    "description": "Investment Transaction Type",
+    "data_icon": "",
+    "is_active": true
+}, {
+    "code": "INVEST_MONEY",
+    "name": "Invest Money",
+    "description": "Invest Money",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TRANS_TYPE"
+}, {
+    "code": "WIHTDRAW_INVESTMENT_MONEY",
+    "name": "Withdraw Invest Money",
+    "description": "Withdraw Invest Money",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TRANS_TYPE"
+}, {
+    "code": "CLOSE_INVESTMENT",
+    "name": "Close Investment",
+    "description": "Close Investment",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "INVESTMENT_TRANS_TYPE"
 }]

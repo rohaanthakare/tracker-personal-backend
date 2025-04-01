@@ -4,7 +4,7 @@ import dbconnection from "../../../app-db";
 export interface IFinancialTransactionModel {
   id?: number;
   account_id?: number;
-  transation_type?: number;
+  transaction_type?: number;
   transaction_amount?: number;
   transaction_date?: Date;
   user_id?: number;
@@ -14,7 +14,7 @@ export interface IFinancialTransactionModel {
 export class FinancialTransactionModel extends Model {
   id!: number;
   account_id!: number;
-  transation_type!: number;
+  transaction_type!: number;
   transaction_amount!: number;
   transaction_date!: Date;
   user_id!: number;
@@ -32,7 +32,7 @@ export const FinancialTransaction = (sequelize: Sequelize) => {
       account_id: {
         type: DataTypes.INTEGER,
       },
-      transation_type: {
+      transaction_type: {
         type: DataTypes.INTEGER,
       },
       transaction_amount: {

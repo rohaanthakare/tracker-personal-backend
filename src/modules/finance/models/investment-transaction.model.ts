@@ -8,6 +8,7 @@ export interface IInvestmentTransactionModel {
   transaction_desc?: string;
   transaction_type?: number;
   investment_id?: number;
+  user_trans_id?: number;
   user_id?: number;
 }
 
@@ -18,6 +19,7 @@ export class InvestmentTransactionModel extends Model {
   transaction_desc!: string;
   transaction_type!: number;
   investment_id!: number;
+  user_trans_id!: number;
   user_id!: number;
 }
 
@@ -42,6 +44,9 @@ export const InvestmentTransaction = (sequelize: Sequelize) => {
         type: DataTypes.INTEGER,
       },
       investment_id: {
+        type: DataTypes.INTEGER,
+      },
+      user_trans_id: {
         type: DataTypes.INTEGER,
       },
       user_id: {

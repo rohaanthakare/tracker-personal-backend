@@ -11,3 +11,7 @@ financeRoutes.post("/finance/deposit-money", FinanceController.depositMoney);
 financeRoutes.post("/finance/add-expense", FinanceController.addExpense);
 financeRoutes.post("/finance/transfer-money", FinanceController.transferMoney);
 financeRoutes.get("/finance/financial-passbook", FinanceController.getFinancialPassbook);
+financeRoutes.get("/finance/investments", FinanceController.getFinancialInvestments);
+financeRoutes.get("/finance/all-investments", FinanceController.getAllFinancialInvestments);
+financeRoutes.post("/finance/investment", FinanceController.createInvestment);
+financeRoutes.post("/finance/invest-money", FinanceController.investMoney);

@@ -10,6 +10,7 @@ import { TokenData } from "../../../../types/express";
 import QueryHelper from "../../query-helper";
 import FinanceWorkflow from "../workflows/finance.workflow";
 import MasterDataDataAccessor from "../../master-data/data-accessors/master-data-data-accessor";
+import { IInvestmentModel, InvestmentModel } from "../models/investment.model";
 
 export default class FinanceController {
   static async createOrUpdateBank(req: Request, res: Response) {
@@ -207,7 +208,7 @@ export default class FinanceController {
             from financial_transactions ft, user_transactions ut, financial_accounts fa, master_data trans_type, master_data trans_cat, master_data trans_sub_cat 
             where ft.user_trans_id = ut.id 
               and ft.account_id = fa.id 
-              and trans_type.id = ft.transation_type 
+              and trans_type.id = ft.transaction_type 
               and trans_cat.id = ut.transation_category 
               and trans_sub_cat.id = ut.transation_sub_category 
               and ut.user_id = (:userid)
@@ -283,6 +284,142 @@ export default class FinanceController {
       Logger.ERROR(
         FinanceController.name,
         FinanceController.transferMoney.name,
+        err
+      );
+      res.status(500).json({
+        message: err,
+      });
+    }
+  }
+
+  static async getFinancialInvestments(req: Request, res: Response) {
+    try {
+      Logger.INFO(
+        FinanceController.name,
+        FinanceController.getFinancialInvestments.name,
+        "Inside get invesments"
+      );
+      let userToken = req.tokenData as TokenData;
+      let query = `select i.*, inv_tp.code as investment_type_code, inv_tp.name as investment_type_display,
+        inv_stat.code as investment_status_code, inv_stat.name as investment_status_display from investments i, 
+        master_data inv_tp,
+        master_data inv_stat
+        where inv_tp.id = i.investment_type
+        and inv_stat.id = i.investment_status
+        and i.user_id = (:userid)`;
+
+      let queryParams = {
+        userid: userToken.user_id,
+      };
+      let result = await QueryHelper.executeGetQuery(query, queryParams);
+      res.status(200).json({
+        message: "Invesment fetched successfully",
+        result,
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceController.name,
+        FinanceController.addExpense.name,
+        err
+      );
+      res.status(500).json({
+        message: err,
+      });
+    }
+  }
+
+  static async createInvestment(req: Request, res: Response) {
+    try {
+      Logger.INFO(
+        FinanceController.name,
+        FinanceController.createInvestment.name,
+        "Inside create investment"
+      );
+
+      let investmentStatusData =
+        await MasterDataDataAccessor.getMasterDataByCode("INVESTMENT_ACTIVE");
+      let userToken = req.tokenData as TokenData;
+      let investmentObj: IInvestmentModel = {};
+      investmentObj.name = req.body.name;
+      investmentObj.investment_type = req.body.investment_type;
+      investmentObj.investment_amount = 0;
+      investmentObj.investment_maturity_amount = 0;
+      investmentObj.is_investment_has_locking = req.body
+        .is_investment_has_locking
+        ? req.body.is_investment_has_locking
+        : false;
+      investmentObj.user_id = userToken.user_id;
+      investmentObj.investment_start_date = req.body.investment_start_date;
+      investmentObj.investment_status = investmentStatusData.id;
+      let result = await InvestmentModel.create(investmentObj as any);
+      res.status(201).json({
+        message: "Invesment created successfully",
+        data: result,
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceController.name,
+        FinanceController.addExpense.name,
+        err
+      );
+      res.status(500).json({
+        message: err,
+      });
+    }
+  }
+
+  static async investMoney(req: Request, res: Response) {
+    try {
+      Logger.INFO(
+        FinanceController.name,
+        FinanceController.investMoney.name,
+        "Inside invest money"
+      );
+
+      let investmentTransDetails = req.body;
+      let userToken = req.tokenData as TokenData;
+      investmentTransDetails.user_id = userToken.user_id;
+      let result = await FinanceWorkflow.investMoneyWorkflow(
+        investmentTransDetails
+      );
+      res.status(201).json({
+        message: "Money Invested successfully",
+        data: result,
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceController.name,
+        FinanceController.investMoney.name,
+        err
+      );
+      res.status(500).json({
+        message: err,
+      });
+    }
+  }
+
+  static async getAllFinancialInvestments(req: Request, res: Response) {
+    try {
+      Logger.INFO(
+        FinanceController.name,
+        FinanceController.getAllFinancialInvestments.name,
+        "Inside get all investments"
+      );
+      let userToken = req.tokenData as TokenData;
+      let result = await InvestmentModel.findAll({
+        where: {
+          user_id: userToken.user_id,
+        },
+      });
+      result = result.map((r) => r.toJSON());
+      res.status(200).json({
+        message: "Financial investments fetched successfully",
+        data: result,
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceController.name,
+        FinanceController.getAllFinancialInvestments.name,
         err
       );
       res.status(500).json({

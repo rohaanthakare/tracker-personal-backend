@@ -12,6 +12,11 @@ import {
 } from "../models/user-transaction.model";
 import MasterDataDataAccessor from "../../master-data/data-accessors/master-data-data-accessor";
 import { FinancialAccountModel } from "../models/financial-account.model";
+import {
+  IInvestmentTransactionModel,
+  InvestmentTransactionModel,
+} from "../models/investment-transaction.model";
+import { InvestmentModel } from "../models/investment.model";
 
 export default class FinanceService {
   static async createOrUpdateBank(bankInputModel: IBankModel) {
@@ -63,7 +68,7 @@ export default class FinanceService {
       let accountTransType = await MasterDataDataAccessor.getMasterDataByCode(
         accountTransDetailsInput.finance_trans_type
       );
-      accountTransModel.transation_type = accountTransType?.id as number;
+      accountTransModel.transaction_type = accountTransType?.id as number;
       accountTransModel.transaction_amount =
         accountTransDetailsInput.transaction_amount;
       accountTransModel.transaction_date = new Date(
@@ -121,6 +126,45 @@ export default class FinanceService {
     }
   }
 
+  static async createInvestmentTransaction(investmentTransDetailsInput: any) {
+    try {
+      Logger.INFO(
+        FinanceService.name,
+        FinanceService.createInvestmentTransaction.name,
+        "Inside create investment transaction"
+      );
+      let investmentTransModel: IInvestmentTransactionModel = {};
+      investmentTransModel.investment_id =
+        investmentTransDetailsInput.investment;
+      let investmentTransType =
+        await MasterDataDataAccessor.getMasterDataByCode(
+          investmentTransDetailsInput.investment_trans_type
+        );
+      investmentTransModel.transaction_type = investmentTransType?.id as number;
+      investmentTransModel.transaction_amount =
+        investmentTransDetailsInput.transaction_amount;
+      investmentTransModel.transaction_date = new Date(
+        investmentTransDetailsInput.transaction_date
+      );
+      investmentTransModel.user_id = investmentTransDetailsInput.user_id;
+      investmentTransModel.transaction_desc =
+        investmentTransDetailsInput.transaction_description;
+      investmentTransModel.user_trans_id =
+        investmentTransDetailsInput.user_trans_id;
+      let accountTransDetails = await InvestmentTransactionModel.create(
+        investmentTransModel as any
+      );
+      return accountTransDetails;
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceService.name,
+        FinanceService.createInvestmentTransaction.name,
+        err
+      );
+      throw err;
+    }
+  }
+
   static async updateAccountBalance(transDetails: any) {
     try {
       Logger.INFO(
@@ -158,6 +202,50 @@ export default class FinanceService {
       Logger.ERROR(
         FinanceService.name,
         FinanceService.updateAccountBalance.name,
+        err
+      );
+      throw err;
+    }
+  }
+
+  static async updateInvestmentAmount(transDetails: any) {
+    try {
+      Logger.INFO(
+        FinanceService.name,
+        FinanceService.updateInvestmentAmount.name,
+        "Inside update investment amount"
+      );
+      let investmentDetails = await InvestmentModel.findByPk(
+        transDetails.investment
+      );
+      let investmentDetailsObj = investmentDetails?.toJSON();
+      let newInvestmentAmount = 0;
+      if (transDetails.investment_trans_type === "INVEST_MONEY") {
+        // Add to balance
+        console.log("INVEST----->", investmentDetailsObj?.investment_amount);
+        console.log("INVEST----->", transDetails.transaction_amount);
+        newInvestmentAmount =
+          investmentDetailsObj?.investment_amount +
+          transDetails.transaction_amount;
+      }
+      if (investmentDetailsObj) {
+        console.log("NEW-INVEST----->", newInvestmentAmount);
+        investmentDetailsObj.investment_amount = newInvestmentAmount;
+        console.log("NEW-INVEST----->", newInvestmentAmount);
+        let newInvestmentDetails = await InvestmentModel.update(
+          investmentDetailsObj,
+          {
+            where: {
+              id: investmentDetailsObj.id,
+            },
+          }
+        );
+        return newInvestmentDetails;
+      }
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceService.name,
+        FinanceService.updateInvestmentAmount.name,
         err
       );
       throw err;
