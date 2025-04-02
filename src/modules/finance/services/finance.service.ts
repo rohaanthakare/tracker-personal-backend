@@ -11,7 +11,7 @@ import {
   UserTransactionModel,
 } from "../models/user-transaction.model";
 import MasterDataDataAccessor from "../../master-data/data-accessors/master-data-data-accessor";
-import { FinancialAccountModel } from "../models/financial-account.model";
+import { FinancialAccountModel, IFinancialAccountModel } from "../models/financial-account.model";
 import {
   IInvestmentTransactionModel,
   InvestmentTransactionModel,
@@ -180,11 +180,11 @@ export default class FinanceService {
       if (transDetails.finance_trans_type === "CREDIT_MONEY") {
         // Add to balance
         newAccountBalance =
-          accountDetailsObj?.account_balance + transDetails.transaction_amount;
+          parseFloat(accountDetailsObj?.account_balance) + transDetails.transaction_amount;
       } else if (accountDetailsObj) {
         // Remove from balance
         newAccountBalance =
-          accountDetailsObj?.account_balance - transDetails.transaction_amount;
+          parseFloat(accountDetailsObj?.account_balance) - transDetails.transaction_amount;
       }
       if (accountDetailsObj) {
         accountDetailsObj.account_balance = newAccountBalance;

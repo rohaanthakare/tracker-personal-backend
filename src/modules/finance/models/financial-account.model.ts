@@ -44,7 +44,7 @@ export const FinancialAccount = (sequelize: Sequelize) => {
         type: DataTypes.INTEGER,
       },
       account_balance: {
-        type: DataTypes.FLOAT,
+        type: DataTypes.DECIMAL(10, 2),
       },
       threshold_balance: {
         type: DataTypes.FLOAT,
