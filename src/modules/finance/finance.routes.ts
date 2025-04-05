@@ -15,3 +15,4 @@ financeRoutes.get("/finance/investments", FinanceController.getFinancialInvestme
 financeRoutes.get("/finance/all-investments", FinanceController.getAllFinancialInvestments);
 financeRoutes.post("/finance/investment", FinanceController.createInvestment);
 financeRoutes.post("/finance/invest-money", FinanceController.investMoney);
+financeRoutes.get("/finance/overview", FinanceController.getFinancialOverview);

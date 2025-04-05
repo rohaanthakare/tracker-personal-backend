@@ -427,4 +427,84 @@ export default class FinanceController {
       });
     }
   }
+
+  static async getFinancialOverview(req: Request, res: Response) {
+    try {
+      Logger.INFO(
+        FinanceController.name,
+        FinanceController.getFinancialOverview.name,
+        "Inside get all investments"
+      );
+      let userToken = req.tokenData as TokenData;
+      const user_id = userToken.user_id;
+
+      let result = await InvestmentModel.findAll({
+        where: {
+          user_id: userToken.user_id,
+        },
+      });
+
+      let totalSavingsQuery = `select sum(account_balance) as total_savings from financial_accounts fa
+                    where fa.user_id = (:userid)`;
+      let totalSavingsQueryParams = {
+        userid: userToken.user_id,
+      };
+      let totalSavingsResult: any = await QueryHelper.executeGetQuery(
+        totalSavingsQuery,
+        totalSavingsQueryParams
+      );
+      let financeOverview: any = {};
+      if (totalSavingsResult && totalSavingsResult.length > 0) {
+        financeOverview.total_savings = totalSavingsResult[0].total_savings;
+      }
+
+      let totalInvestmentsQuery = `select sum(i.investment_amount) as total_investments from investments i, master_data md 
+                                where i.investment_status = md.id
+                                and md.code = "INVESTMENT_ACTIVE"
+                                and i.user_id = (:userid)`;
+      let totalInvestmentsQueryParams = {
+        userid: userToken.user_id,
+      };
+      let totalInvestmentsResult: any = await QueryHelper.executeGetQuery(
+        totalInvestmentsQuery,
+        totalInvestmentsQueryParams
+      );
+      if (totalInvestmentsResult && totalInvestmentsResult.length > 0) {
+        financeOverview.total_investments =
+          totalInvestmentsResult[0].total_investments;
+      }
+
+      let monthlyExpenseQuery = `select sum(ut.transaction_amount) as monthly_expense from user_transactions ut, master_data trans_cat
+                                  where ut.transation_category = trans_cat.id
+                                  and trans_cat.code = "EXPENSE"
+                                  and MONTH(ut.transaction_date) = MONTH(CURRENT_DATE())
+                                  and ut.user_id = (:userid)`;
+      let monthlyExpenseQueryParams = {
+        userid: userToken.user_id,
+      };
+      let monthlyExpenseResult: any = await QueryHelper.executeGetQuery(
+        monthlyExpenseQuery,
+        monthlyExpenseQueryParams
+      );
+      if (monthlyExpenseResult && monthlyExpenseResult.length > 0) {
+        financeOverview.monthly_expense =
+          monthlyExpenseResult[0].monthly_expense;
+      }
+
+      result = result.map((r) => r.toJSON());
+      res.status(200).json({
+        message: "Financial overview fetched successfully",
+        financeOverview,
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceController.name,
+        FinanceController.getFinancialOverview.name,
+        err
+      );
+      res.status(500).json({
+        message: err,
+      });
+    }
+  }
 }

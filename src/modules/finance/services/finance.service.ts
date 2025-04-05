@@ -222,16 +222,12 @@ export default class FinanceService {
       let newInvestmentAmount = 0;
       if (transDetails.investment_trans_type === "INVEST_MONEY") {
         // Add to balance
-        console.log("INVEST----->", investmentDetailsObj?.investment_amount);
-        console.log("INVEST----->", transDetails.transaction_amount);
         newInvestmentAmount =
           investmentDetailsObj?.investment_amount +
           transDetails.transaction_amount;
       }
       if (investmentDetailsObj) {
-        console.log("NEW-INVEST----->", newInvestmentAmount);
         investmentDetailsObj.investment_amount = newInvestmentAmount;
-        console.log("NEW-INVEST----->", newInvestmentAmount);
         let newInvestmentDetails = await InvestmentModel.update(
           investmentDetailsObj,
           {
