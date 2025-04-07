@@ -491,6 +491,27 @@ export default class FinanceController {
           monthlyExpenseResult[0].monthly_expense;
       }
 
+      let expenseHistoryQuery = `select MONTH(ut.transaction_date) as expense_month, 
+        DATE_FORMAT(ut.transaction_date, '%b') as expense_month_string, 
+        YEAR(ut.transaction_date) as expense_year, 
+        sum(ut.transaction_amount) as monthly_expense from user_transactions ut, master_data trans_cat
+        where ut.transation_category = trans_cat.id
+        and trans_cat.code = "EXPENSE"
+        and ut.user_id = (:userid)
+        group by MONTH(ut.transaction_date), DATE_FORMAT(ut.transaction_date, '%b'), YEAR(ut.transaction_date)
+        order by YEAR(ut.transaction_date), MONTH(ut.transaction_date) asc`;
+
+      let expenseHistoryQueryParams = {
+        userid: userToken.user_id,
+      };
+      let expenseHistoryResult: any = await QueryHelper.executeGetQuery(
+        expenseHistoryQuery,
+        expenseHistoryQueryParams
+      );
+      if (expenseHistoryResult && expenseHistoryResult.length > 0) {
+        financeOverview.expense_history = expenseHistoryResult;
+      }
+
       result = result.map((r) => r.toJSON());
       res.status(200).json({
         message: "Financial overview fetched successfully",
