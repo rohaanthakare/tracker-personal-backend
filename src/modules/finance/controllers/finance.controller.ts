@@ -512,6 +512,26 @@ export default class FinanceController {
         financeOverview.expense_history = expenseHistoryResult;
       }
 
+      let monthlyExpenseSplitQuery = `select trans_sub_cat.code as expense_type_code, trans_sub_cat.name as expense_type_name ,
+        sum(ut.transaction_amount) as expense_amount from user_transactions ut, master_data trans_cat,
+        master_data trans_sub_cat
+        where user_id = (:userid)
+        and trans_cat.id = ut.transation_category
+        and trans_cat.code = "EXPENSE"
+        and ut.transation_sub_category = trans_sub_cat.id
+        group by trans_sub_cat.code`;
+
+      let monthlyExpenseSplitQueryParams = {
+        userid: userToken.user_id,
+      };
+      let monthlyExpenseSplitResult: any = await QueryHelper.executeGetQuery(
+        monthlyExpenseSplitQuery,
+        monthlyExpenseSplitQueryParams
+      );
+      if (monthlyExpenseSplitResult && monthlyExpenseSplitResult.length > 0) {
+        financeOverview.monthly_expense_split = monthlyExpenseSplitResult;
+      }
+
       result = result.map((r) => r.toJSON());
       res.status(200).json({
         message: "Financial overview fetched successfully",
