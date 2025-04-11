@@ -198,7 +198,14 @@ export default class FinanceController {
         FinanceController.getFinancialPassbook.name,
         "Inside getFinancialPassbook"
       );
+      let start = req.query.start ? req.query.start : 0;
+      let limit = req.query.limit ? req.query.limit : 10;
       let userToken = req.tokenData as TokenData;
+      let countQuery = `select count(*) as total_records
+            from financial_transactions ft, user_transactions ut 
+            where ft.user_trans_id = ut.id  
+            and ut.user_id = (:userid)`;
+
       let query = `select ft.*,
             trans_cat.name as transaction_category_display,
             trans_sub_cat.name as transaction_sub_category_display,
@@ -212,15 +219,25 @@ export default class FinanceController {
               and trans_cat.id = ut.transation_category 
               and trans_sub_cat.id = ut.transation_sub_category 
               and ut.user_id = (:userid)
-            order by ft.transaction_date desc`;
+            order by ft.transaction_date desc limit :limit offset :offset`;
 
       let queryParams = {
         userid: userToken.user_id,
       };
-      let result = await QueryHelper.executeGetQuery(query, queryParams);
+      let pagingParams = {
+        limit: parseInt(limit as any),
+        offset: parseInt(start as any),
+      };
+      let reportResult = await QueryHelper.executeReportGetQuery(
+        query,
+        countQuery,
+        queryParams,
+        pagingParams
+      );
       res.status(200).json({
         message: "Financial passbook fetched successfully",
-        data: result,
+        data: reportResult.data,
+        total: reportResult.total,
       });
     } catch (err: any) {
       Logger.ERROR(
