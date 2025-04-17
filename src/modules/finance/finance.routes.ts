@@ -16,3 +16,8 @@ financeRoutes.get("/finance/all-investments", FinanceController.getAllFinancialI
 financeRoutes.post("/finance/investment", FinanceController.createInvestment);
 financeRoutes.post("/finance/invest-money", FinanceController.investMoney);
 financeRoutes.get("/finance/overview", FinanceController.getFinancialOverview);
+financeRoutes.get("/finance/financial-profile", FinanceController.getFinancialProfile);
+financeRoutes.post("/finance/financial-profile", FinanceController.createFinancialProfile);
+financeRoutes.get("/finance/expense-budget", FinanceController.getExpenseBudget);
+financeRoutes.post("/finance/expense-budget", FinanceController.createOrUpdateExpenseBudget);
+financeRoutes.get("/finance/yearly-expense", FinanceController.getYearlyExpenseByCategory);

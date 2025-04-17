@@ -11,6 +11,11 @@ import QueryHelper from "../../query-helper";
 import FinanceWorkflow from "../workflows/finance.workflow";
 import MasterDataDataAccessor from "../../master-data/data-accessors/master-data-data-accessor";
 import { IInvestmentModel, InvestmentModel } from "../models/investment.model";
+import {
+  FinancialProfile,
+  FinancialProfileModel,
+} from "../models/financial-profile.model";
+import { ExpenseBudgetModel } from "../models/expense-budget.model";
 
 export default class FinanceController {
   static async createOrUpdateBank(req: Request, res: Response) {
@@ -472,7 +477,9 @@ export default class FinanceController {
       );
       let financeOverview: any = {};
       if (totalSavingsResult && totalSavingsResult.length > 0) {
-        financeOverview.total_savings = totalSavingsResult[0].total_savings;
+        financeOverview.total_savings = totalSavingsResult[0].total_savings
+          ? totalSavingsResult[0].total_savings
+          : 0;
       }
 
       let totalInvestmentsQuery = `select sum(i.investment_amount) as total_investments from investments i, master_data md 
@@ -487,8 +494,10 @@ export default class FinanceController {
         totalInvestmentsQueryParams
       );
       if (totalInvestmentsResult && totalInvestmentsResult.length > 0) {
-        financeOverview.total_investments =
-          totalInvestmentsResult[0].total_investments;
+        financeOverview.total_investments = totalInvestmentsResult[0]
+          .total_investments
+          ? totalInvestmentsResult[0].total_investments
+          : 0;
       }
 
       let monthlyExpenseQuery = `select sum(ut.transaction_amount) as monthly_expense from user_transactions ut, master_data trans_cat
@@ -504,8 +513,10 @@ export default class FinanceController {
         monthlyExpenseQueryParams
       );
       if (monthlyExpenseResult && monthlyExpenseResult.length > 0) {
-        financeOverview.monthly_expense =
-          monthlyExpenseResult[0].monthly_expense;
+        financeOverview.monthly_expense = monthlyExpenseResult[0]
+          .monthly_expense
+          ? monthlyExpenseResult[0].monthly_expense
+          : 0;
       }
 
       let expenseHistoryQuery = `select MONTH(ut.transaction_date) as expense_month, 
@@ -527,6 +538,8 @@ export default class FinanceController {
       );
       if (expenseHistoryResult && expenseHistoryResult.length > 0) {
         financeOverview.expense_history = expenseHistoryResult;
+      } else {
+        financeOverview.expense_history = [];
       }
 
       let monthlyExpenseSplitQuery = `select trans_sub_cat.code as expense_type_code, trans_sub_cat.name as expense_type_name ,
@@ -547,6 +560,8 @@ export default class FinanceController {
       );
       if (monthlyExpenseSplitResult && monthlyExpenseSplitResult.length > 0) {
         financeOverview.monthly_expense_split = monthlyExpenseSplitResult;
+      } else {
+        financeOverview.monthly_expense_split = [];
       }
 
       result = result.map((r) => r.toJSON());
@@ -558,6 +573,198 @@ export default class FinanceController {
       Logger.ERROR(
         FinanceController.name,
         FinanceController.getFinancialOverview.name,
+        err
+      );
+      res.status(500).json({
+        message: err,
+      });
+    }
+  }
+
+  static async getYearlyExpenseByCategory(req: Request, res: Response) {
+    try {
+      Logger.INFO(
+        FinanceController.name,
+        FinanceController.getYearlyExpenseByCategory.name,
+        "Inside getYearlyExpenseByCategory"
+      );
+      let userToken = req.tokenData as TokenData;
+      const user_id = userToken.user_id;
+
+      let yearlyExpenseByCategory: any;
+      let yearlyExpenseQuery = `select trans_sub_cat.id as expense_category_id, 
+        trans_sub_cat.code as expense_category_code, 
+        trans_sub_cat.name as expense_category_name, 
+        sum(ut.transaction_amount) as expense_amount from user_transactions ut, master_data trans_cat,
+        master_data trans_sub_cat
+        where ut.user_id = :userid
+        and trans_cat.id = ut.transation_category
+        and trans_cat.code = "EXPENSE"
+        and trans_sub_cat.id = ut.transation_sub_category
+        and YEAR(ut.transaction_date) = YEAR(CURRENT_DATE())
+        group by trans_sub_cat.id, trans_sub_cat.code`;
+
+      let yearlyExpenseQueryParams = {
+        userid: userToken.user_id,
+      };
+      let yearlyExpenseResult: any = await QueryHelper.executeGetQuery(
+        yearlyExpenseQuery,
+        yearlyExpenseQueryParams
+      );
+      if (yearlyExpenseResult && yearlyExpenseResult.length > 0) {
+        yearlyExpenseByCategory = yearlyExpenseResult;
+      } else {
+        yearlyExpenseByCategory = [];
+      }
+      res.status(200).json({
+        message: "Yearly Expense fetched successfully",
+        result: yearlyExpenseByCategory,
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceController.name,
+        FinanceController.getYearlyExpenseByCategory.name,
+        err
+      );
+      res.status(500).json({
+        message: err,
+      });
+    }
+  }
+
+  static async createFinancialProfile(req: Request, res: Response) {
+    try {
+      Logger.INFO(
+        FinanceController.name,
+        FinanceController.createFinancialProfile.name,
+        "Inside create financial profile"
+      );
+
+      let financialProfileDetails = req.body;
+      let userToken = req.tokenData as TokenData;
+      financialProfileDetails.user_id = userToken.user_id;
+      if (financialProfileDetails.id) {
+        let result = await FinancialProfileModel.update(
+          financialProfileDetails,
+          {
+            where: {
+              id: financialProfileDetails.id,
+            },
+          }
+        );
+      } else {
+        let result = await FinancialProfileModel.create(
+          financialProfileDetails
+        );
+      }
+      res.status(201).json({
+        message: "Financial profile created successfully",
+        data: {},
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceController.name,
+        FinanceController.investMoney.name,
+        err
+      );
+      res.status(500).json({
+        message: err,
+      });
+    }
+  }
+
+  static async getFinancialProfile(req: Request, res: Response) {
+    try {
+      Logger.INFO(
+        FinanceController.name,
+        FinanceController.getFinancialProfile.name,
+        "Inside get financial profile"
+      );
+      let userToken = req.tokenData as TokenData;
+      let result = await FinancialProfileModel.findOne({
+        where: {
+          user_id: userToken.user_id,
+        },
+      });
+      let financialProfile = result?.toJSON();
+      res.status(200).json({
+        message: "Financial profile fetched successfully",
+        financialProfile,
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceController.name,
+        FinanceController.getAllFinancialInvestments.name,
+        err
+      );
+      res.status(500).json({
+        message: err,
+      });
+    }
+  }
+
+  static async createOrUpdateExpenseBudget(req: Request, res: Response) {
+    try {
+      Logger.INFO(
+        FinanceController.name,
+        FinanceController.createOrUpdateExpenseBudget.name,
+        "Inside create or update expense budget"
+      );
+
+      let expenseBudgetDetails = req.body;
+      let userToken = req.tokenData as TokenData;
+      // expenseBudgetDetails.user_id = userToken.user_id;
+      await ExpenseBudgetModel.destroy({
+        where: {
+          user_id: userToken.user_id,
+        },
+      });
+      await expenseBudgetDetails.forEach((e: any) => {
+        e.expense_category = e.id;
+        e.budget = e.expense_budget;
+        e.yearly_budget = e.expense_budget * 12;
+        delete e.id;
+        e.user_id = userToken.user_id;
+      });
+      let result = await ExpenseBudgetModel.bulkCreate(expenseBudgetDetails);
+      res.status(201).json({
+        message: "Expense budget created successfully",
+        result,
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceController.name,
+        FinanceController.createOrUpdateExpenseBudget.name,
+        err
+      );
+      res.status(500).json({
+        message: err,
+      });
+    }
+  }
+
+  static async getExpenseBudget(req: Request, res: Response) {
+    try {
+      Logger.INFO(
+        FinanceController.name,
+        FinanceController.getExpenseBudget.name,
+        "Inside get expense budget"
+      );
+      let userToken = req.tokenData as TokenData;
+      let result = await ExpenseBudgetModel.findAll({
+        where: {
+          user_id: userToken.user_id,
+        },
+      });
+      result = result.map((r) => r.toJSON());
+      res.status(200).json({
+        message: "Expense budget details fetched successfully",
+        result,
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceController.name,
+        FinanceController.getAllFinancialInvestments.name,
         err
       );
       res.status(500).json({
