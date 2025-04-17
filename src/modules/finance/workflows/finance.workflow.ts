@@ -133,13 +133,16 @@ export default class FinanceWorkflow {
         investmentTransactionDetails
       );
       // Create Account Transaction - Debit
-      let accountTransDetails = Object.create(investmentTransactionDetails);
-      accountTransDetails.account = investmentTransactionDetails.account;
-      accountTransDetails.finance_trans_type = "DEBIT_MONEY";
-      accountTransDetails.user_trans_id = userTransDetails.id;
-      await FinanceService.createFinancialTransaction(accountTransDetails);
-      // // Update Account Balance
-      await FinanceService.updateAccountBalance(accountTransDetails);
+      if (investmentTransactionDetails.account) {
+        let accountTransDetails = Object.create(investmentTransactionDetails);
+        accountTransDetails.account = investmentTransactionDetails.account;
+        accountTransDetails.finance_trans_type = "DEBIT_MONEY";
+        accountTransDetails.user_trans_id = userTransDetails.id;
+        await FinanceService.createFinancialTransaction(accountTransDetails);
+        // // Update Account Balance
+        await FinanceService.updateAccountBalance(accountTransDetails);
+      }
+      
       // // Create invetment transaction
       let invTransDetails = Object.create(investmentTransactionDetails);
       invTransDetails.account = investmentTransactionDetails.account;

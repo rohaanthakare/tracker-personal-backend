@@ -224,7 +224,7 @@ export default class FinanceController {
               and trans_cat.id = ut.transation_category 
               and trans_sub_cat.id = ut.transation_sub_category 
               and ut.user_id = (:userid)
-            order by ft.transaction_date desc limit :limit offset :offset`;
+            order by ft.transaction_date desc, ft.createdAt desc limit :limit offset :offset`;
 
       let queryParams = {
         userid: userToken.user_id,
@@ -664,7 +664,7 @@ export default class FinanceController {
     } catch (err: any) {
       Logger.ERROR(
         FinanceController.name,
-        FinanceController.investMoney.name,
+        FinanceController.createFinancialProfile.name,
         err
       );
       res.status(500).json({
