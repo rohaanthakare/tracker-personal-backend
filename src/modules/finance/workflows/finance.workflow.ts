@@ -1,5 +1,15 @@
 import { Logger } from "../../../logger";
 import MasterDataDataAccessor from "../../master-data/data-accessors/master-data-data-accessor";
+import {
+  IMasterDataModel,
+  MasterDataModel,
+} from "../../master-data/models/master-data.model";
+import FinanceDataAccessor from "../data-accessors/finance.data-accessor";
+import { IFinancialTransactionModel } from "../models/financial-transaction.model";
+import {
+  IUserTransactionModel,
+  UserTransactionModel,
+} from "../models/user-transaction.model";
 import FinanceService from "../services/finance.service";
 
 export default class FinanceWorkflow {
@@ -142,7 +152,7 @@ export default class FinanceWorkflow {
         // // Update Account Balance
         await FinanceService.updateAccountBalance(accountTransDetails);
       }
-      
+
       // // Create invetment transaction
       let invTransDetails = Object.create(investmentTransactionDetails);
       invTransDetails.account = investmentTransactionDetails.account;
@@ -157,6 +167,83 @@ export default class FinanceWorkflow {
       Logger.ERROR(
         FinanceWorkflow.name,
         FinanceWorkflow.investMoneyWorkflow.name,
+        err
+      );
+      throw err;
+    }
+  }
+
+  static async revertTransactionWorkflow(transactionDetails: any) {
+    try {
+      Logger.INFO(
+        FinanceWorkflow.name,
+        FinanceWorkflow.revertTransactionWorkflow.name,
+        "Inside revertTransactionWorkflow"
+      );
+      await UserTransactionModel.update(
+        {
+          is_reverted: true,
+        },
+        {
+          where: {
+            id: transactionDetails.user_trans_id,
+          },
+        }
+      );
+
+      let userTransDetailsModel = await UserTransactionModel.findByPk(
+        transactionDetails.user_trans_id
+      );
+      let userTransDetails = userTransDetailsModel?.toJSON();
+      let revertTransType = await MasterDataDataAccessor.getMasterDataByCode(
+        "REVERT"
+      );
+      let financeTransTypeCredit =
+        await MasterDataDataAccessor.getMasterDataByCode("CREDIT_MONEY");
+      let financeTransTypeDebit =
+        await MasterDataDataAccessor.getMasterDataByCode("DEBIT_MONEY");
+
+      let revertUserTransDetails: any = {};
+      revertUserTransDetails.is_reverted = true;
+      revertUserTransDetails.transaction_amount =
+        userTransDetails.transaction_amount;
+      revertUserTransDetails.transaction_date = new Date();
+      revertUserTransDetails.transaction_description = `REV - ${userTransDetails.transaction_description}`;
+      revertUserTransDetails.user_trans_type = "REVERT";
+      revertUserTransDetails.transation_sub_type =
+        userTransDetails.transation_sub_category;
+      revertUserTransDetails.user_id = userTransDetails.user_id;
+      let revUserTransDetails = await FinanceService.createUserTransaction(
+        revertUserTransDetails
+      );
+      // Create Account Transaction
+      let financialTransactions =
+        await FinanceDataAccessor.getFinancialTransactionByUserTrans(
+          userTransDetails.id
+        );
+      financialTransactions.forEach(async (ft: IFinancialTransactionModel) => {
+        let revFinanceTransDetails: any = {};
+        revFinanceTransDetails.account = ft.account_id;
+        revFinanceTransDetails.transaction_amount = ft.transaction_amount;
+        revFinanceTransDetails.transaction_date = new Date().toISOString();
+        revFinanceTransDetails.user_id = ft.user_id;
+        revFinanceTransDetails.user_trans_id = revUserTransDetails.id;
+        if (ft.transaction_type === financeTransTypeCredit.id) {
+          // Debit
+          revFinanceTransDetails.finance_trans_type = "DEBIT_MONEY";
+        } else {
+          // Credit
+          revFinanceTransDetails.finance_trans_type = "CREDIT_MONEY";
+        }
+        await FinanceService.createFinancialTransaction(revFinanceTransDetails);
+
+        // Update Account Balance
+        await FinanceService.updateAccountBalance(revFinanceTransDetails);
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceWorkflow.name,
+        FinanceWorkflow.revertTransactionWorkflow.name,
         err
       );
       throw err;

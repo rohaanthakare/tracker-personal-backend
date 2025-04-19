@@ -11,10 +11,7 @@ import QueryHelper from "../../query-helper";
 import FinanceWorkflow from "../workflows/finance.workflow";
 import MasterDataDataAccessor from "../../master-data/data-accessors/master-data-data-accessor";
 import { IInvestmentModel, InvestmentModel } from "../models/investment.model";
-import {
-  FinancialProfile,
-  FinancialProfileModel,
-} from "../models/financial-profile.model";
+import { FinancialProfileModel } from "../models/financial-profile.model";
 import { ExpenseBudgetModel } from "../models/expense-budget.model";
 
 export default class FinanceController {
@@ -504,6 +501,7 @@ export default class FinanceController {
                                   where ut.transation_category = trans_cat.id
                                   and trans_cat.code = "EXPENSE"
                                   and MONTH(ut.transaction_date) = MONTH(CURRENT_DATE())
+                                  and (ut.is_reverted != 1 OR ut.is_reverted is null)
                                   and ut.user_id = (:userid)`;
       let monthlyExpenseQueryParams = {
         userid: userToken.user_id,
@@ -526,6 +524,7 @@ export default class FinanceController {
         where ut.transation_category = trans_cat.id
         and trans_cat.code = "EXPENSE"
         and ut.user_id = (:userid)
+        and (ut.is_reverted != 1 OR ut.is_reverted is null)
         group by MONTH(ut.transaction_date), DATE_FORMAT(ut.transaction_date, '%b'), YEAR(ut.transaction_date)
         order by YEAR(ut.transaction_date), MONTH(ut.transaction_date) asc`;
 
@@ -549,6 +548,7 @@ export default class FinanceController {
         and trans_cat.id = ut.transation_category
         and trans_cat.code = "EXPENSE"
         and ut.transation_sub_category = trans_sub_cat.id
+        and MONTH(ut.transaction_date) = MONTH(CURRENT_DATE())
         group by trans_sub_cat.code`;
 
       let monthlyExpenseSplitQueryParams = {
@@ -765,6 +765,34 @@ export default class FinanceController {
       Logger.ERROR(
         FinanceController.name,
         FinanceController.getAllFinancialInvestments.name,
+        err
+      );
+      res.status(500).json({
+        message: err,
+      });
+    }
+  }
+
+  static async revertTransaction(req: Request, res: Response) {
+    try {
+      Logger.INFO(
+        FinanceController.name,
+        FinanceController.revertTransaction.name,
+        "Inside revertTransaction"
+      );
+
+      let transactionDetails = req.body;
+      let result = await FinanceWorkflow.revertTransactionWorkflow(
+        transactionDetails
+      );
+      res.status(201).json({
+        message: "Transaction reverted successfully",
+        data: {},
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceController.name,
+        FinanceController.revertTransaction.name,
         err
       );
       res.status(500).json({

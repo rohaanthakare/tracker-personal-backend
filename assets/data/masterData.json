@@ -94,6 +94,13 @@
     "is_active": true,
     "parent_data": "USER_TRANSACTION_TYPE"
 }, {
+    "code": "REVERT",
+    "name": "Revert",
+    "description": "Revert",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "USER_TRANSACTION_TYPE"
+}, {
     "code": "FINANCE_TRANSACTION_TYPE",
     "name": "Transaction Type",
     "description": "Financial transaction type",

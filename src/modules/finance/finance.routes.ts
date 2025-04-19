@@ -21,3 +21,4 @@ financeRoutes.post("/finance/financial-profile", FinanceController.createFinanci
 financeRoutes.get("/finance/expense-budget", FinanceController.getExpenseBudget);
 financeRoutes.post("/finance/expense-budget", FinanceController.createOrUpdateExpenseBudget);
 financeRoutes.get("/finance/yearly-expense", FinanceController.getYearlyExpenseByCategory);
+financeRoutes.post("/finance/revert-transaction", FinanceController.revertTransaction);

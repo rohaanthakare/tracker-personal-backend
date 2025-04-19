@@ -8,6 +8,7 @@ export interface IUserTransactionModel {
   transation_sub_category?: number;
   transaction_date?: Date;
   transaction_description?: string;
+  is_reverted?: boolean;
   user_id?: number;
 }
 
@@ -18,6 +19,7 @@ export class UserTransactionModel extends Model {
   transation_sub_category!: number;
   transaction_date!: Date;
   transaction_description!: string;
+  is_reverted!: boolean;
   user_id!: number;
 }
 
@@ -46,6 +48,9 @@ export const UserTransaction = (sequelize: Sequelize) => {
       },
       user_id: {
         type: DataTypes.INTEGER,
+      },
+      is_reverted: {
+        type: DataTypes.BOOLEAN,
       },
     },
     {

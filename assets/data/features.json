@@ -130,6 +130,15 @@
     "feature_url": "/user/finance/passbook",
     "parent_feature": "FINANCE"
 }, {
+    "feature_code": "REVERT_TRANSACTION",
+    "feature_name": "Revert Transaction",
+    "description": "Revert financial transaction",
+    "is_active": true,
+    "feature_type": "ROW_LEVEL",
+    "feature_icon": "mdi mdi-arrow-u-left-top",
+    "feature_url": "/user/finance/passbook",
+    "parent_feature": "FINANCE_PASSBOOK"
+}, {
     "feature_code": "FINANCE_INVESTMENTS",
     "feature_name": "Investments",
     "description": "All financial investments",
@@ -174,6 +183,51 @@
     "feature_icon": "mdi mdi-account-cash",
     "feature_url": "/user/finance/profile",
     "parent_feature": "FINANCE"
+}, {
+    "feature_code": "LOANS",
+    "feature_name": "Loans",
+    "description": "Loan management, create loan, update loan",
+    "is_active": true,
+    "feature_type": "SIDE_NAV",
+    "feature_icon": "mdi mdi-bank-circle-outline",
+    "feature_url": "/user/finance/loans",
+    "parent_feature": "FINANCE"
+}, {
+    "feature_code": "CREATE_LOAN",
+    "feature_name": "Start New Loan",
+    "description": "Start new Loan",
+    "is_active": true,
+    "feature_type": "TOOLBAR",
+    "feature_icon": "mdi mdi-bank-circle-outline",
+    "feature_url": "/user/finance/loans",
+    "parent_feature": "LOANS"
+}, {
+    "feature_code": "UPDATE_LOAN",
+    "feature_name": "Update Loan",
+    "description": "Update Loan",
+    "is_active": true,
+    "feature_type": "ROW_LEVEL",
+    "feature_icon": "mdi mdi-bank-circle-outline",
+    "feature_url": "/user/finance/loans",
+    "parent_feature": "LOANS"
+}, {
+    "feature_code": "DELETE_LOAN",
+    "feature_name": "Delete Loan",
+    "description": "Delete Loan",
+    "is_active": true,
+    "feature_type": "ROW_LEVEL",
+    "feature_icon": "mdi mdi-bank-circle-outline",
+    "feature_url": "/user/finance/loans",
+    "parent_feature": "LOANS"
+}, {
+    "feature_code": "LOAN_REPAYMENT",
+    "feature_name": "Loan Repayment",
+    "description": "Loan Repayment",
+    "is_active": true,
+    "feature_type": "TOOLBAR",
+    "feature_icon": "mdi mdi-bank-circle-outline",
+    "feature_url": "/user/finance/loans",
+    "parent_feature": "LOANS"
 }, {
     "feature_code": "TASK",
     "feature_name": "Tasks",
