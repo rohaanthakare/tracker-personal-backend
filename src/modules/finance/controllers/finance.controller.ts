@@ -417,6 +417,67 @@ export default class FinanceController {
     }
   }
 
+  static async closeInvetment(req: Request, res: Response) {
+    try {
+      Logger.INFO(
+        FinanceController.name,
+        FinanceController.closeInvetment.name,
+        "Inside closeInvetment"
+      );
+
+      let investmentTransDetails = req.body;
+      let userToken = req.tokenData as TokenData;
+      investmentTransDetails.user_id = userToken.user_id;
+      let result = await FinanceWorkflow.closeInvestmentWorkflow(
+        investmentTransDetails
+      );
+      res.status(201).json({
+        message: "Investment closed successfully",
+        data: result,
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceController.name,
+        FinanceController.closeInvetment.name,
+        err
+      );
+      res.status(500).json({
+        message: err,
+      });
+    }
+  }
+
+  static async withdrawInvestmentMoney(req: Request, res: Response) {
+    try {
+      Logger.INFO(
+        FinanceController.name,
+        FinanceController.withdrawInvestmentMoney.name,
+        "Inside withdrawInvestmentMoney"
+      );
+
+      let investmentTransDetails = req.body;
+      let userToken = req.tokenData as TokenData;
+      investmentTransDetails.user_id = userToken.user_id;
+      investmentTransDetails.trans_type = "WIHTDRAW_INVESTMENT_MONEY";
+      let result = await FinanceWorkflow.closeInvestmentWorkflow(
+        investmentTransDetails
+      );
+      res.status(201).json({
+        message: "Investment closed successfully",
+        data: result,
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceController.name,
+        FinanceController.withdrawInvestmentMoney.name,
+        err
+      );
+      res.status(500).json({
+        message: err,
+      });
+    }
+  }
+
   static async getAllFinancialInvestments(req: Request, res: Response) {
     try {
       Logger.INFO(

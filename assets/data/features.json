@@ -166,6 +166,42 @@
     "feature_url": "/user/finance/invest_money",
     "parent_feature": "FINANCE_INVESTMENTS"
 }, {
+    "feature_code": "INVEST_MONEY_ROW",
+    "feature_name": "Invest Money",
+    "description": "Invest Money",
+    "is_active": true,
+    "feature_type": "ROW_LEVEL",
+    "feature_icon": "mdi mdi-cash-plus",
+    "feature_url": "/user/finance/invest_money",
+    "parent_feature": "FINANCE_INVESTMENTS"
+}, {
+    "feature_code": "WITHDRAW_INVESTMENT_ROW",
+    "feature_name": "Withdraw Investment",
+    "description": "Withdraw Investment",
+    "is_active": true,
+    "feature_type": "ROW_LEVEL",
+    "feature_icon": "mdi mdi-cash-plus",
+    "feature_url": "/user/finance/invest_money",
+    "parent_feature": "FINANCE_INVESTMENTS"
+}, {
+    "feature_code": "CLOSE_INVESTMENT_ROW",
+    "feature_name": "Close Investment",
+    "description": "Close Investment",
+    "is_active": true,
+    "feature_type": "ROW_LEVEL",
+    "feature_icon": "mdi mdi-cash-remove",
+    "feature_url": "/user/finance/invest_money",
+    "parent_feature": "FINANCE_INVESTMENTS"
+}, {
+    "feature_code": "INVESTMENT_PASSBOOK_ROW",
+    "feature_name": "Investment Statement",
+    "description": "Investment Statement",
+    "is_active": true,
+    "feature_type": "ROW_LEVEL",
+    "feature_icon": "mdi mdi-invoice-text",
+    "feature_url": "/user/finance/invest_money",
+    "parent_feature": "FINANCE_INVESTMENTS"
+}, {
     "feature_code": "CLOSE_INVESTMENT",
     "feature_name": "Close Investment",
     "description": "Close Investment",

@@ -79,4 +79,16 @@
 }, {
     "role_code": "TRACKER_USER",
     "feature_code": "REVERT_TRANSACTION"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "INVEST_MONEY_ROW"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "CLOSE_INVESTMENT_ROW"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "INVESTMENT_PASSBOOK_ROW"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "WITHDRAW_INVESTMENT_ROW"
 }]

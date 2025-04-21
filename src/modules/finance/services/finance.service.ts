@@ -16,7 +16,7 @@ import {
   IInvestmentTransactionModel,
   InvestmentTransactionModel,
 } from "../models/investment-transaction.model";
-import { InvestmentModel } from "../models/investment.model";
+import { IInvestmentModel, InvestmentModel } from "../models/investment.model";
 
 export default class FinanceService {
   static async createOrUpdateBank(bankInputModel: IBankModel) {
@@ -218,13 +218,17 @@ export default class FinanceService {
       let investmentDetails = await InvestmentModel.findByPk(
         transDetails.investment
       );
-      let investmentDetailsObj = investmentDetails?.toJSON();
-      let newInvestmentAmount = 0;
+      let investmentDetailsObj:IInvestmentModel = investmentDetails?.toJSON() as any;
+      let newInvestmentAmount = (investmentDetailsObj.investment_amount) ? investmentDetailsObj.investment_amount : 0;
       if (transDetails.investment_trans_type === "INVEST_MONEY") {
         // Add to balance
-        newInvestmentAmount =
-          investmentDetailsObj?.investment_amount +
-          transDetails.transaction_amount;
+        newInvestmentAmount += transDetails.transaction_amount;
+      } else if (transDetails.investment_trans_type === "WIHTDRAW_INVESTMENT_MONEY") {
+        investmentDetailsObj.investment_maturity_amount = transDetails.transaction_amount;
+      } else if (transDetails.investment_trans_type === "CLOSE_INVESTMENT") {
+        investmentDetailsObj.investment_maturity_amount = transDetails.transaction_amount;
+        let investmentTransObj = await MasterDataDataAccessor.getMasterDataByCode("INVESTMENT_CLOSED");
+        investmentDetailsObj.investment_status = investmentTransObj.id;
       }
       if (investmentDetailsObj) {
         investmentDetailsObj.investment_amount = newInvestmentAmount;

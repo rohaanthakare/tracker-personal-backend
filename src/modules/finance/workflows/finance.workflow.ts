@@ -173,6 +173,64 @@ export default class FinanceWorkflow {
     }
   }
 
+  static async closeInvestmentWorkflow(investmentTransactionDetails: any) {
+    try {
+      Logger.INFO(
+        FinanceWorkflow.name,
+        FinanceWorkflow.closeInvestmentWorkflow.name,
+        "Inside closeInvestmentWorkflow"
+      );
+
+      let userTransObj: any = {};
+      userTransObj.transaction_amount =
+        investmentTransactionDetails.transaction_amount;
+      userTransObj.transaction_date =
+        investmentTransactionDetails.transaction_date;
+      userTransObj.transaction_description =
+        investmentTransactionDetails.transaction_description;
+      userTransObj.user_id = investmentTransactionDetails.user_id;
+      userTransObj.user_trans_type = "DEPOSIT";
+      userTransObj.investment = investmentTransactionDetails.investment;
+      let transSubCatObj = await MasterDataDataAccessor.getMasterDataByCode(
+        "INVESTMENT_RETURN"
+      );
+      userTransObj.transation_sub_type = transSubCatObj.id;
+      let userTransaction = await FinanceService.createUserTransaction(
+        userTransObj
+      );
+      if (investmentTransactionDetails.account) {
+        // If account create finance trans CREDIT_MONEY
+        // Create Account Transaction
+        userTransObj.finance_trans_type = "CREDIT_MONEY";
+        userTransObj.user_trans_id = userTransaction.id;
+        userTransObj.account = investmentTransactionDetails.account;
+        let accountTransDetails =
+          await FinanceService.createFinancialTransaction(userTransObj);
+        // Update Account Balance
+        let accountDetails = await FinanceService.updateAccountBalance(
+          userTransObj
+        );
+      }
+      // create inverment transaction
+      // update investment amount to 0 and maturity amount;
+      userTransObj.account = investmentTransactionDetails.account;
+      userTransObj.investment_trans_type = "WIHTDRAW_INVESTMENT_MONEY";
+      let invTransDetailsRes = await FinanceService.createInvestmentTransaction(
+        userTransObj
+      );
+      // // Update investment amount
+      await FinanceService.updateInvestmentAmount(userTransObj);
+      // if close investment update status to INVESTMENT_CLOSED
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceWorkflow.name,
+        FinanceWorkflow.closeInvestmentWorkflow.name,
+        err
+      );
+      throw err;
+    }
+  }
+
   static async revertTransactionWorkflow(transactionDetails: any) {
     try {
       Logger.INFO(
