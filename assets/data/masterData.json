@@ -533,4 +533,100 @@
     "data_icon": "",
     "is_active": true,
     "parent_data": "INVESTMENT_TRANS_TYPE"
+}, {
+    "code": "LOAN_TYPE",
+    "name": "Loan Type",
+    "description": "Loan Type",
+    "data_icon": "",
+    "is_active": true
+}, {
+    "code": "PERSONAL_LOAN",
+    "name": "Personal Loan",
+    "description": "Personal Loan",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "LOAN_TYPE"
+}, {
+    "code": "HOME_LOAN",
+    "name": "Home Loan",
+    "description": "Home Loan",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "LOAN_TYPE"
+}, {
+    "code": "VEHICLE_LOAN",
+    "name": "Vehicle Loan",
+    "description": "Vehicle Loan",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "LOAN_TYPE"
+}, {
+    "code": "EDUCATION_LOAN",
+    "name": "Education Loan",
+    "description": "Education Loan",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "LOAN_TYPE"
+}, {
+    "code": "GOLD_LOAN",
+    "name": "Gold Loan",
+    "description": "Gold Loan",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "LOAN_TYPE"
+}, {
+    "code": "BUSINESS_LOAN",
+    "name": "Business Loan",
+    "description": "Business Loan",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "LOAN_TYPE"
+}, {
+    "code": "AGRICULTURE_LOAN",
+    "name": "Agriculture Loan",
+    "description": "Agriculture Loan",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "LOAN_TYPE"
+}, {
+    "code": "CREDIT_CARD_LOAN",
+    "name": "Credit Card Loan",
+    "description": "Credit Card Loan",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "LOAN_TYPE"
+}, {
+    "code": "LOAN_TRANSACTION_TYPE",
+    "name": "Loan Transaction Type",
+    "description": "Loan Transaction Type",
+    "data_icon": "",
+    "is_active": true
+}, {
+    "code": "LOAN_DISBURSEMENT",
+    "name": "Loan Disbursement",
+    "description": "Loan Disbursement",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "LOAN_TRANSACTION_TYPE"
+}, {
+    "code": "LOAN_REPAYMENT",
+    "name": "Loan Repayment",
+    "description": "Loan Repayment",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "LOAN_TRANSACTION_TYPE"
+}, {
+    "code": "LOAN_INTEREST",
+    "name": "Loan Interest",
+    "description": "Loan Interest",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "LOAN_TRANSACTION_TYPE"
+}, {
+    "code": "LOAN_ADJUSTMENT",
+    "name": "Loan Adjustment",
+    "description": "Loan Adjustment",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "LOAN_TRANSACTION_TYPE"
 }]

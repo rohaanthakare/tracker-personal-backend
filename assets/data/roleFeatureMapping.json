@@ -63,21 +63,6 @@
     "feature_code": "TASK"
 }, {
     "role_code": "TRACKER_USER",
-    "feature_code": "LOANS"
-}, {
-    "role_code": "TRACKER_USER",
-    "feature_code": "CREATE_LOAN"
-}, {
-    "role_code": "TRACKER_USER",
-    "feature_code": "UPDATE_LOAN"
-}, {
-    "role_code": "TRACKER_USER",
-    "feature_code": "DELETE_LOAN"
-}, {
-    "role_code": "TRACKER_USER",
-    "feature_code": "LOAN_REPAYMENT"
-}, {
-    "role_code": "TRACKER_USER",
     "feature_code": "REVERT_TRANSACTION"
 }, {
     "role_code": "TRACKER_USER",
@@ -91,4 +76,25 @@
 }, {
     "role_code": "TRACKER_USER",
     "feature_code": "WITHDRAW_INVESTMENT_ROW"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "LOANS"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "CREATE_LOAN"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "LOAN_REPAYMENT"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "REPHASE_LOAN"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "UPDATE_LOAN_ROI"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "UPDATE_LOAN_OUTSTANDING"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "DELETE_LOAN"
 }]

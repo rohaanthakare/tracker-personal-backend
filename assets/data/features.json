@@ -238,9 +238,36 @@
     "feature_url": "/user/finance/loans",
     "parent_feature": "LOANS"
 }, {
-    "feature_code": "UPDATE_LOAN",
-    "feature_name": "Update Loan",
-    "description": "Update Loan",
+    "feature_code": "LOAN_REPAYMENT",
+    "feature_name": "Pay EMI",
+    "description": "Pay EMI",
+    "is_active": true,
+    "feature_type": "ROW_LEVEL",
+    "feature_icon": "mdi mdi-bank-circle-outline",
+    "feature_url": "/user/finance/loans",
+    "parent_feature": "LOANS"
+}, {
+    "feature_code": "REPHASE_LOAN",
+    "feature_name": "Rephase Loan",
+    "description": "Rephase Loan",
+    "is_active": true,
+    "feature_type": "ROW_LEVEL",
+    "feature_icon": "mdi mdi-bank-circle-outline",
+    "feature_url": "/user/finance/loans",
+    "parent_feature": "LOANS"
+}, {
+    "feature_code": "UPDATE_LOAN_ROI",
+    "feature_name": "Update Interest Rate",
+    "description": "Update Interest Rate",
+    "is_active": true,
+    "feature_type": "ROW_LEVEL",
+    "feature_icon": "mdi mdi-bank-circle-outline",
+    "feature_url": "/user/finance/loans",
+    "parent_feature": "LOANS"
+}, {
+    "feature_code": "UPDATE_LOAN_OUTSTANDING",
+    "feature_name": "Update Outstanding Amount",
+    "description": "Update Outstanding Amount",
     "is_active": true,
     "feature_type": "ROW_LEVEL",
     "feature_icon": "mdi mdi-bank-circle-outline",
@@ -252,15 +279,6 @@
     "description": "Delete Loan",
     "is_active": true,
     "feature_type": "ROW_LEVEL",
-    "feature_icon": "mdi mdi-bank-circle-outline",
-    "feature_url": "/user/finance/loans",
-    "parent_feature": "LOANS"
-}, {
-    "feature_code": "LOAN_REPAYMENT",
-    "feature_name": "Loan Repayment",
-    "description": "Loan Repayment",
-    "is_active": true,
-    "feature_type": "TOOLBAR",
     "feature_icon": "mdi mdi-bank-circle-outline",
     "feature_url": "/user/finance/loans",
     "parent_feature": "LOANS"

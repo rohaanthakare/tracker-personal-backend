@@ -23,3 +23,7 @@ financeRoutes.post("/finance/expense-budget", FinanceController.createOrUpdateEx
 financeRoutes.get("/finance/yearly-expense", FinanceController.getYearlyExpenseByCategory);
 financeRoutes.post("/finance/revert-transaction", FinanceController.revertTransaction);
 financeRoutes.post("/finance/withdraw-investment-money", FinanceController.withdrawInvestmentMoney);
+financeRoutes.get("/finance/loans", FinanceController.getLoans);
+financeRoutes.post("/finance/loan", FinanceController.createLoan);
+financeRoutes.put("/finance/loan/:loan_id", FinanceController.updateLoan);
+financeRoutes.post("/finance/loan-repayment", FinanceController.loanRepayment);

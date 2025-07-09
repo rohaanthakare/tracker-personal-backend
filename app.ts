@@ -8,6 +8,7 @@ import { Logger } from "./src/logger";
 import { ROUTES_WIHTOUT_AUTH, routes } from "./src/routes";
 import dbconnection from "./src/app-db";
 import { TokenData } from "./types/express";
+import SchedulerService from "./src/modules/core/scheduler.service";
 
 const app: Express = express();
 app.use(json());
@@ -66,4 +67,5 @@ dbconnection
   });
 app.listen(port, () => {
   Logger.INFO("App", "APP-LISTEN", "Tracker Personal Backend stated at port - " + port);
+  const schedulerInstance = new SchedulerService();
 });

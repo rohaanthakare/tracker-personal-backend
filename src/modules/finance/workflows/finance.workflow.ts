@@ -1,3 +1,4 @@
+import moment from "moment";
 import { Logger } from "../../../logger";
 import MasterDataDataAccessor from "../../master-data/data-accessors/master-data-data-accessor";
 import {
@@ -6,6 +7,7 @@ import {
 } from "../../master-data/models/master-data.model";
 import FinanceDataAccessor from "../data-accessors/finance.data-accessor";
 import { IFinancialTransactionModel } from "../models/financial-transaction.model";
+import { LoanAccountModel } from "../models/loan-account.model";
 import {
   IUserTransactionModel,
   UserTransactionModel,
@@ -306,5 +308,172 @@ export default class FinanceWorkflow {
       );
       throw err;
     }
+  }
+
+  static async loanRepaymentWorkflow(loanTransactionDetails: any) {
+    try {
+      Logger.INFO(
+        FinanceWorkflow.name,
+        FinanceWorkflow.loanRepaymentWorkflow.name,
+        "Inside loanRepaymentWorkflow"
+      );
+      // Create User Transaction
+      loanTransactionDetails.user_trans_type = "EXPENSE";
+      loanTransactionDetails.transaction_amount =
+        loanTransactionDetails.loan_payment;
+      // Sub Type will be invetment type
+      let loanTransSubCategory =
+        await MasterDataDataAccessor.getMasterDataByCode("LOAN_REPAYMENT");
+      loanTransactionDetails.transation_sub_type = loanTransSubCategory.id;
+      let userTransDetails = await FinanceService.createUserTransaction(
+        loanTransactionDetails
+      );
+      // Create Loan Transaction
+      loanTransactionDetails.loan_id = loanTransactionDetails.id;
+      delete loanTransactionDetails.id;
+      loanTransactionDetails.loan_trans_type = "LOAN_REPAYMENT";
+      loanTransactionDetails.user_trans_id = userTransDetails.id;
+      await FinanceService.createLoanTransaction(loanTransactionDetails);
+      // Update loan outstanding amount
+      await FinanceService.updateLoanOutstandingAmount(loanTransactionDetails);
+      if (loanTransactionDetails.transaction_account) {
+        // If account is selected create account Transaction
+        // If account is selected update account balance
+        // Create Account Transaction
+        loanTransactionDetails.finance_trans_type = "DEBIT_MONEY";
+        loanTransactionDetails.account =
+          loanTransactionDetails.transaction_account;
+        loanTransactionDetails.user_trans_id = userTransDetails.id;
+        let accountTransDetails =
+          await FinanceService.createFinancialTransaction(
+            loanTransactionDetails
+          );
+        // Update Account Balance
+        let accountDetails = await FinanceService.updateAccountBalance(
+          loanTransactionDetails
+        );
+      }
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceWorkflow.name,
+        FinanceWorkflow.loanRepaymentWorkflow.name,
+        err
+      );
+      throw err;
+    }
+  }
+
+  static async creditLoanInterestWorkflow() {
+    try {
+      Logger.INFO(
+        FinanceWorkflow.name,
+        FinanceWorkflow.creditLoanInterestWorkflow.name,
+        "Inside creditLoanInterestWorkflow"
+      );
+      // Get all loan repayment transactions done in current month
+      let allTrans =
+        await FinanceDataAccessor.getLoanTransactionDoneInCurrentMonth();
+      let loanTransMap: any = {};
+      const currentMonth = moment().month();
+      // Get current year
+      const currentYear = moment().year();
+
+      // Check if it's a leap year
+      const isLeapYear = moment([currentYear]).isLeapYear();
+
+      // Get number of days
+      const daysInYear = isLeapYear ? 366 : 365;
+      for (const t of allTrans) {
+        // await allTrans.forEach(async (t: any) => {
+        if (!loanTransMap[t.loan_id]) {
+          let loanDetails = await LoanAccountModel.findByPk(t.loan_id);
+          loanDetails = loanDetails?.dataValues;
+          if (loanDetails) {
+            let loanObj: any = {
+              loan_id: t.loan_id,
+              openingBalance: loanDetails.loan_opening_balance,
+              annualRate: loanDetails.annual_rate_of_interest,
+              payments: [],
+              month: currentMonth,
+              year: currentYear,
+              yearDays: daysInYear,
+            };
+            let transObj = {
+              date: moment(t.transaction_date).format("YYYY-MM-DD"),
+              amount: t.transaction_amount,
+            };
+            loanObj.payments.push(transObj);
+            loanTransMap[t.loan_id] = loanObj;
+          }
+        } else {
+          let transObj = {
+            date: moment(t.transaction_date).format("YYYY-MM-DD"),
+            amount: t.transaction_amount,
+          };
+          loanTransMap[t.loan_id].payments.push(transObj);
+        }
+      }
+      for (const loanObj of Object.values(loanTransMap) as any) {
+        Logger.TRACE(
+          FinanceWorkflow.name,
+          FinanceWorkflow.creditLoanInterestWorkflow.name,
+          `Loan credit interest for loan ${loanObj?.loan_id}`
+        );
+        let interestToCredit =
+          await FinanceWorkflow.calculateLoanInterestWithPayments(loanObj);
+        // Create Loan Credit Transaction
+        let loanTransObj: any = {};
+        loanTransObj.transaction_amount = interestToCredit;
+        loanTransObj.loan_payment = interestToCredit;
+        loanTransObj.transaction_date = moment();
+        loanTransObj.transaction_description = `Interest for ${currentMonth}-${currentYear}`;
+        loanTransObj.loan_trans_type = "LOAN_INTEREST";
+        loanTransObj.loan_id = loanObj?.loan_id;
+        await FinanceService.createLoanTransaction(loanTransObj);
+        // Update loan outstanding amount
+        // Update loan outstanding and opening balance
+        await FinanceService.updateLoanOutstandingAmount(loanTransObj);
+      }
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceWorkflow.name,
+        FinanceWorkflow.creditLoanInterestWorkflow.name,
+        err
+      );
+      throw err;
+    }
+  }
+
+  static calculateLoanInterestWithPayments(loanDetails: any) {
+    const year = loanDetails.year;
+    const month = loanDetails.month;
+    const annualRate = loanDetails.annualRate;
+    const yearDays = loanDetails.yearDays;
+    const openingBalance = loanDetails.openingBalance;
+    let payments = loanDetails.payments;
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const interestPerDayRate = annualRate / (100 * yearDays);
+
+    // Create map of date → balance change
+    const paymentMap: any = {};
+    for (const payment of payments) {
+      const day = new Date(payment.date).getDate();
+      paymentMap[day] = (paymentMap[day] || 0) + payment.amount;
+    }
+
+    let balance = openingBalance;
+    let totalInterest = 0;
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      // If any payment is made that day, reduce balance first
+      if (paymentMap[day]) {
+        balance -= paymentMap[day];
+      }
+
+      const dailyInterest = balance * interestPerDayRate;
+      totalInterest += dailyInterest;
+    }
+
+    return Number(totalInterest.toFixed(0));
   }
 }

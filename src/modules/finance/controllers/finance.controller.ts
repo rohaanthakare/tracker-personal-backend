@@ -13,6 +13,10 @@ import MasterDataDataAccessor from "../../master-data/data-accessors/master-data
 import { IInvestmentModel, InvestmentModel } from "../models/investment.model";
 import { FinancialProfileModel } from "../models/financial-profile.model";
 import { ExpenseBudgetModel } from "../models/expense-budget.model";
+import {
+  ILoanAccountModel,
+  LoanAccountModel,
+} from "../models/loan-account.model";
 
 export default class FinanceController {
   static async createOrUpdateBank(req: Request, res: Response) {
@@ -625,6 +629,25 @@ export default class FinanceController {
         financeOverview.monthly_expense_split = [];
       }
 
+      let totalBorrowingsQuery = `select sum(loan_amount) as total_loan, sum(outstanding_loan_amount) as total_outstanding_loan 
+      from loan_accounts where user_id = (:userid)`;
+      let totalBorrowingsQueryParams = {
+        userid: userToken.user_id,
+      };
+      let totalBorrowingsResult: any = await QueryHelper.executeGetQuery(
+        totalBorrowingsQuery,
+        totalBorrowingsQueryParams
+      );
+      if (totalBorrowingsResult && totalBorrowingsResult.length > 0) {
+        financeOverview.total_loan = totalBorrowingsResult[0].total_loan
+          ? parseFloat(totalBorrowingsResult[0].total_loan)
+          : 0;
+        financeOverview.total_outstanding_loan = totalBorrowingsResult[0]
+          .total_outstanding_loan
+          ? parseFloat(totalBorrowingsResult[0].total_outstanding_loan)
+          : 0;
+      }
+
       result = result.map((r) => r.toJSON());
       res.status(200).json({
         message: "Financial overview fetched successfully",
@@ -854,6 +877,163 @@ export default class FinanceController {
       Logger.ERROR(
         FinanceController.name,
         FinanceController.revertTransaction.name,
+        err
+      );
+      res.status(500).json({
+        message: err,
+      });
+    }
+  }
+
+  static async getLoans(req: Request, res: Response) {
+    try {
+      Logger.INFO(
+        FinanceController.name,
+        FinanceController.getLoans.name,
+        "Inside getLoans"
+      );
+      let start = req.query.start ? req.query.start : 0;
+      let limit = req.query.limit ? req.query.limit : 10;
+      let userToken = req.tokenData as TokenData;
+      let countQuery = `select count(*) as total_loan_accounts
+            from loan_accounts la 
+            where la.user_id = :userid`;
+
+      let query = `select la.*, lt.code as loan_type_code,
+        lt.name as loan_type_display 
+      from loan_accounts la, master_data lt
+      where la.loan_type = lt.id
+        and la.user_id = :userid`;
+
+      let queryParams = {
+        userid: userToken.user_id,
+      };
+      let pagingParams = {
+        limit: parseInt(limit as any),
+        offset: parseInt(start as any),
+      };
+      let reportResult = await QueryHelper.executeReportGetQuery(
+        query,
+        countQuery,
+        queryParams,
+        pagingParams
+      );
+      res.status(200).json({
+        message: "Financial passbook fetched successfully",
+        data: reportResult.data,
+        total: reportResult.total,
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceController.name,
+        FinanceController.getLoans.name,
+        err
+      );
+      res.status(500).json({
+        message: err,
+      });
+    }
+  }
+
+  static async createLoan(req: Request, res: Response) {
+    try {
+      Logger.INFO(
+        FinanceController.name,
+        FinanceController.createLoan.name,
+        "Inside createLoan"
+      );
+      let userToken = req.tokenData as TokenData;
+      let loanDetails = req.body;
+      let loanObj: ILoanAccountModel = {};
+      loanObj.annual_rate_of_interest = loanDetails.annual_rate_of_interest;
+      loanObj.lender = loanDetails.lender;
+      loanObj.loan_amount = loanDetails.loan_amount;
+      loanObj.loan_emi = loanDetails.loan_emi;
+      loanObj.loan_start_date = loanDetails.loan_start_date;
+      loanObj.loan_tenure_months = loanDetails.loan_tenure_months;
+      loanObj.loan_type = loanDetails.loan_type;
+      loanObj.name = loanDetails.name;
+      loanObj.outstanding_loan_amount = loanDetails.outstanding_loan_amount;
+      loanObj.loan_opening_balance = loanDetails.outstanding_loan_amount;
+      loanObj.is_loan_active = true;
+      loanObj.user_id = userToken.user_id;
+      let result = await LoanAccountModel.create(loanObj as any);
+      res.status(200).json({
+        message: "Loans created successfully",
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceController.name,
+        FinanceController.createLoan.name,
+        err
+      );
+      res.status(500).json({
+        message: err,
+      });
+    }
+  }
+
+  static async updateLoan(req: Request, res: Response) {
+    try {
+      Logger.INFO(
+        FinanceController.name,
+        FinanceController.createLoan.name,
+        "Inside createLoan"
+      );
+
+      let userToken = req.tokenData as TokenData;
+      let loanDetails = req.body;
+      let loanId = req.params.loan_id;
+      let loanObj: ILoanAccountModel = {};
+      loanObj.annual_rate_of_interest = loanDetails.annual_rate_of_interest;
+      loanObj.lender = loanDetails.lender;
+      loanObj.loan_amount = loanDetails.loan_amount;
+      loanObj.loan_emi = loanDetails.loan_emi;
+      loanObj.loan_start_date = loanDetails.loan_start_date;
+      loanObj.loan_tenure_months = loanDetails.loan_tenure_months;
+      loanObj.loan_type = loanDetails.loan_type;
+      loanObj.name = loanDetails.name;
+      loanObj.outstanding_loan_amount = loanDetails.outstanding_loan_amount;
+      loanObj.loan_opening_balance = loanDetails.outstanding_loan_amount;
+      let result = await LoanAccountModel.update(loanObj as any, {
+        where: {
+          id: loanId,
+        },
+      });
+      res.status(200).json({
+        message: "Loans created successfully",
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceController.name,
+        FinanceController.createLoan.name,
+        err
+      );
+      res.status(500).json({
+        message: err,
+      });
+    }
+  }
+
+  static async loanRepayment(req: Request, res: Response) {
+    try {
+      Logger.INFO(
+        FinanceController.name,
+        FinanceController.loanRepayment.name,
+        "Inside loanRepayment"
+      );
+      let userToken = req.tokenData as TokenData;
+      let loanTransactionDetails = req.body;
+      let result = await FinanceWorkflow.loanRepaymentWorkflow(
+        loanTransactionDetails
+      );
+      res.status(200).json({
+        message: "Loan repayment done successfully",
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceController.name,
+        FinanceController.loanRepayment.name,
         err
       );
       res.status(500).json({

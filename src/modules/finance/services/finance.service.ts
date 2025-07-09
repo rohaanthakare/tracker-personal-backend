@@ -11,12 +11,17 @@ import {
   UserTransactionModel,
 } from "../models/user-transaction.model";
 import MasterDataDataAccessor from "../../master-data/data-accessors/master-data-data-accessor";
-import { FinancialAccountModel, IFinancialAccountModel } from "../models/financial-account.model";
+import {
+  FinancialAccountModel,
+  IFinancialAccountModel,
+} from "../models/financial-account.model";
 import {
   IInvestmentTransactionModel,
   InvestmentTransactionModel,
 } from "../models/investment-transaction.model";
 import { IInvestmentModel, InvestmentModel } from "../models/investment.model";
+import { LoanTransactionModel } from "../models/loan-transaction.model";
+import { LoanAccountModel } from "../models/loan-account.model";
 
 export default class FinanceService {
   static async createOrUpdateBank(bankInputModel: IBankModel) {
@@ -180,11 +185,13 @@ export default class FinanceService {
       if (transDetails.finance_trans_type === "CREDIT_MONEY") {
         // Add to balance
         newAccountBalance =
-          parseFloat(accountDetailsObj?.account_balance) + transDetails.transaction_amount;
+          parseFloat(accountDetailsObj?.account_balance) +
+          transDetails.transaction_amount;
       } else if (accountDetailsObj) {
         // Remove from balance
         newAccountBalance =
-          parseFloat(accountDetailsObj?.account_balance) - transDetails.transaction_amount;
+          parseFloat(accountDetailsObj?.account_balance) -
+          transDetails.transaction_amount;
       }
       if (accountDetailsObj) {
         accountDetailsObj.account_balance = newAccountBalance;
@@ -218,16 +225,24 @@ export default class FinanceService {
       let investmentDetails = await InvestmentModel.findByPk(
         transDetails.investment
       );
-      let investmentDetailsObj:IInvestmentModel = investmentDetails?.toJSON() as any;
-      let newInvestmentAmount = (investmentDetailsObj.investment_amount) ? investmentDetailsObj.investment_amount : 0;
+      let investmentDetailsObj: IInvestmentModel =
+        investmentDetails?.toJSON() as any;
+      let newInvestmentAmount = investmentDetailsObj.investment_amount
+        ? investmentDetailsObj.investment_amount
+        : 0;
       if (transDetails.investment_trans_type === "INVEST_MONEY") {
         // Add to balance
         newInvestmentAmount += transDetails.transaction_amount;
-      } else if (transDetails.investment_trans_type === "WIHTDRAW_INVESTMENT_MONEY") {
-        investmentDetailsObj.investment_maturity_amount = transDetails.transaction_amount;
+      } else if (
+        transDetails.investment_trans_type === "WIHTDRAW_INVESTMENT_MONEY"
+      ) {
+        investmentDetailsObj.investment_maturity_amount =
+          transDetails.transaction_amount;
       } else if (transDetails.investment_trans_type === "CLOSE_INVESTMENT") {
-        investmentDetailsObj.investment_maturity_amount = transDetails.transaction_amount;
-        let investmentTransObj = await MasterDataDataAccessor.getMasterDataByCode("INVESTMENT_CLOSED");
+        investmentDetailsObj.investment_maturity_amount =
+          transDetails.transaction_amount;
+        let investmentTransObj =
+          await MasterDataDataAccessor.getMasterDataByCode("INVESTMENT_CLOSED");
         investmentDetailsObj.investment_status = investmentTransObj.id;
       }
       if (investmentDetailsObj) {
@@ -246,6 +261,77 @@ export default class FinanceService {
       Logger.ERROR(
         FinanceService.name,
         FinanceService.updateInvestmentAmount.name,
+        err
+      );
+      throw err;
+    }
+  }
+
+  static async createLoanTransaction(inputLoanTransDetails: any) {
+    try {
+      Logger.INFO(
+        FinanceService.name,
+        FinanceService.createLoanTransaction.name,
+        "Inside create loan transaction"
+      );
+      let loanTransType = await MasterDataDataAccessor.getMasterDataByCode(
+        inputLoanTransDetails.loan_trans_type
+      );
+      inputLoanTransDetails.transaction_type = loanTransType.id;
+      let loanTransResult = await LoanTransactionModel.create(
+        inputLoanTransDetails
+      );
+      return loanTransResult;
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceService.name,
+        FinanceService.createLoanTransaction.name,
+        err
+      );
+      throw err;
+    }
+  }
+
+  static async updateLoanOutstandingAmount(inputLoanTransDetails: any) {
+    try {
+      Logger.INFO(
+        FinanceService.name,
+        FinanceService.updateLoanOutstandingAmount.name,
+        "Inside update loan outstanding amount"
+      );
+      let loanDetails = await LoanAccountModel.findByPk(
+        inputLoanTransDetails.loan_id
+      );
+      let newLoanOutstandingAmount;
+      if (
+        inputLoanTransDetails.loan_trans_type === "LOAN_REPAYMENT" &&
+        loanDetails
+      ) {
+        newLoanOutstandingAmount =
+          parseFloat(loanDetails.outstanding_loan_amount.toString()) -
+          inputLoanTransDetails.loan_payment;
+      } else if (
+        inputLoanTransDetails.loan_trans_type === "LOAN_INTEREST" &&
+        loanDetails
+      ) {
+        newLoanOutstandingAmount =
+          parseFloat(loanDetails.outstanding_loan_amount.toString()) +
+          inputLoanTransDetails.loan_payment;
+      }
+      let loanUpdateResult = await LoanAccountModel.update(
+        { outstanding_loan_amount: newLoanOutstandingAmount },
+        {
+          where: {
+            id: loanDetails?.id,
+          },
+        }
+      );
+
+      return loanUpdateResult;
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceService.name,
+        FinanceService.updateLoanOutstandingAmount.name,
         err
       );
       throw err;
