@@ -527,6 +527,7 @@ export default class FinanceController {
           user_id: userToken.user_id,
         },
       });
+      result = result.map((r) => r.toJSON());
 
       let totalSavingsQuery = `select sum(account_balance) as total_savings from financial_accounts fa
                     where fa.user_id = (:userid)`;
@@ -648,7 +649,32 @@ export default class FinanceController {
           : 0;
       }
 
-      result = result.map((r) => r.toJSON());
+      let financialProfile = await FinancialProfileModel.findOne({
+        where: {
+          user_id: userToken.user_id,
+        }
+      });
+
+      financeOverview.financialProfile = financialProfile?.dataValues;
+
+      let currentYearInvestmentQuery = `select sum(it.transaction_amount) as current_year_investment 
+        from investment_transaction it 
+        where it.investment_id in (
+          select id from investments i where i.user_id = (:userid)
+        )
+        and year(it.transaction_date) = year(current_date())`;
+      let currentYearInvestmentQueryParams = {
+        userid: userToken.user_id,
+      };
+      let currentYearInvestmentResult: any = await QueryHelper.executeGetQuery(
+        currentYearInvestmentQuery,
+        currentYearInvestmentQueryParams
+      );
+      if (currentYearInvestmentResult && currentYearInvestmentResult.length > 0) {
+        financeOverview.current_year_investment  = currentYearInvestmentResult[0].current_year_investment
+          ? parseFloat(currentYearInvestmentResult[0].current_year_investment)
+          : 0;
+      }
       res.status(200).json({
         message: "Financial overview fetched successfully",
         financeOverview,

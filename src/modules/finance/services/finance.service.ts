@@ -302,6 +302,7 @@ export default class FinanceService {
       let loanDetails = await LoanAccountModel.findByPk(
         inputLoanTransDetails.loan_id
       );
+      loanDetails = loanDetails?.dataValues;
       let newLoanOutstandingAmount;
       if (
         inputLoanTransDetails.loan_trans_type === "LOAN_REPAYMENT" &&
