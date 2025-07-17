@@ -108,8 +108,8 @@ export default class FinanceService {
       let transType = await MasterDataDataAccessor.getMasterDataByCode(
         userTransDetailsInput.user_trans_type
       );
-      userTransactionModel.transation_category = transType?.id as number;
-      userTransactionModel.transation_sub_category =
+      userTransactionModel.transaction_category = transType?.id as number;
+      userTransactionModel.transaction_sub_category =
         userTransDetailsInput.transation_sub_type;
       userTransactionModel.transaction_date = new Date(
         userTransDetailsInput.transaction_date
