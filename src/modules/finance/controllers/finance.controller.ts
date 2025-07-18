@@ -675,6 +675,25 @@ export default class FinanceController {
           ? parseFloat(currentYearInvestmentResult[0].current_year_investment)
           : 0;
       }
+
+      let dayWiseExpenseHistoryQuery = `select DATE_FORMAT(transaction_date, '%d-%b-%Y') as transaction_date, sum(transaction_amount) as expense_amount
+      from user_transactions ut
+      where user_id = (:userid) 
+      and transaction_category in (select id from master_data where code = 'EXPENSE') 
+      and YEAR(ut.transaction_date) = YEAR(CURRENT_DATE())
+      group by transaction_date`;
+      let dayWiseExpenseHistoryQueryParams = {
+        userid: userToken.user_id,
+      };
+      let dayWiseExpenseHistoryResult: any = await QueryHelper.executeGetQuery(
+        dayWiseExpenseHistoryQuery,
+        dayWiseExpenseHistoryQueryParams
+      );
+      financeOverview.dateWiseExpenseHistory = [];
+      if (dayWiseExpenseHistoryResult && dayWiseExpenseHistoryResult.length > 0) {
+        financeOverview.dateWiseExpenseHistory = Array.from(dayWiseExpenseHistoryResult);
+      }
+
       res.status(200).json({
         message: "Financial overview fetched successfully",
         financeOverview,
