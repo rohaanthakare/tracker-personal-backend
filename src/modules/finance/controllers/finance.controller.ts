@@ -676,22 +676,22 @@ export default class FinanceController {
           : 0;
       }
 
-      let dayWiseExpenseHistoryQuery = `select DATE_FORMAT(transaction_date, '%d-%b-%Y') as transaction_date, sum(transaction_amount) as expense_amount
+      let weekWiseExpenseHistoryQuery = `select WEEK(transaction_date, 1) as transaction_week, sum(transaction_amount) as expense_amount
       from user_transactions ut
       where user_id = (:userid) 
       and transaction_category in (select id from master_data where code = 'EXPENSE') 
       and YEAR(ut.transaction_date) = YEAR(CURRENT_DATE())
-      group by transaction_date`;
-      let dayWiseExpenseHistoryQueryParams = {
+      group by WEEK(transaction_date, 1)`;
+      let weekWiseExpenseHistoryQueryParams = {
         userid: userToken.user_id,
       };
-      let dayWiseExpenseHistoryResult: any = await QueryHelper.executeGetQuery(
-        dayWiseExpenseHistoryQuery,
-        dayWiseExpenseHistoryQueryParams
+      let weekWiseExpenseHistoryResult: any = await QueryHelper.executeGetQuery(
+        weekWiseExpenseHistoryQuery,
+        weekWiseExpenseHistoryQueryParams
       );
-      financeOverview.dateWiseExpenseHistory = [];
-      if (dayWiseExpenseHistoryResult && dayWiseExpenseHistoryResult.length > 0) {
-        financeOverview.dateWiseExpenseHistory = Array.from(dayWiseExpenseHistoryResult);
+      financeOverview.weekWiseExpenseHistory = [];
+      if (weekWiseExpenseHistoryResult && weekWiseExpenseHistoryResult.length > 0) {
+        financeOverview.weekWiseExpenseHistory = Array.from(weekWiseExpenseHistoryResult);
       }
 
       res.status(200).json({
