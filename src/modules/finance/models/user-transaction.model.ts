@@ -4,8 +4,8 @@ import dbconnection from "../../../app-db";
 export interface IUserTransactionModel {
   id?: number;
   transaction_amount?: number;
-  transation_category?: number;
-  transation_sub_category?: number;
+  transaction_category?: number;
+  transaction_sub_category?: number;
   transaction_date?: Date;
   transaction_description?: string;
   is_reverted?: boolean;
@@ -15,8 +15,8 @@ export interface IUserTransactionModel {
 export class UserTransactionModel extends Model {
   id!: number;
   transaction_amount!: number;
-  transation_category!: number;
-  transation_sub_category!: number;
+  transaction_category!: number;
+  transaction_sub_category!: number;
   transaction_date!: Date;
   transaction_description!: string;
   is_reverted!: boolean;
@@ -34,10 +34,10 @@ export const UserTransaction = (sequelize: Sequelize) => {
       transaction_amount: {
         type: DataTypes.DOUBLE,
       },
-      transation_category: {
+      transaction_category: {
         type: DataTypes.INTEGER,
       },
-      transation_sub_category: {
+      transaction_sub_category: {
         type: DataTypes.INTEGER,
       },
       transaction_date: {

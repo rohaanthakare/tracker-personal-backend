@@ -222,8 +222,8 @@ export default class FinanceController {
             where ft.user_trans_id = ut.id 
               and ft.account_id = fa.id 
               and trans_type.id = ft.transaction_type 
-              and trans_cat.id = ut.transation_category 
-              and trans_sub_cat.id = ut.transation_sub_category 
+              and trans_cat.id = ut.transaction_category 
+              and trans_sub_cat.id = ut.transaction_sub_category 
               and ut.user_id = (:userid)
             order by ft.transaction_date desc, ft.createdAt desc`;
 
@@ -582,7 +582,7 @@ export default class FinanceController {
       }
 
       let monthlyExpenseQuery = `select sum(ut.transaction_amount) as monthly_expense from user_transactions ut, master_data trans_cat
-                                  where ut.transation_category = trans_cat.id
+                                  where ut.transaction_category = trans_cat.id
                                   and trans_cat.code = "EXPENSE"
                                   and MONTH(ut.transaction_date) = MONTH(CURRENT_DATE())
                                   and (ut.is_reverted != 1 OR ut.is_reverted is null)
@@ -605,7 +605,7 @@ export default class FinanceController {
         DATE_FORMAT(ut.transaction_date, '%b') as expense_month_string, 
         YEAR(ut.transaction_date) as expense_year, 
         sum(ut.transaction_amount) as monthly_expense from user_transactions ut, master_data trans_cat
-        where ut.transation_category = trans_cat.id
+        where ut.transaction_category = trans_cat.id
         and trans_cat.code = "EXPENSE"
         and ut.user_id = (:userid)
         and (ut.is_reverted != 1 OR ut.is_reverted is null)
@@ -629,9 +629,9 @@ export default class FinanceController {
         sum(ut.transaction_amount) as expense_amount from user_transactions ut, master_data trans_cat,
         master_data trans_sub_cat
         where user_id = (:userid)
-        and trans_cat.id = ut.transation_category
+        and trans_cat.id = ut.transaction_category
         and trans_cat.code = "EXPENSE"
-        and ut.transation_sub_category = trans_sub_cat.id
+        and ut.transaction_sub_category = trans_sub_cat.id
         and MONTH(ut.transaction_date) = MONTH(CURRENT_DATE())
         group by trans_sub_cat.code`;
 
@@ -693,6 +693,25 @@ export default class FinanceController {
           ? parseFloat(currentYearInvestmentResult[0].current_year_investment)
           : 0;
       }
+
+      let weekWiseExpenseHistoryQuery = `select WEEK(transaction_date, 1) as transaction_week, sum(transaction_amount) as expense_amount
+      from user_transactions ut
+      where user_id = (:userid) 
+      and transaction_category in (select id from master_data where code = 'EXPENSE') 
+      and YEAR(ut.transaction_date) = YEAR(CURRENT_DATE())
+      group by WEEK(transaction_date, 1)`;
+      let weekWiseExpenseHistoryQueryParams = {
+        userid: userToken.user_id,
+      };
+      let weekWiseExpenseHistoryResult: any = await QueryHelper.executeGetQuery(
+        weekWiseExpenseHistoryQuery,
+        weekWiseExpenseHistoryQueryParams
+      );
+      financeOverview.weekWiseExpenseHistory = [];
+      if (weekWiseExpenseHistoryResult && weekWiseExpenseHistoryResult.length > 0) {
+        financeOverview.weekWiseExpenseHistory = Array.from(weekWiseExpenseHistoryResult);
+      }
+
       res.status(200).json({
         message: "Financial overview fetched successfully",
         financeOverview,
@@ -726,9 +745,9 @@ export default class FinanceController {
         sum(ut.transaction_amount) as expense_amount from user_transactions ut, master_data trans_cat,
         master_data trans_sub_cat
         where ut.user_id = :userid
-        and trans_cat.id = ut.transation_category
+        and trans_cat.id = ut.transaction_category
         and trans_cat.code = "EXPENSE"
-        and trans_sub_cat.id = ut.transation_sub_category
+        and trans_sub_cat.id = ut.transaction_sub_category
         and YEAR(ut.transaction_date) = YEAR(CURRENT_DATE())
         group by trans_sub_cat.id, trans_sub_cat.code`;
 

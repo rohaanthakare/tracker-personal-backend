@@ -271,7 +271,7 @@ export default class FinanceWorkflow {
       revertUserTransDetails.transaction_description = `REV - ${userTransDetails.transaction_description}`;
       revertUserTransDetails.user_trans_type = "REVERT";
       revertUserTransDetails.transation_sub_type =
-        userTransDetails.transation_sub_category;
+        userTransDetails.transaction_sub_category;
       revertUserTransDetails.user_id = userTransDetails.user_id;
       let revUserTransDetails = await FinanceService.createUserTransaction(
         revertUserTransDetails
