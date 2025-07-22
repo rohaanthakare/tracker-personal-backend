@@ -36,6 +36,7 @@ export default class QueryHelper {
 
     params.limit = pagingParams.limit;
     params.offset = pagingParams.offset;
+    query += ` limit :limit offset :offset`;
     let result = await dbconnection.query(query, {
       replacements: params,
       raw: true,

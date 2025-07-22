@@ -225,7 +225,7 @@ export default class FinanceController {
               and trans_cat.id = ut.transation_category 
               and trans_sub_cat.id = ut.transation_sub_category 
               and ut.user_id = (:userid)
-            order by ft.transaction_date desc, ft.createdAt desc limit :limit offset :offset`;
+            order by ft.transaction_date desc, ft.createdAt desc`;
 
       let queryParams = {
         userid: userToken.user_id,
@@ -323,6 +323,13 @@ export default class FinanceController {
         "Inside get invesments"
       );
       let userToken = req.tokenData as TokenData;
+      let start = req.query.start ? req.query.start : 0;
+      let limit = req.query.limit ? req.query.limit : 10;
+
+      let countQuery = `select count(*) as total_investments 
+        from investments i
+        where i.user_id = (:userid)`;
+
       let query = `select i.*, inv_tp.code as investment_type_code, inv_tp.name as investment_type_display,
         inv_stat.code as investment_status_code, inv_stat.name as investment_status_display from investments i, 
         master_data inv_tp,
@@ -334,10 +341,21 @@ export default class FinanceController {
       let queryParams = {
         userid: userToken.user_id,
       };
-      let result = await QueryHelper.executeGetQuery(query, queryParams);
+      let pagingParams = {
+        limit: parseInt(limit as any),
+        offset: parseInt(start as any),
+      };
+      let reportResult = await QueryHelper.executeReportGetQuery(
+        query,
+        countQuery,
+        queryParams,
+        pagingParams
+      );
+
       res.status(200).json({
         message: "Invesment fetched successfully",
-        result,
+        data: reportResult.data,
+        total: reportResult.total,
       });
     } catch (err: any) {
       Logger.ERROR(
