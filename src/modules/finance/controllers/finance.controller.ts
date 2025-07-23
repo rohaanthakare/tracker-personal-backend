@@ -409,6 +409,56 @@ export default class FinanceController {
     }
   }
 
+  static async getInvestmentStatement(req: Request, res: Response) {
+    try {
+      Logger.INFO(
+        FinanceController.name,
+        FinanceController.getInvestmentStatement.name,
+        "Inside get investment statement"
+      );
+      const investment_id = req.params.investment_id;
+      let start = req.query.start ? req.query.start : 0;
+      let limit = req.query.limit ? req.query.limit : 10;
+      let userToken = req.tokenData as TokenData;
+      let countQuery = `select count(*) as total_loan_accounts
+            from investment_transaction inv_trans 
+            where inv_trans.investment_id = :investment_id`;
+
+      let query = `select inv_trans.*, tr_tp.code as trans_type_code, tr_tp.name as trans_type_display 
+      from investment_transaction inv_trans, master_data tr_tp 
+      where inv_trans.investment_id = :investment_id 
+      and tr_tp.id = inv_trans.transaction_type`;
+
+      let queryParams = {
+        investment_id: investment_id,
+      };
+      let pagingParams = {
+        limit: parseInt(limit as any),
+        offset: parseInt(start as any),
+      };
+      let reportResult = await QueryHelper.executeReportGetQuery(
+        query,
+        countQuery,
+        queryParams,
+        pagingParams
+      );
+      res.status(200).json({
+        message: "Investment passbook fetched successfully",
+        data: reportResult.data,
+        total: reportResult.total,
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceController.name,
+        FinanceController.getInvestmentStatement.name,
+        err
+      );
+      res.status(500).json({
+        message: err,
+      });
+    }
+  }
+
   static async investMoney(req: Request, res: Response) {
     try {
       Logger.INFO(

@@ -14,6 +14,7 @@ financeRoutes.get("/finance/financial-passbook", FinanceController.getFinancialP
 financeRoutes.get("/finance/investments", FinanceController.getFinancialInvestments);
 financeRoutes.get("/finance/all-investments", FinanceController.getAllFinancialInvestments);
 financeRoutes.post("/finance/investment", FinanceController.createInvestment);
+financeRoutes.get("/finance/investment/:investment_id/statement", FinanceController.getInvestmentStatement);
 financeRoutes.post("/finance/invest-money", FinanceController.investMoney);
 financeRoutes.get("/finance/overview", FinanceController.getFinancialOverview);
 financeRoutes.get("/finance/financial-profile", FinanceController.getFinancialProfile);
