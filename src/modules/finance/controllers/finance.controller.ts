@@ -1154,4 +1154,53 @@ export default class FinanceController {
       });
     }
   }
+
+  static async getLoanStatement(req: Request, res: Response) {
+    try {
+      Logger.INFO(
+        FinanceController.name,
+        FinanceController.getLoanStatement.name,
+        "Inside get loan statement"
+      );
+      const loan_id = req.params.loan_id;
+      let start = req.query.start ? req.query.start : 0;
+      let limit = req.query.limit ? req.query.limit : 10;
+      let countQuery = `select count(*) as loan_transaction_count 
+        from loan_transactions lt
+        where lt.loan_id = :loan_id`;
+
+      let query = `select lt.*, trans_tp.code as trans_type_code, trans_tp.name as trans_type_display 
+      from loan_transactions lt, master_data trans_tp 
+      where lt.loan_id = :loan_id 
+      and trans_tp.id = lt.transaction_type`;
+
+      let queryParams = {
+        loan_id: loan_id,
+      };
+      let pagingParams = {
+        limit: parseInt(limit as any),
+        offset: parseInt(start as any),
+      };
+      let reportResult = await QueryHelper.executeReportGetQuery(
+        query,
+        countQuery,
+        queryParams,
+        pagingParams
+      );
+      res.status(200).json({
+        message: "Loan passbook fetched successfully",
+        data: reportResult.data,
+        total: reportResult.total,
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceController.name,
+        FinanceController.getLoanStatement.name,
+        err
+      );
+      res.status(500).json({
+        message: err,
+      });
+    }
+  }
 }

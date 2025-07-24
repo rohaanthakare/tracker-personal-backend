@@ -97,4 +97,7 @@
 }, {
     "role_code": "TRACKER_USER",
     "feature_code": "DELETE_LOAN"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "LOAN_STATEMENT"
 }]

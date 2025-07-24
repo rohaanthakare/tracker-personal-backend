@@ -290,4 +290,13 @@
     "feature_type": "SIDE_NAV",
     "feature_icon": "mdi mdi-clipboard-list",
     "feature_url": "/user/task"
+}, {
+    "feature_code": "LOAN_STATEMENT",
+    "feature_name": "Loan Statement",
+    "description": "Loan Statement",
+    "is_active": true,
+    "feature_type": "ROW_LEVEL",
+    "feature_icon": "mdi mdi-invoice-text",
+    "feature_url": "/user/finance/loans",
+    "parent_feature": "LOANS"
 }]
