@@ -274,6 +274,24 @@
     "feature_url": "/user/finance/loans",
     "parent_feature": "LOANS"
 }, {
+    "feature_code": "CREDIT_LOAN_INTEREST",
+    "feature_name": "Credit Loan Interest",
+    "description": "Credit Loan Interest",
+    "is_active": true,
+    "feature_type": "ROW_LEVEL",
+    "feature_icon": "mdi mdi-bank-circle-outline",
+    "feature_url": "/user/finance/loans",
+    "parent_feature": "LOANS"
+}, {
+    "feature_code": "LOAN_STATEMENT",
+    "feature_name": "Loan Statement",
+    "description": "Loan Statement",
+    "is_active": true,
+    "feature_type": "ROW_LEVEL",
+    "feature_icon": "mdi mdi-invoice-text",
+    "feature_url": "/user/finance/loan_statement",
+    "parent_feature": "LOANS"
+}, {
     "feature_code": "DELETE_LOAN",
     "feature_name": "Delete Loan",
     "description": "Delete Loan",
@@ -299,4 +317,39 @@
     "feature_icon": "mdi mdi-invoice-text",
     "feature_url": "/user/finance/loans",
     "parent_feature": "LOANS"
+},{
+    "feature_code": "ADMINISTRATION",
+    "feature_name": "Administration",
+    "description": "Administration",
+    "is_active": true,
+    "feature_type": "SIDE_NAV",
+    "feature_icon": "mdi mdi-clipboard-list",
+    "feature_url": "/user/administration"
+}, {
+    "feature_code": "ROLES",
+    "feature_name": "Roles",
+    "description": "Roles",
+    "is_active": true,
+    "feature_type": "SIDE_NAV",
+    "feature_icon": "mdi mdi-clipboard-list",
+    "feature_url": "/user/roles",
+    "parent_feature": "ADMINISTRATION"
+}, {
+    "feature_code": "FEATURES",
+    "feature_name": "Features",
+    "description": "Features",
+    "is_active": true,
+    "feature_type": "SIDE_NAV",
+    "feature_icon": "mdi mdi-clipboard-list",
+    "feature_url": "/user/features",
+    "parent_feature": "ADMINISTRATION"
+}, {
+    "feature_code": "MASTER_DATA",
+    "feature_name": "Master Data",
+    "description": "Master Data",
+    "is_active": true,
+    "feature_type": "SIDE_NAV",
+    "feature_icon": "mdi mdi-clipboard-list",
+    "feature_url": "/user/master-data",
+    "parent_feature": "ADMINISTRATION"
 }]

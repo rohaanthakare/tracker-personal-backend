@@ -98,6 +98,24 @@
     "role_code": "TRACKER_USER",
     "feature_code": "DELETE_LOAN"
 }, {
+    "role_code": "TRACKER_ADMIN",
+    "feature_code": "DASHBOARD"
+}, {
+    "role_code": "TRACKER_ADMIN",
+    "feature_code": "ADMINISTRATION"
+}, {
+    "role_code": "TRACKER_ADMIN",
+    "feature_code": "ROLES"
+}, {
+    "role_code": "TRACKER_ADMIN",
+    "feature_code": "FEATURES"
+}, {
+    "role_code": "TRACKER_ADMIN",
+    "feature_code": "MASTER_DATA"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "CREDIT_LOAN_INTEREST"
+}, {
     "role_code": "TRACKER_USER",
     "feature_code": "LOAN_STATEMENT"
 }]

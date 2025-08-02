@@ -444,6 +444,36 @@ export default class FinanceWorkflow {
     }
   }
 
+  static async manualCreditLoanInterestWorkflow(inputLoanTransactionDetails: any) {
+    try {
+      Logger.INFO(
+        FinanceWorkflow.name,
+        FinanceWorkflow.manualCreditLoanInterestWorkflow.name,
+        "Inside manualCreditLoanInterestWorkflow"
+      );
+
+      // Create Loan Credit Transaction
+      let loanTransObj: any = {};
+      loanTransObj.transaction_amount = inputLoanTransactionDetails.interest_amount;
+      loanTransObj.loan_payment = inputLoanTransactionDetails.interest_amount;
+      loanTransObj.transaction_date = inputLoanTransactionDetails.transaction_date;
+      loanTransObj.transaction_description = inputLoanTransactionDetails.transaction_description;
+      loanTransObj.loan_trans_type = "LOAN_INTEREST";
+      loanTransObj.loan_id = inputLoanTransactionDetails?.id;
+      await FinanceService.createLoanTransaction(loanTransObj);
+      // Update loan outstanding amount
+      // Update loan outstanding and opening balance
+      await FinanceService.updateLoanOutstandingAmount(loanTransObj);
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceWorkflow.name,
+        FinanceWorkflow.creditLoanInterestWorkflow.name,
+        err
+      );
+      throw err;
+    }
+  }
+
   static calculateLoanInterestWithPayments(loanDetails: any) {
     const year = loanDetails.year;
     const month = loanDetails.month;

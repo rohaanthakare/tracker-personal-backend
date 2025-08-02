@@ -1155,6 +1155,33 @@ export default class FinanceController {
     }
   }
 
+  static async createManualLoanInterestTransaction(req: Request, res: Response) {
+    try {
+      Logger.INFO(
+        FinanceController.name,
+        FinanceController.createManualLoanInterestTransaction.name,
+        "Inside createManualLoanInterestTransaction"
+      );
+      let userToken = req.tokenData as TokenData;
+      let loanTransactionDetails = req.body;
+      let result = await FinanceWorkflow.manualCreditLoanInterestWorkflow(
+        loanTransactionDetails
+      );
+      res.status(200).json({
+        message: "Loan interest credite successfully",
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceController.name,
+        FinanceController.loanRepayment.name,
+        err
+      );
+      res.status(500).json({
+        message: err,
+      });
+    }
+  }
+
   static async getLoanStatement(req: Request, res: Response) {
     try {
       Logger.INFO(

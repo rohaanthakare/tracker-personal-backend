@@ -629,4 +629,24 @@
     "data_icon": "",
     "is_active": true,
     "parent_data": "LOAN_TRANSACTION_TYPE"
+}, {
+    "code": "LOAN_INTEREST_TYPE",
+    "name": "Loan Interest Type",
+    "description": "Loan Interest Type",
+    "data_icon": "",
+    "is_active": true
+}, {
+    "code": "SIMPLE_INTEREST",
+    "name": "Simple Interest",
+    "description": "Simple Interest",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "LOAN_INTEREST_TYPE"
+}, {
+    "code": "COMPOUND_INTEREST",
+    "name": "Compound Interest",
+    "description": "Compound Interest",
+    "data_icon": "",
+    "is_active": true,
+    "parent_data": "LOAN_INTEREST_TYPE"
 }]
