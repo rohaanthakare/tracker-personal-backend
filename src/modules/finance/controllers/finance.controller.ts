@@ -635,6 +635,7 @@ export default class FinanceController {
                                   where ut.transaction_category = trans_cat.id
                                   and trans_cat.code = "EXPENSE"
                                   and MONTH(ut.transaction_date) = MONTH(CURRENT_DATE())
+                                  and YEAR(ut.transaction_date) = YEAR(CURRENT_DATE())
                                   and (ut.is_reverted != 1 OR ut.is_reverted is null)
                                   and ut.user_id = (:userid)`;
       let monthlyExpenseQueryParams = {
@@ -1174,6 +1175,33 @@ export default class FinanceController {
       Logger.ERROR(
         FinanceController.name,
         FinanceController.loanRepayment.name,
+        err
+      );
+      res.status(500).json({
+        message: err,
+      });
+    }
+  }
+
+  static async closeLoanTransaction(req: Request, res: Response) {
+    try {
+      Logger.INFO(
+        FinanceController.name,
+        FinanceController.closeLoanTransaction.name,
+        "Inside closeLoanTransaction"
+      );
+      let userToken = req.tokenData as TokenData;
+      let loanTransactionDetails = req.body;
+      let result = await FinanceWorkflow.closeLoanWorkflow(
+        loanTransactionDetails
+      );
+      res.status(200).json({
+        message: "Loan closed successfully",
+      });
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceController.name,
+        FinanceController.closeLoanTransaction.name,
         err
       );
       res.status(500).json({

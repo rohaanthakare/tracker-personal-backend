@@ -292,12 +292,21 @@
     "feature_url": "/user/finance/loan_statement",
     "parent_feature": "LOANS"
 }, {
+    "feature_code": "CLOSE_LOAN",
+    "feature_name": "Close Loan",
+    "description": "Close Loan",
+    "is_active": true,
+    "feature_type": "ROW_LEVEL",
+    "feature_icon": "mdi mdi-close-circle",
+    "feature_url": "/user/finance/loans",
+    "parent_feature": "LOANS"
+}, {
     "feature_code": "DELETE_LOAN",
     "feature_name": "Delete Loan",
     "description": "Delete Loan",
     "is_active": true,
     "feature_type": "ROW_LEVEL",
-    "feature_icon": "mdi mdi-bank-circle-outline",
+    "feature_icon": "mdi mdi-trash-can",
     "feature_url": "/user/finance/loans",
     "parent_feature": "LOANS"
 }, {

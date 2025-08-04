@@ -118,4 +118,7 @@
 }, {
     "role_code": "TRACKER_USER",
     "feature_code": "LOAN_STATEMENT"
+}, {
+    "role_code": "TRACKER_USER",
+    "feature_code": "CLOSE_LOAN"
 }]

@@ -27,6 +27,7 @@ financeRoutes.post("/finance/withdraw-investment-money", FinanceController.withd
 financeRoutes.get("/finance/loans", FinanceController.getLoans);
 financeRoutes.post("/finance/loan", FinanceController.createLoan);
 financeRoutes.post("/finance/credit-loan-interest", FinanceController.createManualLoanInterestTransaction);
+financeRoutes.post("/finance/close-loan", FinanceController.closeLoanTransaction);
 financeRoutes.put("/finance/loan/:loan_id", FinanceController.updateLoan);
 financeRoutes.get("/finance/loan/:loan_id/statement", FinanceController.getLoanStatement);
 financeRoutes.post("/finance/loan-repayment", FinanceController.loanRepayment);

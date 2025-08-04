@@ -474,6 +474,68 @@ export default class FinanceWorkflow {
     }
   }
 
+  static async closeLoanWorkflow(loanTransactionDetails: any) {
+    try {
+      Logger.INFO(
+        FinanceWorkflow.name,
+        FinanceWorkflow.closeLoanWorkflow.name,
+        "Inside closeLoanWorkflow"
+      );
+      // Create User Transaction
+      loanTransactionDetails.user_trans_type = "EXPENSE";
+      loanTransactionDetails.transaction_amount =
+        loanTransactionDetails.outstanding_loan_amount;
+      // Sub Type will be invetment type
+      let loanTransSubCategory =
+        await MasterDataDataAccessor.getMasterDataByCode("LOAN_REPAYMENT");
+      loanTransactionDetails.transation_sub_type = loanTransSubCategory.id;
+      let userTransDetails = await FinanceService.createUserTransaction(
+        loanTransactionDetails
+      );
+      // Create Loan Transaction
+      loanTransactionDetails.loan_id = loanTransactionDetails.id;
+      delete loanTransactionDetails.id;
+      loanTransactionDetails.loan_trans_type = "LOAN_REPAYMENT";
+      loanTransactionDetails.user_trans_id = userTransDetails.id;
+      await FinanceService.createLoanTransaction(loanTransactionDetails);
+      // Update loan outstanding amount
+      await LoanAccountModel.update({
+          is_loan_active: false,
+          outstanding_loan_amount: 0,
+          loan_opening_balance: 0,
+        },
+        {
+          where: {
+            id: loanTransactionDetails.loan_id,
+          },
+        });
+      if (loanTransactionDetails.transaction_account) {
+        // If account is selected create account Transaction
+        // If account is selected update account balance
+        // Create Account Transaction
+        loanTransactionDetails.finance_trans_type = "DEBIT_MONEY";
+        loanTransactionDetails.account =
+          loanTransactionDetails.transaction_account;
+        loanTransactionDetails.user_trans_id = userTransDetails.id;
+        let accountTransDetails =
+          await FinanceService.createFinancialTransaction(
+            loanTransactionDetails
+          );
+        // Update Account Balance
+        let accountDetails = await FinanceService.updateAccountBalance(
+          loanTransactionDetails
+        );
+      }
+    } catch (err: any) {
+      Logger.ERROR(
+        FinanceWorkflow.name,
+        FinanceWorkflow.closeLoanWorkflow.name,
+        err
+      );
+      throw err;
+    }
+  }
+
   static calculateLoanInterestWithPayments(loanDetails: any) {
     const year = loanDetails.year;
     const month = loanDetails.month;
